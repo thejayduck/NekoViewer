@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="DownloadManager.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="NekosLife.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

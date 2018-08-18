@@ -18,7 +18,7 @@ namespace Lewd_Images
     {
         ImageView imagePanel;
         string imageLink;
-        private static String[] PERMISSIONS_INTERNET = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
+        private static string[] PERMISSIONS = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
         private static int REQUEST_INTERNET = 1;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,29 +36,37 @@ namespace Lewd_Images
                 Toast.MakeText(this, $"Downloading {imageLink.Split('"')[3]}!", ToastLength.Long).Show();
             };
             CheckForPermissions();
+
+            OnImageLinkGenerated += (string imageJson) =>
+            {
+                var json = new Org.Json.JSONObject(imageJson);
+                imageLink = json.GetString("url");
+                imagePanel.SetImageBitmap(GetImageBitmapFromUrl(imageLink));
+                Toast.MakeText(this, "Generated New Image", ToastLength.Long).Show();
+            };
         }
 
         private void CheckForPermissions()
         {
             if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted)
             {
-                ActivityCompat.RequestPermissions(this, PERMISSIONS_INTERNET, REQUEST_INTERNET);
+                ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_INTERNET);
             }
         }
 
+
+        public event Action<string> OnImageLinkGenerated;
+
         void GetImage()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/api/v2/img/lewd");
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            string apiResponse = "";
+            using (HttpWebResponse response = NekosLife.Request("lewd"))
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
             {
-                imageLink = reader.ReadToEnd();
+                apiResponse = reader.ReadToEnd();
             }
-
-            imagePanel.SetImageBitmap(GetImageBitmapFromUrl(imageLink.Split('"')[3]));
-            Toast.MakeText(this, "Generated New Image", ToastLength.Long).Show();
+            OnImageLinkGenerated.Invoke(apiResponse);
         }
         public Bitmap GetImageBitmapFromUrl(string url)
         {
