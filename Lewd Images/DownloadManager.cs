@@ -58,37 +58,37 @@ namespace Lewd_Images
             pDialog.Dismiss();
         }
 
+        static string downloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath;
+
         protected override string RunInBackground(params string[] @params)
         {
-            string storagePath = Android.OS.Environment.ExternalStorageDirectory.Path;
-            string filePath = System.IO.Path.Combine(storagePath, $"download{imageName}");
+            string filePath = System.IO.Path.Combine(downloadPath, imageName);
 
             int count;
 
-            try
-            {
-                URL url = new URL(@params[0]);
-                URLConnection connection = url.OpenConnection();
-                connection.Connect();
-                int LenghtOfFile = connection.ContentLength;
-                InputStream input = new BufferedInputStream(url.OpenStream(), LenghtOfFile);
-                OutputStream output = new FileOutputStream(filePath);
+            URL url = new URL(@params[0]);
+            URLConnection connection = url.OpenConnection();
+            connection.Connect();
+            int LenghtOfFile = connection.ContentLength;
+            InputStream input = new BufferedInputStream(url.OpenStream(), LenghtOfFile);
+            if(!System.IO.File.Exists(filePath))
+                System.IO.File.Create(filePath);
+            OutputStream output = new FileOutputStream(filePath);
 
-                byte[] data = new byte[1024];
-                long total = 0;
-                while ((count = input.Read(data)) != -1)
-                {
-                    total += count;
-                    PublishProgress("" + (int)((total / 100 / LenghtOfFile)));
-                    output.Write(data, 0, count);
-                }
-                output.Flush();
-                output.Close();
-                input.Close();
+            byte[] data = new byte[1024];
+            long total = 0;
+            while ((count = input.Read(data)) != -1)
+            {
+                total += count;
+                PublishProgress("" + (int)((total / 100 / LenghtOfFile)));
+                output.Write(data, 0, count);
             }
-            catch (Exception ex)
+            output.Flush();
+            output.Close();
+            input.Close();
+            if(!System.IO.File.Exists(filePath))
             {
-
+                throw new Exception();
             }
             return null;
         }

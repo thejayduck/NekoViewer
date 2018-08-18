@@ -10,6 +10,7 @@ using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Graphics;
+using System.Linq;
 
 namespace Lewd_Images
 {
@@ -18,6 +19,7 @@ namespace Lewd_Images
     {
         ImageView imagePanel;
         string imageLink;
+        string imageName => imageLink.Split('/').Last();
         private static string[] PERMISSIONS = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
         private static int REQUEST_INTERNET = 1;
 
@@ -31,9 +33,9 @@ namespace Lewd_Images
             FindViewById<Button>(Resource.Id.btnGenerate).Click += (o, e) => GetImage();
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
-                DownloadManager download = new DownloadManager(this, imagePanel, imageLink.Split('"')[3]);
-                download.Execute(imageLink.Split('"')[3]);
-                Toast.MakeText(this, $"Downloading {imageLink.Split('"')[3]}!", ToastLength.Long).Show();
+                DownloadManager download = new DownloadManager(this, imagePanel, imageName);
+                download.Execute(imageLink);
+                Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
             };
             CheckForPermissions();
 
