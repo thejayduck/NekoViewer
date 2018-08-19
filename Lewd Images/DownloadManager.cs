@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Java.IO;
 using Java.Net;
@@ -58,7 +51,7 @@ namespace Lewd_Images
             pDialog.Dismiss();
         }
 
-        static string downloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath;
+        static string downloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 
         protected override string RunInBackground(params string[] @params)
         {

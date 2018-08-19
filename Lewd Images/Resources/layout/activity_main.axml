@@ -15,20 +15,21 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/gridLayout1">
 		<Button
-			android:text="Generate New Image"
-			android:id="@+id/btnGenerate"
-			android:layout_marginRight="0.0dp" />
-		<Switch
-			android:id="@+id/nsfwSwitch"
-			android:layout_marginLeft="4.5dp" />
-		<Button
 			android:text="Download"
 			android:id="@+id/btnDownload"
-			android:layout_marginLeft="7.5dp" />
+			android:layout_marginLeft="0.0dp" />
+		<Spinner
+			android:id="@+id/spinner1"/>
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/nextImageButton"
+			app:fabSize="mini"
+			app:srcCompat="@android:drawable/ic_media_ff"
+			app:rippleColor="#ff000000" />
 	</GridLayout>
 	<ImageView
 		android:src="@android:drawable/ic_menu_gallery"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:id="@+id/imageView" />
+		android:layout_height="435.5dp"
+		android:id="@+id/imageView"
+		android:layout_marginBottom="11.5dp" />
 </LinearLayout>

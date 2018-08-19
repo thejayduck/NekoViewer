@@ -11,12 +11,17 @@ using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Graphics;
 using System.Linq;
+using Android.Support.V4.Widget;
+using System.Collections.Generic;
+using Android.Support.Design.Widget;
+using Android.Views;
 
 namespace Lewd_Images
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppCompat", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
+        List<Bitmap> images = new List<Bitmap>();
         ImageView imagePanel;
         string imageLink;
         string imageName => imageLink.Split('/').Last();
@@ -28,23 +33,28 @@ namespace Lewd_Images
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-            //wbView.Settings.BuiltInZoomControls = true; wbView.Settings.DisplayZoomControls = true;
+            CheckForPermissions();
+
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
-            FindViewById<Button>(Resource.Id.btnGenerate).Click += (o, e) => GetImage();
+            FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
+
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
                 DownloadManager download = new DownloadManager(this, imagePanel, imageName);
                 download.Execute(imageLink);
                 Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
             };
-            CheckForPermissions();
 
+            nextImageButton.Click += (o, e) =>
+            {
+                Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
+                GetImage();
+            };
             OnImageLinkGenerated += (string imageJson) =>
             {
                 var json = new Org.Json.JSONObject(imageJson);
                 imageLink = json.GetString("url");
                 imagePanel.SetImageBitmap(GetImageBitmapFromUrl(imageLink));
-                Toast.MakeText(this, "Generated New Image", ToastLength.Long).Show();
             };
         }
 

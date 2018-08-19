@@ -2429,11 +2429,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08003d
 			public const int bottom = 2131230781;
 			
-			// aapt resource value: 0x7f08008e
-			public const int btnDownload = 2131230862;
-			
 			// aapt resource value: 0x7f08008c
-			public const int btnGenerate = 2131230860;
+			public const int btnDownload = 2131230860;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
@@ -2621,6 +2618,9 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
 			
+			// aapt resource value: 0x7f08008e
+			public const int nextImageButton = 2131230862;
+			
 			// aapt resource value: 0x7f080022
 			public const int none = 2131230754;
 			
@@ -2635,9 +2635,6 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f0800a6
 			public const int notification_main_column_container = 2131230886;
-			
-			// aapt resource value: 0x7f08008d
-			public const int nsfwSwitch = 2131230861;
 			
 			// aapt resource value: 0x7f08004c
 			public const int parallax = 2131230796;
@@ -2755,6 +2752,9 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f080064
 			public const int spacer = 2131230820;
+			
+			// aapt resource value: 0x7f08008d
+			public const int spinner1 = 2131230861;
 			
 			// aapt resource value: 0x7f080008
 			public const int split_action_bar = 2131230728;
