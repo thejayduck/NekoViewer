@@ -105,6 +105,22 @@ namespace Lewd_Images
 			}
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f0e0000
+			public const int tag_list = 2131623936;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -2753,9 +2769,6 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f080064
 			public const int spacer = 2131230820;
 			
-			// aapt resource value: 0x7f08008d
-			public const int spinner1 = 2131230861;
-			
 			// aapt resource value: 0x7f080008
 			public const int split_action_bar = 2131230728;
 			
@@ -2782,6 +2795,9 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f08001f
 			public const int tabMode = 2131230751;
+			
+			// aapt resource value: 0x7f08008d
+			public const int tagSpinner = 2131230861;
 			
 			// aapt resource value: 0x7f080019
 			public const int tag_transition_group = 2131230745;

@@ -19,7 +19,7 @@
 			android:id="@+id/btnDownload"
 			android:layout_marginLeft="0.0dp" />
 		<Spinner
-			android:id="@+id/spinner1"/>
+			android:id="@+id/tagSpinner"/>
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
 			app:fabSize="mini"

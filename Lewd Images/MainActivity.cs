@@ -25,6 +25,7 @@ namespace Lewd_Images
         Bitmap[] buffer = new Bitmap[1];
         List<Bitmap> images = new List<Bitmap>();
         ImageView imagePanel;
+        Spinner tagSpinner;
         string imageLink;
         string imageName => imageLink.Split('/').Last();
         private static string[] PERMISSIONS = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
@@ -37,8 +38,12 @@ namespace Lewd_Images
             SetContentView(Resource.Layout.activity_main);
             CheckForPermissions();
 
+
+            tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
+
+            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
@@ -55,13 +60,13 @@ namespace Lewd_Images
                     if (buffer.Length < 2)
                     {
                         buffer = new Bitmap[2];
-                        GetImage();
+                    RequestImage(tagSpinner.Selected.ToString());
                     }
                     buffer[0] = buffer[1];
                     imagePanel.SetImageBitmap(buffer[0]);
                     Task.Factory.StartNew(() =>
                     {
-                        GetImage();
+                        RequestImage(tagSpinner.Selected.ToString());
                     });
                 });
             };
@@ -71,6 +76,11 @@ namespace Lewd_Images
                 //imagePanel.SetImageBitmap(image);
                 images.Add(image);
             };
+        }
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
         }
 
         private void CheckForPermissions()
@@ -84,10 +94,10 @@ namespace Lewd_Images
 
         public event Action<Bitmap> OnImageRecieved;
 
-        void GetImage()
+        void RequestImage(string tag)
         {
             string apiResponse = "";
-            using (HttpWebResponse response = NekosLife.Request("lewd"))
+            using (HttpWebResponse response = NekosLife.Request(tag))
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
             {
