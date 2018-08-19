@@ -34,7 +34,7 @@ namespace Lewd_Images
         private static int DefaultTag => 0;
         private string SelectedTag {
             get {
-                if (tagSpinner.Selected && tagSpinner.SelectedItemPosition >= 0)
+                if (tagSpinner.SelectedItemPosition >= 0)
                     return NekosLife.Tags[tagSpinner.SelectedItemPosition];
                 else
                     return NekosLife.Tags[DefaultTag];
