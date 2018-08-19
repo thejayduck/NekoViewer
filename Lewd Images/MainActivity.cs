@@ -41,6 +41,7 @@ namespace Lewd_Images
             }
         }
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -52,7 +53,7 @@ namespace Lewd_Images
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
 
-            //var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {

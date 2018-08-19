@@ -14,10 +14,18 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/gridLayout1">
-		<Button
-			android:text="Download"
-			android:id="@+id/btnDownload"
-			android:layout_marginLeft="0.0dp" />
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/nextImageButton"
+			app:fabSize="mini"
+			app:srcCompat="@android:drawable/ic_media_ff"
+			android:layout_gravity="end"
+			android:layout_marginRight="18.5dp" />
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/previousImageButton"
+			app:fabSize="mini"
+			app:srcCompat="@android:drawable/ic_media_rew"
+			android:layout_marginLeft="18.5dp"
+			android:layout_gravity="end" />
 		<Spinner
 			android:entries="@array/tag_list"
 			android:id="@+id/tagSpinner"
@@ -36,18 +44,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/gridLayout2">
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/previousImageButton"
-			app:fabSize="mini"
-			app:srcCompat="@android:drawable/ic_media_rew"
-			android:layout_marginLeft="18.5dp"
-			android:layout_gravity="end" />
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/nextImageButton"
-			app:fabSize="mini"
-			app:srcCompat="@android:drawable/ic_media_ff"
-			android:layout_gravity="end"
-			android:layout_marginRight="18.5dp" />
-
+		<Button
+			android:text="Download"
+			android:id="@+id/btnDownload"
+			android:layout_marginLeft="0.0dp" />
 	</GridLayout>
 </LinearLayout>
