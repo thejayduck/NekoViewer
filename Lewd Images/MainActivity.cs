@@ -16,18 +16,20 @@ using System.Collections.Generic;
 using Android.Support.Design.Widget;
 using Android.Views;
 using System.Threading.Tasks;
+using Java.IO;
 
 namespace Lewd_Images
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
-        Bitmap displayImage;
+        Bitmap bufferImage;
+        Bitmap currentImage;
         List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
         string imageLink;
-        string imageName => imageLink.Split('/').Last();
+        string imageName => System.IO.Path.GetFileNameWithoutExtension(imageLink);
         private static string[] PERMISSIONS = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
         private static int REQUEST_INTERNET = 1;
 
@@ -52,13 +54,18 @@ namespace Lewd_Images
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
+            FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
-            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+            //var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
-                DownloadManager download = new DownloadManager(this, imagePanel, imageName);
-                download.Execute(imageLink);
+                MemoryStream buffer = new MemoryStream();
+                currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
+                buffer.Seek(0, SeekOrigin.Begin);
+                BufferedInputStream stream = new BufferedInputStream(buffer);
+                DownloadManager download = new DownloadManager(this, stream, buffer.Length);
+                download.Execute(imageName + ".png");
                 Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
             };
 
@@ -69,17 +76,21 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
                 if (oldSelected != SelectedTag)
                     RequestImage(SelectedTag);
-                imagePanel.SetImageBitmap(displayImage);
+                imagePanel.SetImageBitmap(currentImage = bufferImage);
                 Task.Factory.StartNew(() =>
                 {
                     RequestImage(SelectedTag);
                 });
                 oldSelected = SelectedTag;
             };
+            previousImageButton.Click += (o, e) =>
+            {
+
+            };
 
             OnImageRecieved += (Bitmap image) =>
             {
-                displayImage = image;
+                bufferImage = image;
             };
         }
 

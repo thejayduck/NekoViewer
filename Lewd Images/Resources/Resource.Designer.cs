@@ -2445,8 +2445,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08003d
 			public const int bottom = 2131230781;
 			
-			// aapt resource value: 0x7f08008c
-			public const int btnDownload = 2131230860;
+			// aapt resource value: 0x7f08008f
+			public const int btnDownload = 2131230863;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
@@ -2562,8 +2562,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08008b
 			public const int gridLayout1 = 2131230859;
 			
-			// aapt resource value: 0x7f08008f
-			public const int gridLayout2 = 2131230863;
+			// aapt resource value: 0x7f080091
+			public const int gridLayout2 = 2131230865;
 			
 			// aapt resource value: 0x7f080005
 			public const int home = 2131230725;
@@ -2583,8 +2583,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f08008e
-			public const int imageView = 2131230862;
+			// aapt resource value: 0x7f080090
+			public const int imageView = 2131230864;
 			
 			// aapt resource value: 0x7f0800ad
 			public const int info = 2131230893;
@@ -2637,8 +2637,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
 			
-			// aapt resource value: 0x7f080091
-			public const int nextImageButton = 2131230865;
+			// aapt resource value: 0x7f08008c
+			public const int nextImageButton = 2131230860;
 			
 			// aapt resource value: 0x7f080022
 			public const int none = 2131230754;
@@ -2667,8 +2667,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;
 			
-			// aapt resource value: 0x7f080090
-			public const int previousImageButton = 2131230864;
+			// aapt resource value: 0x7f08008d
+			public const int previousImageButton = 2131230861;
 			
 			// aapt resource value: 0x7f080006
 			public const int progress_circular = 2131230726;
@@ -2802,8 +2802,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08001f
 			public const int tabMode = 2131230751;
 			
-			// aapt resource value: 0x7f08008d
-			public const int tagSpinner = 2131230861;
+			// aapt resource value: 0x7f08008e
+			public const int tagSpinner = 2131230862;
 			
 			// aapt resource value: 0x7f080019
 			public const int tag_transition_group = 2131230745;

@@ -2,6 +2,7 @@
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using Java.IO;
@@ -12,15 +13,15 @@ namespace Lewd_Images
     public class DownloadManager : AsyncTask<string, string, string>
     {
         private ProgressDialog pDialog;
-        private ImageView imgView;
         private Context context;
-        private string imageName;
+        private InputStream source;
+        private long size;
 
-        public DownloadManager(Context context, ImageView imgView, string imageName)
+        public DownloadManager(Context context, InputStream source, long size)
         {
             this.context = context;
-            this.imgView = imgView;
-            this.imageName = imageName;
+            this.source = source;
+            this.size = size;
         }
 
         protected override void OnPreExecute()
@@ -55,30 +56,24 @@ namespace Lewd_Images
 
         protected override string RunInBackground(params string[] @params)
         {
-            string filePath = System.IO.Path.Combine(downloadPath, imageName);
+            string filePath = System.IO.Path.Combine(downloadPath, @params[0]);
 
             int count;
-
-            URL url = new URL(@params[0]);
-            URLConnection connection = url.OpenConnection();
-            connection.Connect();
-            int LenghtOfFile = connection.ContentLength;
-            InputStream input = new BufferedInputStream(url.OpenStream(), LenghtOfFile);
             if(!System.IO.File.Exists(filePath))
                 System.IO.File.Create(filePath);
             OutputStream output = new FileOutputStream(filePath);
 
             byte[] data = new byte[1024];
             long total = 0;
-            while ((count = input.Read(data)) != -1)
+            while ((count = source.Read(data)) != -1)
             {
                 total += count;
-                PublishProgress("" + (int)((total / 100 / LenghtOfFile)));
+                PublishProgress("" + (int)((total / 100 / size)));
                 output.Write(data, 0, count);
             }
             output.Flush();
             output.Close();
-            input.Close();
+            source.Close();
             if(!System.IO.File.Exists(filePath))
             {
                 throw new Exception();
