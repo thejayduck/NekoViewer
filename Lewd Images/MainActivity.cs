@@ -22,7 +22,7 @@ namespace Lewd_Images
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
-        Bitmap[] buffer = new Bitmap[2];
+        Bitmap displayImage;
         List<Bitmap> images = new List<Bitmap>();
         ImageView imagePanel;
         Spinner tagSpinner;
@@ -40,6 +40,7 @@ namespace Lewd_Images
                     return NekosLife.Tags[DefaultTag];
             }
         }
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -63,23 +64,22 @@ namespace Lewd_Images
 
             string oldSelected = "";
 
-            nextImageButton.Click += (o, e) =>
+            nextImageButton.Click += (o,e) =>
             {
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
                 if (oldSelected != SelectedTag)
                     RequestImage(SelectedTag);
-                buffer[0] = buffer[1];
-                imagePanel.SetImageBitmap(buffer[0]);
+                imagePanel.SetImageBitmap(displayImage);
                 Task.Factory.StartNew(() =>
                 {
                     RequestImage(SelectedTag);
                 });
                 oldSelected = SelectedTag;
             };
+
             OnImageRecieved += (Bitmap image) =>
             {
-                buffer[1] = image;
-                //imagePanel.SetImageBitmap(image);
+                displayImage = image;
                 images.Add(image);
             };
         }
