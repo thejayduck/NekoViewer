@@ -15,12 +15,14 @@ using Android.Support.V4.Widget;
 using System.Collections.Generic;
 using Android.Support.Design.Widget;
 using Android.Views;
+using System.Threading.Tasks;
 
 namespace Lewd_Images
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppCompat", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
+        Bitmap[] buffer = new Bitmap[1];
         List<Bitmap> images = new List<Bitmap>();
         ImageView imagePanel;
         string imageLink;
@@ -47,19 +49,26 @@ namespace Lewd_Images
 
             nextImageButton.Click += (o, e) =>
             {
-                Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
-                GetImage();
-            };
-            OnImageLinkGenerated += (string imageJson) =>
-            {
-                var json = new Org.Json.JSONObject(imageJson);
-                imageLink = json.GetString("url");
-                Bitmap image = GetImageBitmapFromUrl(imageLink);
-                OnImageRecieved.Invoke(image);
+                Task.Factory.StartNew(() =>
+                {
+                    Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
+                    if (buffer.Length < 2)
+                    {
+                        buffer = new Bitmap[2];
+                        GetImage();
+                    }
+                    buffer[0] = buffer[1];
+                    imagePanel.SetImageBitmap(buffer[0]);
+                    Task.Factory.StartNew(() =>
+                    {
+                        GetImage();
+                    });
+                });
             };
             OnImageRecieved += (Bitmap image) =>
             {
-                imagePanel.SetImageBitmap(image);
+                buffer[1] = image;
+                //imagePanel.SetImageBitmap(image);
                 images.Add(image);
             };
         }
@@ -73,7 +82,6 @@ namespace Lewd_Images
         }
 
 
-        public event Action<string> OnImageLinkGenerated;
         public event Action<Bitmap> OnImageRecieved;
 
         void GetImage()
@@ -85,7 +93,11 @@ namespace Lewd_Images
             {
                 apiResponse = reader.ReadToEnd();
             }
-            OnImageLinkGenerated.Invoke(apiResponse);
+
+            var json = new Org.Json.JSONObject(apiResponse);
+            imageLink = json.GetString("url");
+            Bitmap image = GetImageBitmapFromUrl(imageLink);
+            OnImageRecieved.Invoke(image);
         }
         public Bitmap GetImageBitmapFromUrl(string url)
         {
