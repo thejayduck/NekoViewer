@@ -19,6 +19,7 @@
 			android:id="@+id/btnDownload"
 			android:layout_marginLeft="0.0dp" />
 		<Spinner
+			android:entries="@array/tag_list"
 			android:id="@+id/tagSpinner"/>
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
@@ -27,6 +28,7 @@
 			app:rippleColor="#ff000000" />
 	</GridLayout>
 	<ImageView
+
 		android:src="@android:drawable/ic_menu_gallery"
 		android:layout_width="match_parent"
 		android:layout_height="435.5dp"
