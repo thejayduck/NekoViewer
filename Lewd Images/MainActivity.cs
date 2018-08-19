@@ -22,7 +22,7 @@ namespace Lewd_Images
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
-        Bitmap[] buffer = new Bitmap[1];
+        Bitmap[] buffer = new Bitmap[2];
         List<Bitmap> images = new List<Bitmap>();
         ImageView imagePanel;
         Spinner tagSpinner;
@@ -31,13 +31,22 @@ namespace Lewd_Images
         private static string[] PERMISSIONS = { Manifest.Permission.Internet, Manifest.Permission.WriteExternalStorage };
         private static int REQUEST_INTERNET = 1;
 
+        private static int DefaultTag => 0;
+        private string SelectedTag {
+            get {
+                if (tagSpinner.Selected && tagSpinner.SelectedItemPosition >= 0)
+                    return NekosLife.Tags[tagSpinner.SelectedItemPosition];
+                else
+                    return NekosLife.Tags[DefaultTag];
+            }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             CheckForPermissions();
-
 
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
@@ -52,23 +61,20 @@ namespace Lewd_Images
                 Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
             };
 
+            string oldSelected = "";
+
             nextImageButton.Click += (o, e) =>
             {
+                Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
+                if (oldSelected != SelectedTag)
+                    RequestImage(SelectedTag);
+                buffer[0] = buffer[1];
+                imagePanel.SetImageBitmap(buffer[0]);
                 Task.Factory.StartNew(() =>
                 {
-                    Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
-                    if (buffer.Length < 2)
-                    {
-                        buffer = new Bitmap[2];
-                    RequestImage(tagSpinner.Selected.ToString());
-                    }
-                    buffer[0] = buffer[1];
-                    imagePanel.SetImageBitmap(buffer[0]);
-                    Task.Factory.StartNew(() =>
-                    {
-                        RequestImage(tagSpinner.Selected.ToString());
-                    });
+                    RequestImage(SelectedTag);
                 });
+                oldSelected = SelectedTag;
             };
             OnImageRecieved += (Bitmap image) =>
             {
