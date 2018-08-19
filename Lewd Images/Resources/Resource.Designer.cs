@@ -2580,8 +2580,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f08008f
-			public const int imageView = 2131230863;
+			// aapt resource value: 0x7f08008e
+			public const int imageView = 2131230862;
 			
 			// aapt resource value: 0x7f0800ab
 			public const int info = 2131230891;
@@ -2634,8 +2634,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
 			
-			// aapt resource value: 0x7f08008e
-			public const int nextImageButton = 2131230862;
+			// aapt resource value: 0x7f08008f
+			public const int nextImageButton = 2131230863;
 			
 			// aapt resource value: 0x7f080022
 			public const int none = 2131230754;
