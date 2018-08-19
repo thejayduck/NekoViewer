@@ -54,7 +54,13 @@ namespace Lewd_Images
             {
                 var json = new Org.Json.JSONObject(imageJson);
                 imageLink = json.GetString("url");
-                imagePanel.SetImageBitmap(GetImageBitmapFromUrl(imageLink));
+                Bitmap image = GetImageBitmapFromUrl(imageLink);
+                OnImageRecieved.Invoke(image);
+            };
+            OnImageRecieved += (Bitmap image) =>
+            {
+                imagePanel.SetImageBitmap(image);
+                images.Add(image);
             };
         }
 
@@ -68,6 +74,7 @@ namespace Lewd_Images
 
 
         public event Action<string> OnImageLinkGenerated;
+        public event Action<Bitmap> OnImageRecieved;
 
         void GetImage()
         {
@@ -85,7 +92,8 @@ namespace Lewd_Images
             using (var webClient = new WebClient())
             {
                 var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0) return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                if (imageBytes != null && imageBytes.Length > 0)
+                    return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
             }
             return null;
         }
