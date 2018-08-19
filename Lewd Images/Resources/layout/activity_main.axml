@@ -30,12 +30,24 @@
 		android:layout_height="435.5dp"
 		android:id="@+id/imageView"
 		android:layout_marginBottom="11.5dp" />
-	<android.support.design.widget.FloatingActionButton
-		android:id="@+id/nextImageButton"
-		app:fabSize="mini"
-		app:srcCompat="@android:drawable/ic_media_ff"
-		app:rippleColor="#ff000000"
+	<GridLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center" />
+		android:id="@+id/gridLayout2">
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/previousImageButton"
+			app:fabSize="mini"
+			app:srcCompat="@android:drawable/ic_media_rew"
+			android:layout_marginLeft="18.5dp"
+			android:layout_gravity="end" />
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/nextImageButton"
+			app:fabSize="mini"
+			app:srcCompat="@android:drawable/ic_media_ff"
+			android:layout_gravity="end"
+			android:layout_marginRight="18.5dp" />
+
+	</GridLayout>
 </LinearLayout>

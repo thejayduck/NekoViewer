@@ -23,7 +23,7 @@ namespace Lewd_Images
     public class MainActivity : AppCompatActivity
     {
         Bitmap displayImage;
-        List<Bitmap> images = new List<Bitmap>();
+        List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
         string imageLink;
@@ -41,7 +41,6 @@ namespace Lewd_Images
             }
         }
 
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -53,7 +52,7 @@ namespace Lewd_Images
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
 
-            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+            //var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
@@ -80,7 +79,6 @@ namespace Lewd_Images
             OnImageRecieved += (Bitmap image) =>
             {
                 displayImage = image;
-                images.Add(image);
             };
         }
 
@@ -112,6 +110,7 @@ namespace Lewd_Images
 
             var json = new Org.Json.JSONObject(apiResponse);
             imageLink = json.GetString("url");
+            images.Add(imageLink = json.GetString("url"));
             Bitmap image = GetImageBitmapFromUrl(imageLink);
             OnImageRecieved.Invoke(image);
         }
