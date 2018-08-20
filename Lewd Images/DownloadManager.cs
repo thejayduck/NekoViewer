@@ -2,17 +2,14 @@
 
 using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
-using Android.Widget;
 using Java.IO;
-using Java.Net;
 
 namespace Lewd_Images
 {
     public class DownloadManager : AsyncTask<string, string, string>
     {
-        private ProgressDialog pDialog;
+        //private ProgressDialog pDialog;
         private Context context;
         private InputStream source;
         private long size;
@@ -26,21 +23,21 @@ namespace Lewd_Images
 
         protected override void OnPreExecute()
         {
-            pDialog = new ProgressDialog(context);
-            pDialog.SetMessage("Downloading File Please Wait...");
-            pDialog.Indeterminate = false;
-            pDialog.Max = 100;
-            pDialog.SetProgressStyle(ProgressDialogStyle.Horizontal);
-            pDialog.SetCancelable(true);
-            pDialog.Show();
+            //pDialog = new ProgressDialog(context);
+            //pDialog.SetMessage("Downloading File Please Wait...");
+            //pDialog.Indeterminate = false;
+            //pDialog.Max = 100;
+            //pDialog.SetProgressStyle(ProgressDialogStyle.Horizontal);
+            //pDialog.SetCancelable(true);
+            //pDialog.Show();
             base.OnPreExecute();
         }
 
         protected override void OnProgressUpdate(params string[] values)
         {
             base.OnProgressUpdate(values);
-            pDialog.SetProgressNumberFormat(values[0]);
-            pDialog.Progress = int.Parse(values[0]);
+            //pDialog.SetProgressNumberFormat(values[0]);
+            //pDialog.Progress = int.Parse(values[0]);
         }
 
         protected override void OnPostExecute(string result)
@@ -49,7 +46,7 @@ namespace Lewd_Images
             //string filePath = System.IO.Path.Combine(storagePath, "download.jpg");
 
             //imgView.SetImageDrawable(Drawable.CreateFromPath(filePath));
-            pDialog.Dismiss();
+            //pDialog.Dismiss();
         }
 
         static string downloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;

@@ -1,22 +1,20 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Widget;
 using System.Net;
-using Android.Webkit;
 using System.IO;
 using System;
 using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Graphics;
-using System.Linq;
-using Android.Support.V4.Widget;
 using System.Collections.Generic;
 using Android.Support.Design.Widget;
-using Android.Views;
 using System.Threading.Tasks;
 using Java.IO;
+using Android.Views;
 
 namespace Lewd_Images
 {
@@ -44,9 +42,9 @@ namespace Lewd_Images
         }
 
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(bundle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             CheckForPermissions();
@@ -56,7 +54,11 @@ namespace Lewd_Images
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
-            //var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+            var toolBar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolBar);
+            SetSupportActionBar(toolBar);
+            SupportActionBar.Title = "Title Test";
+
+            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
@@ -92,6 +94,12 @@ namespace Lewd_Images
             {
                 bufferImage = image;
             };
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.action_menu, menu); 
+            return base.OnCreateOptionsMenu(menu);
         }
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)

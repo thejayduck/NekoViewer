@@ -1,0 +1,13 @@
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:myapp="http://schemas.android.com/apk/res-auto">
+
+  <item android:id="@+id/action_reply"
+        android:icon="@android:drawable/ic_lock_idle_lock"
+        android:title="Reply"
+        myapp:showAsAction="always"/>
+
+  <item android:id="@+id/action_undo"
+      android:icon="@android:drawable/ic_dialog_info"
+      android:title="Undo"
+      myapp:showAsAction="never"/>
+</menu>
