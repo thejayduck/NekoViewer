@@ -53,8 +53,8 @@ namespace Lewd_Images
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
+            Android.Support.V7.Widget.Toolbar toolBar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolBar);
 
-            var toolBar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolBar);
             SetSupportActionBar(toolBar);
             SupportActionBar.Title = "Title Test";
 
@@ -104,7 +104,7 @@ namespace Lewd_Images
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Spinner spinner = (Spinner)sender;
+            //TODO (reload stuff with new tag)
         }
 
         private void CheckForPermissions()
