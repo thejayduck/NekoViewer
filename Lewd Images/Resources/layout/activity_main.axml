@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	android:orientation="vertical"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:orientation="vertical"
 	android:minWidth="25px"
 	android:minHeight="25px">
 	<android.support.v7.widget.ToolBar
-		android:id="@+id/toolBar"
+		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
-		android:layout_height="44.5dp"
-		android:minHeight="?attr/actionBarSize"
-		android:background="?attr/colorPrimary" 
-	    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
+		android:layout_height="37.5dp"
+		android:minHeight="@dimen/abc_action_bar_default_height_material"
+		android:background="@color/colorPrimary"
+		android:elevation="4dp"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+		android:layout_marginBottom="0.0dp" 
+	/>
 	<GridLayout
 		android:minWidth="25px"
 		android:minHeight="25px"

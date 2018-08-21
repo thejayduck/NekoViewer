@@ -41,7 +41,6 @@ namespace Lewd_Images
             }
         }
 
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -53,10 +52,9 @@ namespace Lewd_Images
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
-            Android.Support.V7.Widget.Toolbar toolBar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolBar);
 
-            SetSupportActionBar(toolBar);
-            SupportActionBar.Title = "Title Test";
+
+
 
             var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
 

@@ -2848,7 +2848,7 @@ namespace Lewd_Images
 			public const int title_template = 2131230831;
 			
 			// aapt resource value: 0x7f08008b
-			public const int toolBar = 2131230859;
+			public const int toolbar = 2131230859;
 			
 			// aapt resource value: 0x7f08003e
 			public const int top = 2131230782;
@@ -3339,8 +3339,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0a015f
 			public const int Animation_Design_BottomSheetDialog = 2131362143;
 			
-			// aapt resource value: 0x7f0a0181
-			public const int AppTheme = 2131362177;
+			// aapt resource value: 0x7f0a0180
+			public const int AppTheme = 2131362176;
 			
 			// aapt resource value: 0x7f0a009a
 			public const int Base_AlertDialog_AppCompat = 2131361946;
@@ -3830,9 +3830,6 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f0a0161
 			public const int Base_Widget_Design_TabLayout = 2131362145;
-			
-			// aapt resource value: 0x7f0a0180
-			public const int MyTheme = 2131362176;
 			
 			// aapt resource value: 0x7f0a001e
 			public const int Platform_AppCompat = 2131361822;
