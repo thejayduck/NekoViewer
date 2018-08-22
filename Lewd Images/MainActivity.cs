@@ -15,6 +15,7 @@ using Android.Support.Design.Widget;
 using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
+using Android.Content;
 
 namespace Lewd_Images
 {
@@ -46,6 +47,8 @@ namespace Lewd_Images
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+
+
             CheckForPermissions();
 
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
@@ -56,7 +59,7 @@ namespace Lewd_Images
 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Tutorial Toolbar";
+            SupportActionBar.Title = "Lewd Viewer";
 
 
             var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
@@ -97,10 +100,44 @@ namespace Lewd_Images
             };
         }
 
+        public override void OnBackPressed()
+        {
+            Android.App.AlertDialog.Builder aDialog;
+            aDialog = new Android.App.AlertDialog.Builder(this);
+            aDialog.SetTitle("Are You Sure About Quitting?");
+            aDialog.SetNeutralButton("YES", delegate { Process.KillProcess(Process.MyPid()); });
+            aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+            aDialog.Show();
+
+        }
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.toolbar_menu, menu);
             return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            Android.App.AlertDialog.Builder aDialog;
+            aDialog = new Android.App.AlertDialog.Builder(this);
+
+            if (item.ItemId == Resource.Id.menu_info) 
+            {
+                aDialog.SetTitle("App Info");
+                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From: \n Nekos.life   ");
+                aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
+                aDialog.Show();
+
+            }
+            if (item.ItemId == Resource.Id.menu_credits) 
+            {
+                Toast.MakeText(this, "Made By:" +
+                    "\n Jay and Nobbele" +
+                    "\n Images From:" +
+                    "\n Nekos.Life", ToastLength.Long).Show();
+            }
+            return base.OnOptionsItemSelected(item);
         }
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)

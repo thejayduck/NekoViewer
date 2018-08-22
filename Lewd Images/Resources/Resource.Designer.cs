@@ -2619,11 +2619,11 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0800a7
 			public const int media_actions = 2131230887;
 			
+			// aapt resource value: 0x7f0800b8
+			public const int menu_credits = 2131230904;
+			
 			// aapt resource value: 0x7f0800b7
 			public const int menu_info = 2131230903;
-			
-			// aapt resource value: 0x7f0800b8
-			public const int menu_overflow = 2131230904;
 			
 			// aapt resource value: 0x7f0800b4
 			public const int message = 2131230900;

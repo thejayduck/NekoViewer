@@ -3,11 +3,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
     android:id="@+id/menu_info"
-    android:icon="@android:drawable/ic_dialog_alert"
-    app:showAsAction="ifRoom"
+    app:showAsAction="never"
     android:title="Info"/>
   <item
-    android:id="@+id/menu_overflow"
+    android:id="@+id/menu_credits"
     app:showAsAction="never"
-    android:title="Overflow"/>
+    android:title="Credits"/>
 </menu>

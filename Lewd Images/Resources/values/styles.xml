@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <style name="AppTheme" parent="Theme.AppCompat">
+  <style name="AppTheme" parent="Theme.AppCompat.Light">
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
-    <item name="colorPrimary">#4CAF50</item>
+    <item name="colorPrimary">#ff1976d2</item>
+    <item name="colorAccent">#ec407a</item>
   </style>
 </resources>
