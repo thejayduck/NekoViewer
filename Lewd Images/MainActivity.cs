@@ -88,17 +88,6 @@ namespace Lewd_Images
                 aDialog.Show();
             };
 
-            FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
-            {
-                MemoryStream buffer = new MemoryStream();
-                currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
-                buffer.Seek(0, SeekOrigin.Begin);
-                BufferedInputStream stream = new BufferedInputStream(buffer);
-                DownloadManager download = new DownloadManager(this, stream, buffer.Length);
-                download.Execute(imageName + ".png");
-                Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
-            };
-
             nextImageButton.Click += (o,e) =>
             {
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
@@ -156,14 +145,10 @@ namespace Lewd_Images
                 aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From \n Nekos.life   ");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
-
             }
-            if (item.ItemId == Resource.Id.menu_credits) 
+            if(item.ItemId == Resource.Id.menu_icon)
             {
-                Toast.MakeText(this, "Made By:" +
-                    "\n Jay and Nobbele" +
-                    "\n Images From:" +
-                    "\n Nekos.Life", ToastLength.Long).Show();
+                Toast.MakeText(this, "Orokana hentai", ToastLength.Short).Show();
             }
             return base.OnOptionsItemSelected(item);
         }

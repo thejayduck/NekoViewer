@@ -22,15 +22,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/gridLayout1">
-		<Button
-			android:text="Download"
-			android:id="@+id/btnDownload"
-			android:background="#ff1976d2" />
 		<Spinner
 			android:entries="@array/tag_list"
 			android:id="@+id/tagSpinner"
 			android:layout_gravity="right|left"
-			android:layout_marginLeft="10.5dp"/>
+			android:layout_marginLeft="10.5dp"
+			android:layout_marginRight="10.5dp" 
+			android:layout_marginBottom="13.0dp"
+			android:layout_marginTop="13.0dp" />
 	</GridLayout>
 	<ImageView
 		android:layout_width="match_parent"
