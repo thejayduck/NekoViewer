@@ -27,7 +27,7 @@
 			android:id="@+id/tagSpinner"
 			android:layout_gravity="right|left"
 			android:layout_marginLeft="10.5dp"
-			android:layout_marginRight="10.5dp" 
+			android:layout_marginRight="10.5dp"
 			android:layout_marginBottom="13.0dp"
 			android:layout_marginTop="13.0dp" />
 	</GridLayout>

@@ -103,7 +103,11 @@ namespace Lewd_Images
             };
             previousImageButton.Click += (o, e) =>
             {
-                RequestOldImage(index - 3);
+                //VIGGO CHECK HERE
+                if (index > 3)
+                {
+                    RequestOldImage(index - 3);
+                }
             };
 
             OnImageRecieved += (Bitmap image) =>
@@ -203,32 +207,11 @@ namespace Lewd_Images
         }
         void RequestOldImage(int i)
         {
-            if (i < 0)
-            {
-                imageLink = images[index = i];
-                Bitmap image = GetImageBitmapFromUrl(imageLink);
+            Bitmap image = GetImageBitmapFromUrl(imageLink);
 
-                index++;
-                OnImageRecieved(image);
-                SetCurrentImage();
-            } else
-            {
-                Toast
-                    .
-                    MakeText
-                    (
-                    this
-                    , 
-                    "No more images"
-                    , 
-                    ToastLength.Short
-                    )
-                    .
-                    Show
-                    (
-                    )
-                    ;
-            }
+            index++;
+            OnImageRecieved(image);
+            SetCurrentImage();
         }
 
         public Bitmap GetImageBitmapFromUrl(string url)
