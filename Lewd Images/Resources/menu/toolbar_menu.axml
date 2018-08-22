@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item 
+    android:id="@+id/menu_icon"
+    android:icon="@mipmap/ic_launcher_round"
+    app:showAsAction="always"
+    android:title="Icon"
+    />
   <item
     android:id="@+id/menu_info"
     app:showAsAction="never"
     android:title="Info"/>
-  <item
-    android:id="@+id/menu_credits"
-    app:showAsAction="never"
-    android:title="Credits"/>
 </menu>
