@@ -2409,14 +2409,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f0800b7
-			public const int action_reply = 2131230903;
-			
 			// aapt resource value: 0x7f0800a3
 			public const int action_text = 2131230883;
-			
-			// aapt resource value: 0x7f0800b8
-			public const int action_undo = 2131230904;
 			
 			// aapt resource value: 0x7f0800b1
 			public const int actions = 2131230897;
@@ -2624,6 +2618,12 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f0800a7
 			public const int media_actions = 2131230887;
+			
+			// aapt resource value: 0x7f0800b7
+			public const int menu_info = 2131230903;
+			
+			// aapt resource value: 0x7f0800b8
+			public const int menu_overflow = 2131230904;
 			
 			// aapt resource value: 0x7f0800b4
 			public const int message = 2131230900;
@@ -3148,7 +3148,7 @@ namespace Lewd_Images
 		{
 			
 			// aapt resource value: 0x7f0f0000
-			public const int action_menu = 2131689472;
+			public const int toolbar_menu = 2131689472;
 			
 			static Menu()
 			{

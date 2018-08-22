@@ -54,6 +54,9 @@ namespace Lewd_Images
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
 
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.Title = "Tutorial Toolbar";
 
 
             var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
@@ -96,7 +99,7 @@ namespace Lewd_Images
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.action_menu, menu); 
+            MenuInflater.Inflate(Resource.Menu.toolbar_menu, menu);
             return base.OnCreateOptionsMenu(menu);
         }
 
