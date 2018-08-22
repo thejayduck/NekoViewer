@@ -23,6 +23,7 @@ namespace Lewd_Images
     public class MainActivity : AppCompatActivity
     {
         Bitmap bufferImage;
+        Bitmap previousBufferImage;
         Bitmap currentImage;
         int index = 0;
         List<string> images = new List<string>();
@@ -202,12 +203,32 @@ namespace Lewd_Images
         }
         void RequestOldImage(int i)
         {
-            imageLink = images[index = i];
-            Bitmap image = GetImageBitmapFromUrl(imageLink);
+            if (i < 0)
+            {
+                imageLink = images[index = i];
+                Bitmap image = GetImageBitmapFromUrl(imageLink);
 
-            i++;
-            OnImageRecieved(image);
-            SetCurrentImage();
+                index++;
+                OnImageRecieved(image);
+                SetCurrentImage();
+            } else
+            {
+                Toast
+                    .
+                    MakeText
+                    (
+                    this
+                    , 
+                    "No more images"
+                    , 
+                    ToastLength.Short
+                    )
+                    .
+                    Show
+                    (
+                    )
+                    ;
+            }
         }
 
         public Bitmap GetImageBitmapFromUrl(string url)
