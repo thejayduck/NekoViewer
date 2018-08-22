@@ -24,6 +24,7 @@ namespace Lewd_Images
     {
         Bitmap bufferImage;
         Bitmap currentImage;
+        int index = 0;
         List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
@@ -75,29 +76,35 @@ namespace Lewd_Images
                 Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
             };
 
-            string oldSelected = "";
-
             nextImageButton.Click += (o,e) =>
             {
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
                 if (oldSelected != SelectedTag)
-                    RequestImage(SelectedTag);
-                imagePanel.SetImageBitmap(currentImage = bufferImage);
+                    RequestNewImage(SelectedTag);
+                SetCurrentImage();
                 Task.Factory.StartNew(() =>
                 {
-                    RequestImage(SelectedTag);
+                    RequestNewImage(SelectedTag);
                 });
                 oldSelected = SelectedTag;
+
             };
             previousImageButton.Click += (o, e) =>
             {
-
+                RequestOldImage(index - 3);
             };
 
             OnImageRecieved += (Bitmap image) =>
             {
                 bufferImage = image;
             };
+        }
+
+        string oldSelected = "";
+
+        public void SetCurrentImage()
+        {
+            imagePanel.SetImageBitmap(currentImage = bufferImage);
         }
 
         public override void OnBackPressed()
@@ -125,7 +132,7 @@ namespace Lewd_Images
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info");
-                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From: \n Nekos.life   ");
+                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From \n Nekos.life   ");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
 
@@ -156,22 +163,47 @@ namespace Lewd_Images
 
         public event Action<Bitmap> OnImageRecieved;
 
-        void RequestImage(string tag)
+        void UseApiResponse(Org.Json.JSONObject json)
         {
-            string apiResponse = "";
-            using (HttpWebResponse response = NekosLife.Request(tag))
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                apiResponse = reader.ReadToEnd();
-            }
-
-            var json = new Org.Json.JSONObject(apiResponse);
-            imageLink = json.GetString("url");
-            images.Add(imageLink = json.GetString("url"));
-            Bitmap image = GetImageBitmapFromUrl(imageLink);
+            Bitmap image = GetImage(imageLink = json.GetString("url"));
+            images.Add(imageLink);
             OnImageRecieved.Invoke(image);
         }
+        Bitmap GetImage(string imageLink)
+        {
+            index++;
+            return GetImageBitmapFromUrl(imageLink);
+        }
+
+        void RequestNewImage(string tag)
+        {
+            if (images.Count <= index)
+            {
+                string apiResponse = "";
+                using (HttpWebResponse response = NekosLife.Request(tag))
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    apiResponse = reader.ReadToEnd();
+                }
+
+                var json = new Org.Json.JSONObject(apiResponse);
+                UseApiResponse(json);
+            } else
+            {
+                RequestOldImage(index);
+            }
+        }
+        void RequestOldImage(int i)
+        {
+            imageLink = images[index = i];
+            Bitmap image = GetImageBitmapFromUrl(imageLink);
+
+            i++;
+            OnImageRecieved(image);
+            SetCurrentImage();
+        }
+
         public Bitmap GetImageBitmapFromUrl(string url)
         {
             using (var webClient = new WebClient())
