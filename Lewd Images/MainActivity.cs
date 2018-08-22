@@ -49,7 +49,6 @@ namespace Lewd_Images
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-
             CheckForPermissions();
 
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
@@ -57,13 +56,37 @@ namespace Lewd_Images
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
-
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Lewd Viewer";
 
-
             var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+
+            imagePanel.LongClick += (o, e) =>
+            {
+                if(imagePanel.Drawable == null)
+                {
+                    Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
+                    return;
+                }
+
+                Android.App.AlertDialog.Builder aDialog;
+                aDialog = new Android.App.AlertDialog.Builder(this);
+                aDialog.SetTitle("Image Download Request");
+                aDialog.SetMessage("Are you sure about downloading this image?");
+                aDialog.SetPositiveButton("YES", delegate 
+                {
+                    MemoryStream buffer = new MemoryStream();
+                    currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
+                    buffer.Seek(0, SeekOrigin.Begin);
+                    BufferedInputStream stream = new BufferedInputStream(buffer);
+                    DownloadManager download = new DownloadManager(this, stream, buffer.Length);
+                    download.Execute(imageName + ".png");
+                    Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
+                });
+                aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+                aDialog.Show();
+            };
 
             FindViewById<Button>(Resource.Id.btnDownload).Click += delegate
             {
@@ -87,7 +110,6 @@ namespace Lewd_Images
                     RequestNewImage(SelectedTag);
                 });
                 oldSelected = SelectedTag;
-
             };
             previousImageButton.Click += (o, e) =>
             {
@@ -112,10 +134,9 @@ namespace Lewd_Images
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
             aDialog.SetTitle("Are You Sure About Quitting?");
-            aDialog.SetNeutralButton("YES", delegate { Process.KillProcess(Process.MyPid()); });
+            aDialog.SetPositiveButton("YES", delegate { Process.KillProcess(Process.MyPid()); });
             aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
             aDialog.Show();
-
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

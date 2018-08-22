@@ -24,7 +24,8 @@
 		android:id="@+id/gridLayout1">
 		<Button
 			android:text="Download"
-			android:id="@+id/btnDownload"/>
+			android:id="@+id/btnDownload"
+			android:background="#ff1976d2" />
 		<Spinner
 			android:entries="@array/tag_list"
 			android:id="@+id/tagSpinner"
@@ -32,11 +33,11 @@
 			android:layout_marginLeft="10.5dp"/>
 	</GridLayout>
 	<ImageView
-		android:src="@android:drawable/ic_menu_gallery"
 		android:layout_width="match_parent"
-		android:layout_height="465.0dp"
+		android:layout_height="438.5dp"
 		android:id="@+id/imageView"
-		android:layout_marginBottom="7.0dp" />
+		android:layout_marginBottom="17.0dp"
+		android:longClickable="true" />
 	<GridLayout
 		android:minWidth="25px"
 		android:minHeight="25px"
