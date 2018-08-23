@@ -31,7 +31,7 @@ namespace Lewd_Images
         Spinner tagSpinner;
         string imageLink;
         string imageName => System.IO.Path.GetFileNameWithoutExtension(imageLink);
-        private static string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage };
+        private static string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
         private static int REQUEST_PERMISSION = 1;
 
         private static int DefaultTag => 0;
@@ -165,7 +165,7 @@ namespace Lewd_Images
 
         private void CheckForPermissions()
         {
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted) 
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted) 
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
