@@ -33,7 +33,7 @@
 	</GridLayout>
 	<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="438.5dp"
+		android:layout_height="445.0dp"
 		android:id="@+id/imageView"
 		android:layout_marginBottom="17.0dp"
 		android:longClickable="true" />

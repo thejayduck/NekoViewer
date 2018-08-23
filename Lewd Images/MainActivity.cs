@@ -16,14 +16,16 @@ using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
 using Android.Content;
+//using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
+        //GifImageView gifImageView;
         Bitmap bufferImage;
-        Bitmap previousBufferImage;
+        //Bitmap previousBufferImage;
         Bitmap currentImage;
         int index = 0;
         List<string> images = new List<string>();
@@ -44,7 +46,7 @@ namespace Lewd_Images
             }
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle bundle) 
         {
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
@@ -147,14 +149,24 @@ namespace Lewd_Images
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info");
-                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From \n Nekos.life   ");
+                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From \n Nekos.life");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
             }
-            if(item.ItemId == Resource.Id.menu_icon)
+            if (item.ItemId == Resource.Id.menu_icon)
             {
                 Toast.MakeText(this, "Orokana hentai", ToastLength.Short).Show();
             }
+            if (item.ItemId == Resource.Id.menu_help)
+            {
+                aDialog.SetTitle("How To Use?");
+                aDialog.SetMessage("The way you use the app is easy. " +
+                    "You can choose the tags that u want and then " +
+                    "click the purple buttons to go forward(generate new image) or backwards(go back to the old image) " +
+                    "after that when you hold down the image it will ask you to download the image into DOWNLOADS folder");
+                aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
+                aDialog.Show();
+            }   
             return base.OnOptionsItemSelected(item);
         }
 

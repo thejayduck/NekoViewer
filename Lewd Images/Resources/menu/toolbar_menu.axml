@@ -11,4 +11,8 @@
     android:id="@+id/menu_info"
     app:showAsAction="never"
     android:title="Info"/>
+  <item
+    android:id="@+id/menu_help"
+    app:showAsAction="never"
+    android:title="Help"/>
 </menu>
