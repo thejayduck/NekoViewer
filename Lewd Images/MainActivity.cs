@@ -46,6 +46,8 @@ namespace Lewd_Images
             }
         }
 
+        ImageStore imageStore = new ImageStore();
+
         protected override void OnCreate(Bundle bundle) 
         {
             base.OnCreate(bundle);
@@ -102,6 +104,9 @@ namespace Lewd_Images
                     RequestNewImage(SelectedTag);
                 });
                 oldSelected = SelectedTag;
+
+                imageStore.Forward();
+
             };
             previousImageButton.Click += (o, e) =>
             {
@@ -110,6 +115,8 @@ namespace Lewd_Images
                 {
                     RequestOldImage(index - 3);
                 }
+
+                imageStore.Back();
             };
 
             OnImageRecieved += (Bitmap image) =>
@@ -195,7 +202,7 @@ namespace Lewd_Images
         Bitmap GetImage(string imageLink)
         {
             index++;
-            return GetImageBitmapFromUrl(imageLink);
+            return Helper.GetImageBitmapFromUrl(imageLink);
         }
 
         void RequestNewImage(string tag)
@@ -219,22 +226,11 @@ namespace Lewd_Images
         }
         void RequestOldImage(int i)
         {
-            Bitmap image = GetImageBitmapFromUrl(imageLink);
+            Bitmap image = Helper.GetImageBitmapFromUrl(imageLink);
 
             index++;
             OnImageRecieved(image);
             SetCurrentImage();
-        }
-
-        public Bitmap GetImageBitmapFromUrl(string url)
-        {
-            using (var webClient = new WebClient())
-            {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
-                    return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-            }
-            return null;
         }
     }
 }

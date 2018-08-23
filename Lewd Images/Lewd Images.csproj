@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DownloadManager.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="ImageStore.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NekosLife.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
