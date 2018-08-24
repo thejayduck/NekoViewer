@@ -119,7 +119,7 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 imageStore.Forward();
                 ReloadImagePanel();
-                if (!imageStore.isFirst)
+                if (!imageStore.IsFirst)
                 {
                     previousImageButton.Visibility = ViewStates.Visible;
                 }
@@ -129,7 +129,7 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
                 imageStore.GotoLast();
                 ReloadImagePanel();
-                if (!imageStore.isFirst)
+                if (!imageStore.IsFirst)
                 {
                     previousImageButton.Visibility = ViewStates.Visible;
                 }
@@ -139,7 +139,7 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
                 imageStore.Back();
                 ReloadImagePanel();
-                if(imageStore.isFirst)
+                if(imageStore.IsFirst)
                 {
                     previousImageButton.Visibility = ViewStates.Invisible;
                 }
