@@ -40,6 +40,13 @@ namespace Lewd_Images
         {
             index = list.Count - 1;
         }
+
+        public void Reset()
+        {
+            index = -1;
+            list.Clear();
+        }
+
         #endregion
 
         #region Gets

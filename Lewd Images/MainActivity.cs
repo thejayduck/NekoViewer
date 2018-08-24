@@ -185,12 +185,28 @@ namespace Lewd_Images
             {
                 aDialog.SetTitle("How To Use?");
                 aDialog.SetMessage("The way you use the app is easy. " +
-                    "You can choose the tags that u want and then " +
-                    "click the purple buttons to go forward(generate new image) or backwards(go back to the old image) " +
-                    "after that when you hold down the image it will ask you to download the image into DOWNLOADS folder");
+                    "You can choose the tags that you want and then " +
+                    "click the purple buttons to go forward(generate new image + if you hold forward button you can go back to your latest image) " +
+                    "or " +
+                    "backwards(go back to the old image) " +
+                    "after that when you hold down the image it will ask you to download the image into -internal/Downloads- folder");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
             }   
+            if(item.ItemId == Resource.Id.menu_resetHistory)
+            {
+                aDialog.SetTitle("You Are About To Reset Your Image History");
+                aDialog.SetMessage("If your image history filled doing this action is a great choice!" +
+                    "\nSo are you sure about resetting your image history?");
+                aDialog.SetPositiveButton("YES", delegate 
+                {
+                    imageStore.Reset();
+                    previousImageButton.Visibility = ViewStates.Invisible;
+                });
+                aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+                aDialog.Show();
+            }
+
             return base.OnOptionsItemSelected(item);
         }
 

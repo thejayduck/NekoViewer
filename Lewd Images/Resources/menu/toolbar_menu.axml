@@ -14,4 +14,8 @@
     android:id="@+id/menu_help"
     app:showAsAction="never"
     android:title="Help"/>
+  <item
+    android:id="@+id/menu_resetHistory"
+    app:showAsAction="never"
+    android:title="Reset Image History"/>
 </menu>
