@@ -36,6 +36,10 @@ namespace Lewd_Images
             index -= count;
             if (index < 0) index = 0;
         }
+        public void GotoLast()
+        {
+            index = list.Count - 1;
+        }
         #endregion
 
         #region Gets

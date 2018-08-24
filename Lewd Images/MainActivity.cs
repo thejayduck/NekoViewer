@@ -24,6 +24,13 @@ namespace Lewd_Images
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
+        //#FD4281 (253, 66, 129, 100) - pink button color
+        //#424040 (66, 64, 64, 100) - faded out pink color
+
+        //Buttons
+        FloatingActionButton nextImageButton;
+        FloatingActionButton previousImageButton;
+
         //Tags
         ArrayAdapter nekosTagAdapter;
         ArrayList nekosTags;
@@ -57,8 +64,8 @@ namespace Lewd_Images
             nekosTags = new ArrayList();
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
-            FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
-            FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
+            nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
+            previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
             //Toolbar Configurations
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -76,7 +83,7 @@ namespace Lewd_Images
             tagSpinner.ItemSelected += (o, e) =>
             {
                 imageStore.Tag = SelectedTag;
-                Toast.MakeText(this, "New Tag Has Been Selected", ToastLength.Short).Show();
+                Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
             };
 
             //Request image download vvv
@@ -106,15 +113,23 @@ namespace Lewd_Images
                 aDialog.Show();
             };
 
+            //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
-                Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
+                Toast.MakeText(this, "Forward", ToastLength.Short).Show();
                 imageStore.Forward();
                 ReloadImagePanel();
                 previousImageButton.Visibility = ViewStates.Visible;
             };
+            nextImageButton.LongClick += (o, e) =>
+            {
+                Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
+                imageStore.GotoLast();
+                ReloadImagePanel();
+            };
             previousImageButton.Click += (o, e) =>
             {
+                Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
                 imageStore.Back();
                 ReloadImagePanel();
                 if(imageStore.isFirst)
