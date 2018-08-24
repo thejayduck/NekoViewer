@@ -53,7 +53,7 @@ namespace Lewd_Images
         }
         #endregion
 
-        public bool isLast => index == list.Count - 1;
-        public bool isFirst => index == 0;
+        public bool IsLast => index == list.Count - 1;
+        public bool IsFirst => index == 0;
     }
 }
