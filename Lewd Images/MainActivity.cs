@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
 using Android.Content;
+using System.Collections;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
@@ -23,6 +24,11 @@ namespace Lewd_Images
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
     public class MainActivity : AppCompatActivity
     {
+        //Tags
+        ArrayAdapter nekosTagAdapter;
+        ArrayList nekosTags;
+
+
         //GifImageView gifImageView;
         Bitmap bufferImage;
         //Bitmap previousBufferImage;
@@ -56,17 +62,32 @@ namespace Lewd_Images
 
             CheckForPermissions();
 
+            //Finding Resources
+            nekosTags = new ArrayList();
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             FloatingActionButton previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
+            //Toolbar Configurations
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Lewd Viewer";
 
-            var adapter = new ArrayAdapter<string>(this, tagSpinner.Id, NekosLife.Tags);
+            foreach(string i in NekosLife.Tags)
+            {
+                nekosTags.Add(i);
+            }
 
+            nekosTagAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, nekosTags);
+            tagSpinner.Adapter = nekosTagAdapter;
+
+            tagSpinner.ItemSelected += (o, e) =>
+            {
+                Toast.MakeText(this, "New Tag Has Been Selected", ToastLength.Short).Show();
+            };
+
+            //Request image download vvv
             imagePanel.LongClick += (o, e) =>
             {
                 if(imagePanel.Drawable == null)
@@ -87,7 +108,7 @@ namespace Lewd_Images
                     BufferedInputStream stream = new BufferedInputStream(buffer);
                     DownloadManager download = new DownloadManager(this, stream, buffer.Length);
                     download.Execute(imageName + ".png");
-                    Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Long).Show();
+                    Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Short).Show();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
                 aDialog.Show();
@@ -177,10 +198,10 @@ namespace Lewd_Images
             return base.OnOptionsItemSelected(item);
         }
 
-        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            //TODO (reload stuff with new tag)
-        }
+        //private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        //{
+        //    //TODO (reload stuff with new tag)
+        //}
 
         private void CheckForPermissions()
         {
