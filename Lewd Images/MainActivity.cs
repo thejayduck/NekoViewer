@@ -121,7 +121,7 @@ namespace Lewd_Images
                 ReloadImagePanel();
                 if (imageStore.isFirst)
                 {
-                    previousImageButton.Visibility = ViewStates.Invisible;
+                    previousImageButton.Visibility = ViewStates.Visible;
                 }
             };
             nextImageButton.LongClick += (o, e) =>
