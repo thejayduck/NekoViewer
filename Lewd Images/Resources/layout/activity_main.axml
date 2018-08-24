@@ -43,7 +43,7 @@
 			android:src="@android:drawable/ic_media_rew"
 			android:layout_marginLeft="15dp"
 			android:layout_marginBottom="15dp"
-			android:visibility="visible"
+			android:visibility="invisible"
 			android:layout_marginTop="10dp" />
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
