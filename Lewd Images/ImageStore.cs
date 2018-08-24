@@ -15,30 +15,18 @@ using Android.Widget;
 
 namespace Lewd_Images
 {
-    public class ImageStore
+    public abstract class ImageStore
     {
-        private List<string> m_list = new List<string>();
+        protected List<string> list = new List<string>();
         int index = 0;
 
-        public void AppendNew()
-        {
-            string apiResponse = "";
-            using (HttpWebResponse response = (HttpWebResponse)WebRequest.Create(GetLink()).GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                apiResponse = reader.ReadToEnd();
-            }
-
-            var json = new Org.Json.JSONObject(apiResponse);
-            m_list.Add(json.GetString("url"));
-        }
+        public abstract void AppendNew();
 
         #region Moving
         public void Forward(int count = 1)
         {
             index += count;
-            while(index >= m_list.Count)
+            while(index >= list.Count)
             {
                 AppendNew();
             }
@@ -57,7 +45,7 @@ namespace Lewd_Images
         }
         public string GetLink()
         {
-            return m_list[index];
+            return list[index];
         }
         #endregion
     }

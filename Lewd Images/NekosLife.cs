@@ -12,6 +12,7 @@ namespace Lewd_Images
             return (HttpWebResponse)((HttpWebRequest)WebRequest.Create(NekosLifeAPIUri + type)).GetResponse();
         }
 
+        public static string DefaultTag => Tags[0];
         public static string[] Tags
         {
             get => new string[]

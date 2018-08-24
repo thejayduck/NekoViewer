@@ -36,17 +36,16 @@ namespace Lewd_Images
         private static string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
         private static int REQUEST_PERMISSION = 1;
 
-        private static int DefaultTag => 0;
         private string SelectedTag {
             get {
                 if (tagSpinner.SelectedItemPosition >= 0)
                     return NekosLife.Tags[tagSpinner.SelectedItemPosition];
                 else
-                    return NekosLife.Tags[DefaultTag];
+                    return NekosLife.DefaultTag;
             }
         }
 
-        ImageStore imageStore = new ImageStore();
+        ImageStore imageStore = new LewdImageStore();
 
         protected override void OnCreate(Bundle bundle) 
         {
@@ -110,11 +109,6 @@ namespace Lewd_Images
             };
             previousImageButton.Click += (o, e) =>
             {
-                //VIGGO CHECK HERE
-                if (index > 3)
-                {
-                    RequestOldImage(index - 3);
-                }
 
                 imageStore.Back();
             };
