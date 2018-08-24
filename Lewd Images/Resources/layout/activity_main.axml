@@ -24,9 +24,9 @@
 		android:layout_marginTop="10.5dp"  />
 	<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="459.0dp"
+		android:layout_height="466.5dp"
 		android:id="@+id/imageView"
-		android:layout_marginBottom="11.5dp"
+		android:layout_marginBottom="0.0dp"
 		android:longClickable="true" />
 	<GridLayout
 		android:minWidth="25px"
@@ -43,7 +43,8 @@
 			android:src="@android:drawable/ic_media_rew"
 			android:layout_marginLeft="15dp"
 			android:layout_marginBottom="15dp"
-			android:visibility="invisible" />
+			android:visibility="visible"
+			android:layout_marginTop="10dp" />
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
 			android:layout_width="match_parent"
@@ -52,6 +53,7 @@
 			android:src="@android:drawable/ic_media_ff"
 			android:layout_marginRight="15dp"
 			android:layout_marginBottom="15dp"
+			android:layout_marginTop="10dp"
 			android:longClickable="true"
 			android:visibility="visible" />
 	</GridLayout>
