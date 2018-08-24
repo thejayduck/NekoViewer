@@ -48,5 +48,8 @@ namespace Lewd_Images
             return list[index];
         }
         #endregion
+
+        public bool isLast => index == list.Count - 1;
+        public bool isFirst => index == 0;
     }
 }

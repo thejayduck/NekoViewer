@@ -111,11 +111,16 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
                 imageStore.Forward();
                 ReloadImagePanel();
+                previousImageButton.Visibility = ViewStates.Visible;
             };
             previousImageButton.Click += (o, e) =>
             {
                 imageStore.Back();
                 ReloadImagePanel();
+                if(imageStore.isFirst)
+                {
+                    previousImageButton.Visibility = ViewStates.Invisible;
+                }
             };
         }
 
