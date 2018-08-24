@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Net;
 
 namespace Lewd_Images
@@ -67,6 +68,14 @@ namespace Lewd_Images
                 "boobs",
                 "smallboobs",
                 "ero"
+            }
+            .Where(tag => !BlacklistTags.Contains(tag)) //Remove blacklisted tags
+            .ToArray(); //IEnumerable<string> -> string[]
+        }
+        private static string[] BlacklistTags {
+            get => new string[]
+            {
+
             };
         }
     }
