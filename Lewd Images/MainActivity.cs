@@ -51,7 +51,7 @@ namespace Lewd_Images
             }
         }
 
-        ImageStore imageStore = new LewdImageStore();
+        LewdImageStore imageStore = new LewdImageStore();
 
         protected override void OnCreate(Bundle bundle) 
         {
@@ -83,6 +83,7 @@ namespace Lewd_Images
 
             tagSpinner.ItemSelected += (o, e) =>
             {
+                imageStore.Tag = SelectedTag;
                 Toast.MakeText(this, "New Tag Has Been Selected", ToastLength.Short).Show();
             };
 
@@ -116,35 +117,19 @@ namespace Lewd_Images
             nextImageButton.Click += (o,e) =>
             {
                 Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
-                if (oldSelected != SelectedTag)
-                    RequestNewImage(SelectedTag);
-                SetCurrentImage();
-                Task.Factory.StartNew(() =>
-                {
-                    RequestNewImage(SelectedTag);
-                });
-                oldSelected = SelectedTag;
-
                 imageStore.Forward();
-
+                ReloadImagePanel();
             };
             previousImageButton.Click += (o, e) =>
             {
-
                 imageStore.Back();
-            };
-
-            OnImageRecieved += (Bitmap image) =>
-            {
-                bufferImage = image;
+                ReloadImagePanel();
             };
         }
 
-        string oldSelected = "";
-
-        public void SetCurrentImage()
+        public void ReloadImagePanel()
         {
-            imagePanel.SetImageBitmap(currentImage = bufferImage);
+            imagePanel.SetImageBitmap(imageStore.GetImage());
         }
 
         public override void OnBackPressed()
@@ -203,49 +188,6 @@ namespace Lewd_Images
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
-        }
-
-
-        public event Action<Bitmap> OnImageRecieved;
-
-        void UseApiResponse(Org.Json.JSONObject json)
-        {
-            Bitmap image = GetImage(imageLink = json.GetString("url"));
-            images.Add(imageLink);
-            OnImageRecieved.Invoke(image);
-        }
-        Bitmap GetImage(string imageLink)
-        {
-            index++;
-            return Helper.GetImageBitmapFromUrl(imageLink);
-        }
-
-        void RequestNewImage(string tag)
-        {
-            if (images.Count <= index)
-            {
-                string apiResponse = "";
-                using (HttpWebResponse response = NekosLife.Request(tag))
-                using (Stream stream = response.GetResponseStream())
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    apiResponse = reader.ReadToEnd();
-                }
-
-                var json = new Org.Json.JSONObject(apiResponse);
-                UseApiResponse(json);
-            } else
-            {
-                RequestOldImage(index);
-            }
-        }
-        void RequestOldImage(int i)
-        {
-            Bitmap image = Helper.GetImageBitmapFromUrl(imageLink);
-
-            index++;
-            OnImageRecieved(image);
-            SetCurrentImage();
         }
     }
 }

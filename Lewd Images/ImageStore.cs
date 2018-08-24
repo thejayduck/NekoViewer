@@ -18,7 +18,7 @@ namespace Lewd_Images
     public abstract class ImageStore
     {
         protected List<string> list = new List<string>();
-        int index = 0;
+        protected int index = -1; // -1 is a 0 size list, 0 is a 1 size array, etc
 
         public abstract void AppendNew();
 
@@ -26,7 +26,7 @@ namespace Lewd_Images
         public void Forward(int count = 1)
         {
             index += count;
-            while(index >= list.Count)
+            while(index > list.Count-1)
             {
                 AppendNew();
             }
