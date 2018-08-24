@@ -27,12 +27,12 @@ namespace Lewd_Images
         //Tags
         ArrayAdapter nekosTagAdapter;
         ArrayList nekosTags;
-        List<string> images = new List<string>();
+        readonly List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
         string imageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
-        private static string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
-        private static int REQUEST_PERMISSION = 1;
+        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
+        private static readonly int REQUEST_PERMISSION = 1;
 
         private string SelectedTag {
             get {

@@ -6,11 +6,11 @@ namespace Lewd_Images
 {
     class NekosLife
     {
-        static Uri NekosLifeAPIUri = new Uri("https://nekos.life/api/v2/img/");
+        public static Uri APIUri = new Uri("https://nekos.life/api/v2/img/");
 
         public static HttpWebResponse Request(string type)
         {
-            return (HttpWebResponse)((HttpWebRequest)WebRequest.Create(NekosLifeAPIUri + type)).GetResponse();
+            return (HttpWebResponse)((HttpWebRequest)WebRequest.Create(APIUri + type)).GetResponse();
         }
 
         public static string DefaultTag => Tags[0];
