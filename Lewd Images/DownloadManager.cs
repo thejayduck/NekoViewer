@@ -10,9 +10,9 @@ namespace Lewd_Images
     public class DownloadManager : AsyncTask<string, string, string>
     {
         //private ProgressDialog pDialog;
-        private Context context;
-        private InputStream source;
-        private long size;
+        private readonly Context context;
+        private readonly InputStream source;
+        private readonly long size;
 
         public DownloadManager(Context context, InputStream source, long size)
         {
@@ -49,11 +49,11 @@ namespace Lewd_Images
             //pDialog.Dismiss();
         }
 
-        static string downloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+        static string DownloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 
         protected override string RunInBackground(params string[] @params)
         {
-            string filePath = System.IO.Path.Combine(downloadPath, @params[0]);
+            string filePath = System.IO.Path.Combine(DownloadPath, @params[0]);
 
             int count;
             if(!System.IO.File.Exists(filePath))

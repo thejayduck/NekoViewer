@@ -37,7 +37,7 @@ namespace Lewd_Images
         readonly List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
-        string imageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+        string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
         private static readonly int REQUEST_PERMISSION = 1;
 
@@ -106,8 +106,8 @@ namespace Lewd_Images
                     buffer.Seek(0, SeekOrigin.Begin);
                     BufferedInputStream stream = new BufferedInputStream(buffer);
                     DownloadManager download = new DownloadManager(this, stream, buffer.Length);
-                    download.Execute(imageName + ".png");
-                    Toast.MakeText(this, $"Downloading {imageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
+                    download.Execute(ImageName + ".png");
+                    Toast.MakeText(this, $"Downloading {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
                 aDialog.Show();
