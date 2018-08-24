@@ -32,8 +32,8 @@
 	<GridLayout
 		android:minWidth="25px"
 		android:minHeight="25px"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		android:id="@+id/gridLayout2">
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/previousImageButton"
