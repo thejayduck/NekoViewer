@@ -126,6 +126,10 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
                 imageStore.GotoLast();
                 ReloadImagePanel();
+                if (imageStore.isFirst)
+                {
+                    previousImageButton.Visibility = ViewStates.Visible;
+                }
             };
             previousImageButton.Click += (o, e) =>
             {
