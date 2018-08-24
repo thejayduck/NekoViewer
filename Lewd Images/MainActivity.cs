@@ -76,7 +76,7 @@ namespace Lewd_Images
             tagSpinner.ItemSelected += (o, e) =>
             {
                 imageStore.Tag = SelectedTag;
-                Toast.MakeText(this, "New Tag Has Been Selected", ToastLength.Short).Show();
+                Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
             };
 
             //Request image download vvv
@@ -106,14 +106,22 @@ namespace Lewd_Images
                 aDialog.Show();
             };
 
+            //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
-                Toast.MakeText(this, "Generating New Image", ToastLength.Short).Show();
+                Toast.MakeText(this, "Forward", ToastLength.Short).Show();
                 imageStore.Forward();
+                ReloadImagePanel();
+            };
+            nextImageButton.LongClick += (o, e) =>
+            {
+                Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
+                imageStore.GotoLast();
                 ReloadImagePanel();
             };
             previousImageButton.Click += (o, e) =>
             {
+                Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
                 imageStore.Back();
                 ReloadImagePanel();
             };

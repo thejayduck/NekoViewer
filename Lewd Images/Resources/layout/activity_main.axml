@@ -15,53 +15,42 @@
 		android:minHeight="@dimen/abc_action_bar_default_height_material"
 		android:background="?attr/colorPrimary"
 		android:elevation="4dp"
-		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-	<GridLayout
-		android:minWidth="25px"
-		android:minHeight="25px"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+	</android.support.v7.widget.Toolbar>
+	<Spinner
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/gridLayout1">
-		<Spinner
-			android:id="@+id/tagSpinner"
-			android:layout_gravity="right|left"
-			android:layout_marginLeft="10.5dp"
-			android:layout_marginRight="10.5dp"
-			android:layout_marginBottom="13.0dp"
-			android:layout_marginTop="13.0dp" />
-	</GridLayout>
+		android:id="@+id/tagSpinner"
+		android:layout_marginTop="10.5dp"  />
 	<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="445.0dp"
+		android:layout_height="459.0dp"
 		android:id="@+id/imageView"
-		android:layout_marginBottom="17.0dp"
+		android:layout_marginBottom="11.5dp"
 		android:longClickable="true" />
 	<GridLayout
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:id="@+id/gridLayout2"
 		android:layout_marginTop="0.0dp">
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/previousImageButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|right"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="right"
 			android:src="@android:drawable/ic_media_rew"
 			android:layout_marginLeft="15dp"
-			android:layout_marginBottom="15dp"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true" />
+			android:layout_marginBottom="15dp"/>
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|right"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="right"
 			android:src="@android:drawable/ic_media_ff"
 			android:layout_marginRight="15dp"
 			android:layout_marginBottom="15dp"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true" />
+			android:longClickable="true"/>
 	</GridLayout>
 </LinearLayout>

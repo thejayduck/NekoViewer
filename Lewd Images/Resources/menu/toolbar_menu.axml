@@ -5,8 +5,7 @@
     android:id="@+id/menu_icon"
     android:icon="@mipmap/ic_launcher"
     app:showAsAction="always"
-    android:title="Icon"
-    />
+    android:title="Icon"/>
   <item
     android:id="@+id/menu_info"
     app:showAsAction="never"
