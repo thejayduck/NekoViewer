@@ -116,7 +116,7 @@ namespace Lewd_Images
             //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
-                Toast.MakeText(this, "Forward", ToastLength.Short).Show();
+                Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 imageStore.Forward();
                 ReloadImagePanel();
                 if (!imageStore.isFirst)
