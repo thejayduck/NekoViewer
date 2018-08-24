@@ -27,18 +27,10 @@ namespace Lewd_Images
         //Tags
         ArrayAdapter nekosTagAdapter;
         ArrayList nekosTags;
-
-
-        //GifImageView gifImageView;
-        Bitmap bufferImage;
-        //Bitmap previousBufferImage;
-        Bitmap currentImage;
-        int index = 0;
         List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
-        string imageLink;
-        string imageName => System.IO.Path.GetFileNameWithoutExtension(imageLink);
+        string imageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
         private static int REQUEST_PERMISSION = 1;
 
@@ -108,7 +100,7 @@ namespace Lewd_Images
                     BufferedInputStream stream = new BufferedInputStream(buffer);
                     DownloadManager download = new DownloadManager(this, stream, buffer.Length);
                     download.Execute(imageName + ".png");
-                    Toast.MakeText(this, $"Downloading {imageName} from {imageLink}!", ToastLength.Short).Show();
+                    Toast.MakeText(this, $"Downloading {imageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
                 aDialog.Show();
@@ -127,9 +119,11 @@ namespace Lewd_Images
             };
         }
 
+        Bitmap currentImage;
+
         public void ReloadImagePanel()
         {
-            imagePanel.SetImageBitmap(imageStore.GetImage());
+            imagePanel.SetImageBitmap(currentImage = imageStore.GetImage());
         }
 
         public override void OnBackPressed()
