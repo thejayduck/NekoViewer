@@ -42,7 +42,8 @@
 			android:layout_gravity="right"
 			android:src="@android:drawable/ic_media_rew"
 			android:layout_marginLeft="15dp"
-			android:layout_marginBottom="15dp"/>
+			android:layout_marginBottom="15dp"
+			android:visibility="visible" />
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/nextImageButton"
 			android:layout_width="match_parent"
@@ -51,6 +52,7 @@
 			android:src="@android:drawable/ic_media_ff"
 			android:layout_marginRight="15dp"
 			android:layout_marginBottom="15dp"
-			android:longClickable="true"/>
+			android:longClickable="true"
+			android:visibility="visible" />
 	</GridLayout>
 </LinearLayout>
