@@ -1,11 +1,8 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Widget;
-using System.Net;
 using System.IO;
-using System;
 using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
@@ -15,9 +12,7 @@ using Android.Support.Design.Widget;
 using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
-using Android.Content;
 using System.Collections;
-using Android.Animation;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
