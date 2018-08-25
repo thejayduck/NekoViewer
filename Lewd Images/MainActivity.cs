@@ -144,7 +144,10 @@ namespace Lewd_Images
             };
             previousImageButton.Click += (o, e) =>
             {
+                if (loading)
+                    return;     
                 Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
+                loading = true;
                 imagePanel.Animate().TranslationX(1500);
                 Task.Run(() =>
                 {
@@ -155,6 +158,7 @@ namespace Lewd_Images
                         CheckPreviousImageButton();
                         imagePanel.Animate().TranslationX(0);
                     });
+                    loading = false;
                 });
             };
         }
