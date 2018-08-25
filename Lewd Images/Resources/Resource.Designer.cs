@@ -2726,17 +2726,14 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0b00ac
 			public const int media_actions = 2131427500;
 			
-			// aapt resource value: 0x7f0b00be
-			public const int menu_help = 2131427518;
+			// aapt resource value: 0x7f0b00bd
+			public const int menu_help = 2131427517;
 			
 			// aapt resource value: 0x7f0b00bc
-			public const int menu_icon = 2131427516;
+			public const int menu_info = 2131427516;
 			
-			// aapt resource value: 0x7f0b00bd
-			public const int menu_info = 2131427517;
-			
-			// aapt resource value: 0x7f0b00bf
-			public const int menu_resetHistory = 2131427519;
+			// aapt resource value: 0x7f0b00be
+			public const int menu_resetHistory = 2131427518;
 			
 			// aapt resource value: 0x7f0b00b9
 			public const int message = 2131427513;
