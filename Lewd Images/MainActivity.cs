@@ -52,7 +52,7 @@ namespace Lewd_Images
 
         LewdImageStore imageStore = new LewdImageStore();
 
-        static int ImagePanelOffscreenX => 1500;
+        int ImagePanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
 
         protected override void OnCreate(Bundle bundle) 
         {
