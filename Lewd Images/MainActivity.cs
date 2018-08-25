@@ -249,6 +249,7 @@ namespace Lewd_Images
                 aDialog.SetPositiveButton("YES", delegate 
                 {
                     imageStore.Reset();
+                    previousImageButton.Visibility = ViewStates.Invisible;
                     CheckPreviousImageButton();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
