@@ -17,6 +17,7 @@ using Java.IO;
 using Android.Views;
 using Android.Content;
 using System.Collections;
+using Android.Animation;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
@@ -94,7 +95,6 @@ namespace Lewd_Images
                     Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
                     return;
                 }
-
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Image Download Request");
@@ -116,6 +116,7 @@ namespace Lewd_Images
             //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
+                imagePanel.Animate().TranslationX(-1500);
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 imageStore.Forward();
                 ReloadImagePanel();
@@ -146,6 +147,7 @@ namespace Lewd_Images
 
         public void ReloadImagePanel()
         {
+            imagePanel.Animate().TranslationX(0);
             imagePanel.SetImageBitmap(currentImage = imageStore.GetImage());
         }
 
@@ -173,13 +175,9 @@ namespace Lewd_Images
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info");
-                aDialog.SetMessage("Made By: \n Jay and Nobbele \n Images From \n Nekos.life");
+                aDialog.SetMessage("Made By:\nJay and Nobbele\nImages From\nNekos.life");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
-            }
-            if (item.ItemId == Resource.Id.menu_icon)
-            {
-                Toast.MakeText(this, "Orokana hentai", ToastLength.Short).Show();
             }
             if (item.ItemId == Resource.Id.menu_help)
             {
