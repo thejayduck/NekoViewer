@@ -113,13 +113,19 @@ namespace Lewd_Images
                 aDialog.Show();
             };
 
+            bool loading = false;
+
             //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
+                if (loading)
+                    return;
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
+                loading = true;
                 imageStore.Forward();
                 ReloadImagePanel();
                 CheckPreviousImageButton();
+                loading = false;
             };
             nextImageButton.LongClick += (o, e) =>
             {
@@ -201,7 +207,7 @@ namespace Lewd_Images
                 aDialog.SetPositiveButton("YES", delegate 
                 {
                     imageStore.Reset();
-                    previousImageButton.Visibility = ViewStates.Invisible;
+                    CheckPreviousImageButton();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
                 aDialog.Show();
