@@ -118,14 +118,14 @@ namespace Lewd_Images
                     Task.Run(() =>
                     {
                         imageStore.Back();
+                        MemoryStream buffer = new MemoryStream();
+                        currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
+                        buffer.Seek(0, SeekOrigin.Begin);
+                        BufferedInputStream stream = new BufferedInputStream(buffer);
+                        DownloadManager download = new DownloadManager(this, stream, buffer.Length);
+                        download.Execute(ImageName + ".png");
                         RunOnUiThread(() =>
                         {
-                            MemoryStream buffer = new MemoryStream();
-                            currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
-                            buffer.Seek(0, SeekOrigin.Begin);
-                            BufferedInputStream stream = new BufferedInputStream(buffer);
-                            DownloadManager download = new DownloadManager(this, stream, buffer.Length);
-                            download.Execute(ImageName + ".png");
                             Toast.MakeText(this, $"Downloading {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
