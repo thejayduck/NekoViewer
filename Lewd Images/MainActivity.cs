@@ -148,7 +148,7 @@ namespace Lewd_Images
                     Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
                     return;
                 }
-                Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
+                Toast.MakeText(this, "Forward", ToastLength.Short).Show();
                 loading = true;
                 imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
                 Task.Run(() =>
@@ -249,7 +249,6 @@ namespace Lewd_Images
                 aDialog.SetPositiveButton("YES", delegate 
                 {
                     imageStore.Reset();
-                    previousImageButton.Visibility = ViewStates.Invisible;
                     CheckPreviousImageButton();
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
