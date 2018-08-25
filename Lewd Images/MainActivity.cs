@@ -57,6 +57,8 @@ namespace Lewd_Images
 
         LewdImageStore imageStore = new LewdImageStore();
 
+        static int ImagePanelOffscreenX => 1500;
+
         protected override void OnCreate(Bundle bundle) 
         {
             base.OnCreate(bundle);
@@ -153,7 +155,7 @@ namespace Lewd_Images
                 }
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 loading = true;
-                imagePanel.Animate().TranslationX(-1500);
+                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
                 Task.Run(() =>
                 {
                     imageStore.Forward();
@@ -162,6 +164,7 @@ namespace Lewd_Images
                     {
                         ReloadImagePanel();
                         CheckPreviousImageButton();
+                        imagePanel.TranslationX = ImagePanelOffscreenX;
                         imagePanel.Animate().TranslationX(0);
                     });
                     loading = false;
@@ -176,7 +179,7 @@ namespace Lewd_Images
                 }
                 Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
                 loading = true;
-                imagePanel.Animate().TranslationX(1500);
+                imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
                 Task.Run(() =>
                 {
                     imageStore.Back();
@@ -185,6 +188,7 @@ namespace Lewd_Images
                     {
                         ReloadImagePanel();
                         CheckPreviousImageButton();
+                        imagePanel.TranslationX = -ImagePanelOffscreenX;
                         imagePanel.Animate().TranslationX(0);
                     });
                     loading = false;
