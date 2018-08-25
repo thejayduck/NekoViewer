@@ -50,9 +50,10 @@ namespace Lewd_Images
         #endregion
 
         #region Gets
+        Bitmap current = null;
         public Bitmap GetImage()
         {
-            return Helper.GetImageBitmapFromUrl(GetLink());
+            return current ?? (current = Helper.GetImageBitmapFromUrl(GetLink()));
         }
         public string GetLink()
         {

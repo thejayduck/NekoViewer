@@ -117,9 +117,8 @@ namespace Lewd_Images
                     imagePanel.Animate().ScaleY(1.1f);
                     Task.Run(() =>
                     {
-                        imageStore.Back();
                         MemoryStream buffer = new MemoryStream();
-                        currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
+                        imageStore.GetImage().Compress(Bitmap.CompressFormat.Png, 0, buffer);
                         buffer.Seek(0, SeekOrigin.Begin);
                         BufferedInputStream stream = new BufferedInputStream(buffer);
                         DownloadManager download = new DownloadManager(this, stream, buffer.Length);
@@ -198,11 +197,9 @@ namespace Lewd_Images
             previousImageButton.Visibility = imageStore.IsFirst ? ViewStates.Invisible : ViewStates.Visible;
         }
 
-        Bitmap currentImage;
-
         public void ReloadImagePanel()
         {
-            imagePanel.SetImageBitmap(currentImage = imageStore.GetImage());
+            imagePanel.SetImageBitmap(imageStore.GetImage());
         }
 
         public override void OnBackPressed()
