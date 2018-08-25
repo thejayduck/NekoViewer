@@ -35,6 +35,7 @@ namespace Lewd_Images
         {
             index -= count;
             if (index < 0) index = 0;
+            AppendNew();
         }
         public void GotoLast()
         {

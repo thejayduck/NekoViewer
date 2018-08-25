@@ -28,6 +28,10 @@ namespace Lewd_Images
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
 
+        //bools
+        bool loading = false;
+        bool downloading = false;
+
         //Buttons
         FloatingActionButton nextImageButton;
         FloatingActionButton previousImageButton;
@@ -95,31 +99,52 @@ namespace Lewd_Images
                     Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
                     return;
                 }
+
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Image Download Request");
                 aDialog.SetMessage("Are you sure about downloading this image?");
                 aDialog.SetPositiveButton("YES", delegate 
                 {
-                    MemoryStream buffer = new MemoryStream();
-                    currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
-                    buffer.Seek(0, SeekOrigin.Begin);
-                    BufferedInputStream stream = new BufferedInputStream(buffer);
-                    DownloadManager download = new DownloadManager(this, stream, buffer.Length);
-                    download.Execute(ImageName + ".png");
-                    Toast.MakeText(this, $"Downloading {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
+                    if (downloading)
+                    {
+                        Toast.MakeText(this, "An Image Is Being Downloaded Please Be Patient", ToastLength.Short).Show();
+                        return;
+                    }
+
+                    downloading = true;
+                    imagePanel.Animate().ScaleX(1.1f);
+                    imagePanel.Animate().ScaleY(1.1f);
+                    Task.Run(() =>
+                    {
+                        imageStore.Back();
+                        RunOnUiThread(() =>
+                        {
+                            MemoryStream buffer = new MemoryStream();
+                            currentImage.Compress(Bitmap.CompressFormat.Png, 0, buffer);
+                            buffer.Seek(0, SeekOrigin.Begin);
+                            BufferedInputStream stream = new BufferedInputStream(buffer);
+                            DownloadManager download = new DownloadManager(this, stream, buffer.Length);
+                            download.Execute(ImageName + ".png");
+                            Toast.MakeText(this, $"Downloading {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
+                            imagePanel.Animate().ScaleX(1);
+                            imagePanel.Animate().ScaleY(1);
+                        });
+                        downloading = false;
+                    });
                 });
                 aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
                 aDialog.Show();
             };
 
-            bool loading = false;
-
             //Buttons Functions
             nextImageButton.Click += (o,e) =>
             {
-                if (loading)
+                if (loading || downloading)
+                {
+                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
                     return;
+                }
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 loading = true;
                 imagePanel.Animate().TranslationX(-1500);
@@ -144,8 +169,11 @@ namespace Lewd_Images
             };
             previousImageButton.Click += (o, e) =>
             {
-                if (loading)
-                    return;     
+                if (loading || downloading)
+                {
+                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                    return;
+                }
                 Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
                 loading = true;
                 imagePanel.Animate().TranslationX(1500);
