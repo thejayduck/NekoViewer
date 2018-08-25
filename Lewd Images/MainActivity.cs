@@ -123,10 +123,17 @@ namespace Lewd_Images
                 Toast.MakeText(this, "Forwards", ToastLength.Short).Show();
                 loading = true;
                 imagePanel.Animate().TranslationX(-1500);
-                imageStore.Forward();
-                ReloadImagePanel();
-                CheckPreviousImageButton();
-                loading = false;
+                Task.Run(() =>
+                {
+                    imageStore.Forward();
+                    RunOnUiThread(() =>
+                    {
+                        ReloadImagePanel();
+                        CheckPreviousImageButton();
+                        imagePanel.Animate().TranslationX(0);
+                    });
+                    loading = false;
+                });
             };
             nextImageButton.LongClick += (o, e) =>
             {
@@ -153,7 +160,6 @@ namespace Lewd_Images
 
         public void ReloadImagePanel()
         {
-            imagePanel.Animate().TranslationX(0);
             imagePanel.SetImageBitmap(currentImage = imageStore.GetImage());
         }
 
