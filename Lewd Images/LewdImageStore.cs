@@ -30,6 +30,12 @@ namespace Lewd_Images
             var json = new Org.Json.JSONObject(apiResponse);
             list.Add(json.GetString("url"));
         }
+
+        //wtf, fixes animations for some reason
+        public void Fix()
+        {
+            var _ = WebRequest.Create(NekosLife.APIUri + "neko").GetResponse();
+        }
         public LewdImageStore(string tag = "select_default")
         {
             if (tag == "select_default")

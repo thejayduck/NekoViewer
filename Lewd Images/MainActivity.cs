@@ -138,6 +138,13 @@ namespace Lewd_Images
             };
 
             //Buttons Functions
+            nextImageButton.LongClick += (o, e) =>
+            {
+                Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
+                imageStore.GotoLast();
+                ReloadImagePanel();
+                CheckPreviousImageButton();
+            };
             nextImageButton.Click += (o,e) =>
             {
                 if (loading || downloading)
@@ -151,6 +158,7 @@ namespace Lewd_Images
                 Task.Run(() =>
                 {
                     imageStore.Forward();
+                    imageStore.Fix();
                     RunOnUiThread(() =>
                     {
                         ReloadImagePanel();
@@ -159,13 +167,6 @@ namespace Lewd_Images
                     });
                     loading = false;
                 });
-            };
-            nextImageButton.LongClick += (o, e) =>
-            {
-                Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
-                imageStore.GotoLast();
-                ReloadImagePanel();
-                CheckPreviousImageButton();
             };
             previousImageButton.Click += (o, e) =>
             {
@@ -180,6 +181,7 @@ namespace Lewd_Images
                 Task.Run(() =>
                 {
                     imageStore.Back();
+                    imageStore.Fix();
                     RunOnUiThread(() =>
                     {
                         ReloadImagePanel();
