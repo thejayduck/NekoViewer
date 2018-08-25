@@ -20,11 +20,14 @@ namespace Lewd_Images
         protected readonly List<string> list = new List<string>();
         protected int index = -1; // -1 is a 0 size list, 0 is a 1 size array, etc
 
+        Bitmap current = null;
+
         public abstract void AppendNew();
 
         #region Moving
         public void Forward(int count = 1)
         {
+            current = null;
             index += count;
             while(index > list.Count-1)
             {
@@ -33,6 +36,7 @@ namespace Lewd_Images
         }
         public void Back(int count = 1)
         {
+            current = null;
             index -= count;
             if (index < 0) index = 0;
         }
@@ -50,7 +54,6 @@ namespace Lewd_Images
         #endregion
 
         #region Gets
-        Bitmap current = null;
         public Bitmap GetImage()
         {
             return current ?? (current = Helper.GetImageBitmapFromUrl(GetLink()));
