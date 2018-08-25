@@ -145,9 +145,17 @@ namespace Lewd_Images
             previousImageButton.Click += (o, e) =>
             {
                 Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
-                imageStore.Back();
-                ReloadImagePanel();
-                CheckPreviousImageButton();
+                imagePanel.Animate().TranslationX(1500);
+                Task.Run(() =>
+                {
+                    imageStore.Back();
+                    RunOnUiThread(() =>
+                    {
+                        ReloadImagePanel();
+                        CheckPreviousImageButton();
+                        imagePanel.Animate().TranslationX(0);
+                    });
+                });
             };
         }
 
