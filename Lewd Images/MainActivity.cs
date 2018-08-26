@@ -136,10 +136,27 @@ namespace Lewd_Images
             //Buttons Functions
             nextImageButton.LongClick += (o, e) =>
             {
-                Toast.MakeText(this, "Going Back To Last Image", ToastLength.Short).Show();
-                imageStore.GotoLast();
-                ReloadImagePanel();
-                CheckPreviousImageButton();
+                if (loading || downloading)
+                {
+                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                    return;
+                }
+                Toast.MakeText(this, "Last image", ToastLength.Short).Show();
+                loading = true;
+                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+                Task.Run(() =>
+                {
+                    imageStore.GotoLast();
+                    imageStore.Fix();
+                    RunOnUiThread(() =>
+                    {
+                        ReloadImagePanel();
+                        CheckPreviousImageButton();
+                        imagePanel.TranslationX = ImagePanelOffscreenX;
+                        imagePanel.Animate().TranslationX(0);
+                    });
+                    loading = false;
+                });
             };
             nextImageButton.Click += (o,e) =>
             {

@@ -30,7 +30,10 @@ namespace Lewd_Images
         }
         public void GotoLast()
         {
-            index = list.Count - 1;
+            while(!IsLast)
+            {
+                Forward();
+            }
         }
 
         public void Reset()
