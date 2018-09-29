@@ -70,6 +70,8 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdControlView.cs" />
+    <Compile Include="AdViewRenderer.cs" />
     <Compile Include="DownloadManager.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ImageStore.cs" />
@@ -123,6 +125,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.3.840</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Ads.Lite">
+      <Version>60.1142.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Gcm">
       <Version>60.1142.1</Version>

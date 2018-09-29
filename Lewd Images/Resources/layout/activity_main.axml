@@ -8,7 +8,6 @@
 	android:orientation="vertical"
 	android:minWidth="25px"
 	android:minHeight="25px">
-
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
@@ -25,7 +24,7 @@
 		android:layout_marginTop="0.0dp"/>
 	<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="460dp"
+		android:layout_height="408.5dp"
 		android:id="@+id/imageView"
 		android:layout_marginBottom="0.0dp"
 		android:longClickable="true"
@@ -34,7 +33,7 @@
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_height="76.5dp"
 		android:id="@+id/gridLayout2">
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/previousImageButton"
@@ -58,4 +57,15 @@
 			android:longClickable="true"
 			android:visibility="visible" />
 	</GridLayout>
+	        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-5157629142822799/4430562503">
+        </com.google.android.gms.ads.AdView>
+
 </LinearLayout>

@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
 using System.Collections;
+using Android.Runtime;
+using Android.Gms.Ads;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
@@ -31,6 +33,9 @@ namespace Lewd_Images
         FloatingActionButton nextImageButton;
         FloatingActionButton previousImageButton;
 
+        //Ad Banner
+        AdView adView;
+
         //Tags
         ArrayAdapter nekosTagAdapter;
         ArrayList nekosTags;
@@ -38,7 +43,7 @@ namespace Lewd_Images
         ImageView imagePanel;
         Spinner tagSpinner;
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
-        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet };
+        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
         private static readonly int REQUEST_PERMISSION = 1;
 
         private string SelectedTag {
@@ -63,11 +68,17 @@ namespace Lewd_Images
             CheckForPermissions();
 
             //Finding Resources
+            adView = FindViewById<AdView>(Resource.Id.adView);
             nekosTags = new ArrayList();
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
+
+            //SetAdView
+            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
+            AdRequest adRequest = new AdRequest.Builder().Build();
+            adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -122,7 +133,7 @@ namespace Lewd_Images
                         download.Execute(ImageName + ".png");
                         RunOnUiThread(() =>
                         {
-                            Toast.MakeText(this, $"Downloading {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
+                            Toast.MakeText(this, $"Downloaded {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
                         });
@@ -160,52 +171,91 @@ namespace Lewd_Images
             };
             nextImageButton.Click += (o,e) =>
             {
-                if (loading || downloading)
-                {
-                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
-                    return;
-                }
-                Toast.MakeText(this, "Forward", ToastLength.Short).Show();
-                loading = true;
-                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
-                Task.Run(() =>
-                {
-                    imageStore.Forward();
-                    imageStore.Fix();
-                    RunOnUiThread(() =>
-                    {
-                        ReloadImagePanel();
-                        CheckPreviousImageButton();
-                        imagePanel.TranslationX = ImagePanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
-                    });
-                    loading = false;
-                });
+                GetNextImage();
             };
             previousImageButton.Click += (o, e) =>
             {
-                if (loading || downloading)
-                {
-                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
-                    return;
-                }
-                Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
-                loading = true;
-                imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
-                Task.Run(() =>
-                {
-                    imageStore.Back();
-                    imageStore.Fix();
-                    RunOnUiThread(() =>
-                    {
-                        ReloadImagePanel();
-                        CheckPreviousImageButton();
-                        imagePanel.TranslationX = -ImagePanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
-                    });
-                    loading = false;
-                });
+                GetPreviousImage();
             };
+        }
+
+        //AdView CreateAdView()
+        //{
+        //    if (adView != null)
+        //        return adView;
+
+        //    adView = new AdView(this);
+        //    adView.AdSize = adSize;
+        //    adView.AdUnitId = adUnitId;
+
+        //    var adParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
+        //    adView.LayoutParameters = adParams;
+
+        //    adView.LoadAd(new Android.Gms.Ads.AdRequest.Builder().Build());
+
+        //    return adView;
+        //}
+
+        public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if(keyCode == Keycode.VolumeUp)
+            {
+                GetNextImage();
+            }
+            if (keyCode == Keycode.VolumeDown)
+            {
+                GetPreviousImage();
+            }
+            return base.OnKeyUp(keyCode, e);
+        }
+
+        public void GetNextImage()
+        {
+            if (loading || downloading)
+            {
+                Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                return;
+            }
+            Toast.MakeText(this, "Forward", ToastLength.Short).Show();
+            loading = true;
+            imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+            Task.Run(() =>
+            {
+                imageStore.Forward();
+                imageStore.Fix();
+                RunOnUiThread(() =>
+                {
+                    ReloadImagePanel();
+                    CheckPreviousImageButton();
+                    imagePanel.TranslationX = ImagePanelOffscreenX;
+                    imagePanel.Animate().TranslationX(0);
+                });
+                loading = false;
+            });
+        }
+        public void GetPreviousImage()
+        {
+            if (loading || downloading)
+            {
+                Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                return;
+            }
+            Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
+            loading = true;
+            imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
+            Task.Run(() =>
+            {
+                imageStore.Back();
+                imageStore.Fix();
+                RunOnUiThread(() =>
+                {
+                    ReloadImagePanel();
+                    CheckPreviousImageButton();
+                    imagePanel.TranslationX = -ImagePanelOffscreenX;
+                    imagePanel.Animate().TranslationX(0);
+                });
+                loading = false;
+            });
         }
 
         public void CheckPreviousImageButton()
