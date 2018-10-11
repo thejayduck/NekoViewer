@@ -370,11 +370,11 @@ namespace Lewd_Images
                 layout.AddView(lewdSwitch);
                 layout.AddView(resetButton);
                 aDialog.SetView(layout);
-                aDialog.SetPositiveButton("Help?", delegate
+                aDialog.SetNegativeButton("Help?", delegate
                 {
                     //Implement Help Here...
                 });
-                aDialog.SetNegativeButton("Apply!", delegate
+                aDialog.SetPositiveButton("Apply!", delegate
                 {
                     Toast.MakeText(this, "Applied!", ToastLength.Short).Show();
                     //Implement Lewd Tag Switcher
