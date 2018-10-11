@@ -7,6 +7,14 @@
     app:showAsAction="always"
     android:title="Icon"/>-->
   <item
+    android:id="@+id/menu_share"
+    app:showAsAction="always"
+    android:title="Share Image"/>
+  <item
+    android:id="@+id/menu_favorite"
+    app:showAsAction="never"
+    android:title="Favorite Image"/>
+  <item
     android:id="@+id/menu_info"
     app:showAsAction="never"
     android:title="Info"/>

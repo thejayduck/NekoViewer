@@ -15,6 +15,9 @@ using Android.Views;
 using System.Collections;
 using Android.Runtime;
 using Android.Gms.Ads;
+using Plugin.Connectivity;
+using Plugin.Share;
+using Plugin.CurrentActivity;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
@@ -28,6 +31,8 @@ namespace Lewd_Images
         //bools
         bool loading = false;
         bool downloading = false;
+
+        View.IOnClickListener mOnClickListener;
 
         //Buttons
         FloatingActionButton nextImageButton;
@@ -196,21 +201,14 @@ namespace Lewd_Images
         //    return adView;
         //}
 
-        public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
-        {
-            if(keyCode == Keycode.VolumeUp)
-            {
-                GetNextImage();
-            }
-            if (keyCode == Keycode.VolumeDown)
-            {
-                GetPreviousImage();
-            }
-            return base.OnKeyUp(keyCode, e);
-        }
-
         public void GetNextImage()
         {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                Toast.MakeText(this, "Check your internet connection...", ToastLength.Short).Show();
+                return;
+            }
+
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
@@ -235,6 +233,12 @@ namespace Lewd_Images
         }
         public void GetPreviousImage()
         {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                Toast.MakeText(this, "Check your internet connection...", ToastLength.Short).Show();
+                return;
+            }
+
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
@@ -284,11 +288,43 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
+        public void RemoveFromFavorite(string imageUrl)
+        {
+
+        }
+
+        public void SetAsFavorite(string imageUrl)
+        {
+
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
 
+            if(item.ItemId == Resource.Id.menu_share)
+            {
+                if (!CrossShare.IsSupported || imagePanel.Drawable == null)
+                {
+                    return false;   
+                }
+
+                CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                {
+                    Title = "Lewd Image",
+                    Text = "Checkout this image!",
+                    Url = imageStore.GetLink().ToString()
+                });
+            }
+            if(item.ItemId == Resource.Id.menu_favorite)
+            {
+                Activity activity = CrossCurrentActivity.Current.Activity;
+                Android.Views.View view = FindViewById(Android.Resource.Id.Content);
+                var snackbar = Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort);
+                //snackbar.SetAction("Undo"); will be revisited
+
+            }
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info");

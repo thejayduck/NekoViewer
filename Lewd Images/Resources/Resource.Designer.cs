@@ -2739,13 +2739,19 @@ namespace Lewd_Images
 			public const int media_actions = 2131493037;
 			
 			// aapt resource value: 0x7f0c00be
-			public const int menu_help = 2131493054;
+			public const int menu_favorite = 2131493054;
 			
-			// aapt resource value: 0x7f0c00bd
-			public const int menu_info = 2131493053;
+			// aapt resource value: 0x7f0c00c0
+			public const int menu_help = 2131493056;
 			
 			// aapt resource value: 0x7f0c00bf
-			public const int menu_resetHistory = 2131493055;
+			public const int menu_info = 2131493055;
+			
+			// aapt resource value: 0x7f0c00c1
+			public const int menu_resetHistory = 2131493057;
+			
+			// aapt resource value: 0x7f0c00bd
+			public const int menu_share = 2131493053;
 			
 			// aapt resource value: 0x7f0c00ba
 			public const int message = 2131493050;
