@@ -88,7 +88,7 @@ namespace Lewd_Images
             //Toolbar Configurations
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Lewd Viewer";
+            SupportActionBar.Title = "Lewds";
 
             foreach(string i in NekosLife.Tags)
             {
@@ -303,7 +303,10 @@ namespace Lewd_Images
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
 
-            if(item.ItemId == Resource.Id.menu_share)
+            Activity activity = CrossCurrentActivity.Current.Activity;
+            Android.Views.View view = FindViewById(Android.Resource.Id.Content);
+
+            if (item.ItemId == Resource.Id.menu_share)
             {
                 if (!CrossShare.IsSupported || imagePanel.Drawable == null)
                 {
@@ -319,8 +322,9 @@ namespace Lewd_Images
             }
             if(item.ItemId == Resource.Id.menu_favorite)
             {
-                Activity activity = CrossCurrentActivity.Current.Activity;
-                Android.Views.View view = FindViewById(Android.Resource.Id.Content);
+                if (imagePanel.Drawable == null)
+                    return false;
+
                 var snackbar = Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort);
                 //snackbar.SetAction("Undo"); will be revisited
                 snackbar.Show();
@@ -345,17 +349,37 @@ namespace Lewd_Images
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
             }   
-            if(item.ItemId == Resource.Id.menu_resetHistory)
+            if(item.ItemId == Resource.Id.menu_options)
             {
-                aDialog.SetTitle("You Are About To Reset Your Image History");
-                aDialog.SetMessage("If your image history filled doing this action is a great choice!" +
-                    "\nSo are you sure about resetting your image history?");
-                aDialog.SetPositiveButton("YES", delegate 
+                LinearLayout layout = new LinearLayout(this);
+                layout.Orientation = Orientation.Vertical;
+                layout.SetPadding(30, 20, 30, 0);
+                Switch lewdSwitch = new Switch(this);
+                lewdSwitch.Text = "Enable NSFW Tags";
+                Button resetButton = new Button(this);
+                resetButton.Text = "Reset Image History";
+
+                resetButton.Click += (o, e) =>
                 {
+                    Snackbar.Make(view, "Cleared Image History", Snackbar.LengthShort).Show();
                     imageStore.Reset();
                     CheckPreviousImageButton();
+                };
+
+                aDialog.SetTitle("Options");
+                layout.AddView(lewdSwitch);
+                layout.AddView(resetButton);
+                aDialog.SetView(layout);
+                aDialog.SetPositiveButton("Help?", delegate
+                {
+                    //Implement Help Here...
                 });
-                aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+                aDialog.SetNegativeButton("Apply!", delegate
+                {
+                    Toast.MakeText(this, "Applied!", ToastLength.Short).Show();
+                    //Implement Lewd Tag Switcher
+                    aDialog.Dispose();
+                });
                 aDialog.Show();
             }
 

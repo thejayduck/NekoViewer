@@ -8,11 +8,12 @@
     android:title="Icon"/>-->
   <item
     android:id="@+id/menu_share"
-    app:showAsAction="always"
+    app:showAsAction="ifRoom"
     android:title="Share Image"/>
   <item
     android:id="@+id/menu_favorite"
-    app:showAsAction="never"
+    android:icon="@android:drawable/btn_star_big_off"
+    app:showAsAction="always"
     android:title="Favorite Image"/>
   <item
     android:id="@+id/menu_info"
@@ -23,7 +24,7 @@
     app:showAsAction="never"
     android:title="Help"/>
   <item
-    android:id="@+id/menu_resetHistory"
+    android:id="@+id/menu_options"
     app:showAsAction="never"
-    android:title="Reset Image History"/>
+    android:title="Options"/>
 </menu>

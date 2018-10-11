@@ -2748,7 +2748,7 @@ namespace Lewd_Images
 			public const int menu_info = 2131493055;
 			
 			// aapt resource value: 0x7f0c00c1
-			public const int menu_resetHistory = 2131493057;
+			public const int menu_options = 2131493057;
 			
 			// aapt resource value: 0x7f0c00bd
 			public const int menu_share = 2131493053;
