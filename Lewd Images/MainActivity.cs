@@ -323,6 +323,7 @@ namespace Lewd_Images
                 Android.Views.View view = FindViewById(Android.Resource.Id.Content);
                 var snackbar = Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort);
                 //snackbar.SetAction("Undo"); will be revisited
+                snackbar.Show();
 
             }
             if (item.ItemId == Resource.Id.menu_info) 
