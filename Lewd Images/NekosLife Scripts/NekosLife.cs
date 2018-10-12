@@ -6,11 +6,22 @@ namespace Lewd_Images
 {
     class NekosLife
     {
+        public class DownException : Exception
+        {
+            public override string ToString()
+            {
+                return "NekosLife may be down, try again later";
+            }
+        }
+
         public static Uri APIUri = new Uri("https://nekos.life/api/v2/img/");
 
         public static HttpWebResponse Request(string type)
         {
-            return (HttpWebResponse)((HttpWebRequest)WebRequest.Create(APIUri + type)).GetResponse();
+            WebRequest request = WebRequest.Create(APIUri + type);
+            if (request.ContentLength < 0)
+                throw new DownException();
+            return (HttpWebResponse)request.GetResponse();
         }
 
         public static string DefaultTag => Tags[0];

@@ -18,6 +18,7 @@ using Android.Gms.Ads;
 using Plugin.Connectivity;
 using Plugin.Share;
 using Plugin.CurrentActivity;
+using System;
 //using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
@@ -31,8 +32,6 @@ namespace Lewd_Images
         //bools
         bool loading = false;
         bool downloading = false;
-
-        View.IOnClickListener mOnClickListener;
 
         //Buttons
         FloatingActionButton nextImageButton;
@@ -184,23 +183,6 @@ namespace Lewd_Images
             };
         }
 
-        //AdView CreateAdView()
-        //{
-        //    if (adView != null)
-        //        return adView;
-
-        //    adView = new AdView(this);
-        //    adView.AdSize = adSize;
-        //    adView.AdUnitId = adUnitId;
-
-        //    var adParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
-        //    adView.LayoutParameters = adParams;
-
-        //    adView.LoadAd(new Android.Gms.Ads.AdRequest.Builder().Build());
-
-        //    return adView;
-        //}
-
         public void GetNextImage()
         {
             if (!CrossConnectivity.Current.IsConnected)
@@ -219,16 +201,29 @@ namespace Lewd_Images
             imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
             Task.Run(() =>
             {
-                imageStore.Forward();
-                imageStore.Fix();
-                RunOnUiThread(() =>
+                try
                 {
-                    ReloadImagePanel();
-                    CheckPreviousImageButton();
-                    imagePanel.TranslationX = ImagePanelOffscreenX;
-                    imagePanel.Animate().TranslationX(0);
-                });
-                loading = false;
+                    imageStore.Forward();
+                    imageStore.Fix();
+                    RunOnUiThread(() =>
+                    {
+                        ReloadImagePanel();
+                        CheckPreviousImageButton();
+                        imagePanel.TranslationX = ImagePanelOffscreenX;
+                        imagePanel.Animate().TranslationX(0);
+                    });
+                }
+                catch (Exception e)
+                {
+                    RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(this, e.ToString(), ToastLength.Long).Show();
+                    });
+                }
+                finally
+                {
+                    loading = false;
+                }
             });
         }
         public void GetPreviousImage()

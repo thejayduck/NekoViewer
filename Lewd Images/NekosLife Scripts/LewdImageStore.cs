@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Android.Widget;
+using System.IO;
 using System.Net;
 
 namespace Lewd_Images
@@ -6,7 +7,7 @@ namespace Lewd_Images
     class LewdImageStore : ImageStore
     {
         public string Tag { get; set; }
-        public override void AppendNew()
+        public override bool AppendNew()
         {
             string apiResponse = "";
             using (HttpWebResponse response = NekosLife.Request(Tag))
@@ -18,6 +19,7 @@ namespace Lewd_Images
 
             var json = new Org.Json.JSONObject(apiResponse);
             list.Add(json.GetString("url"));
+            return true;
         }
 
         //wtf, fixes animations for some reason

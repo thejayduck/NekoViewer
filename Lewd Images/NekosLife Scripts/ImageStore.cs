@@ -10,7 +10,11 @@ namespace Lewd_Images
 
         Bitmap current = null;
 
-        public abstract void AppendNew();
+        /// <summary>
+        /// Appends a new url to the ImageStore internal array
+        /// </summary>
+        /// <returns>Success</returns>
+        public abstract bool AppendNew();
 
         #region Moving
         public void Forward(int count = 1)
