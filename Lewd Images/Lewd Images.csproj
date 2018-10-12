@@ -164,6 +164,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MainMenu\" />
     <Folder Include="Resources\layout-w1920dp-h1080dp-large-long-notround-port-v26\" />
     <Folder Include="Rule34 Scripts\" />
   </ItemGroup>

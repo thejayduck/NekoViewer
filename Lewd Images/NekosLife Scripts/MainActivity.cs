@@ -19,7 +19,6 @@ using Plugin.Connectivity;
 using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
-//using Felipecsl.GifImageViewLib;
 
 namespace Lewd_Images
 {
@@ -137,7 +136,7 @@ namespace Lewd_Images
                         download.Execute(ImageName + ".png");
                         RunOnUiThread(() =>
                         {
-                            Toast.MakeText(this, $"Downloaded {ImageName} from {imageStore.GetLink()}!", ToastLength.Short).Show();
+                            Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
                         });
@@ -299,7 +298,7 @@ namespace Lewd_Images
             aDialog = new Android.App.AlertDialog.Builder(this);
 
             Activity activity = CrossCurrentActivity.Current.Activity;
-            Android.Views.View view = FindViewById(Android.Resource.Id.Content);
+            View view = FindViewById(Android.Resource.Id.Content);
 
             if (item.ItemId == Resource.Id.menu_share)
             {
@@ -320,9 +319,8 @@ namespace Lewd_Images
                 if (imagePanel.Drawable == null)
                     return false;
 
-                var snackbar = Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort);
-                //snackbar.SetAction("Undo"); will be revisited
-                snackbar.Show();
+                Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort)
+                    .SetAction("Undo", v => RemoveFromFavorite("IMPLEMENT THE URL HERE"));
 
             }
             if (item.ItemId == Resource.Id.menu_info) 
@@ -373,6 +371,7 @@ namespace Lewd_Images
                 {
                     Toast.MakeText(this, "Applied!", ToastLength.Short).Show();
                     //Implement Lewd Tag Switcher
+                    //Apply the option and save it
                     aDialog.Dispose();
                 });
                 aDialog.Show();
