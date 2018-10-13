@@ -17,7 +17,7 @@ namespace Lewd_Images.SplashScreen
             var config = new EasySplashScreen(this)
                 .WithFullScreen()
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
-                .WithSplashTimeOut(5000)
+                .WithSplashTimeOut(2500)
                 .WithBackgroundColor(Color.ParseColor("#36454f"))
                 .WithHeaderText("Welcome To Neko Viewer")
                 .WithFooterText("Made By \n Jay and Nobbele");
@@ -31,6 +31,8 @@ namespace Lewd_Images.SplashScreen
 
             //Set Content View
             SetContentView(view);
+
+            MainActivity.imageStore.Forward();
         }
     }
 }

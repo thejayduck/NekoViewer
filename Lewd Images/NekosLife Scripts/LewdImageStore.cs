@@ -5,7 +5,7 @@ using Plugin.Connectivity;
 
 namespace Lewd_Images
 {
-    class LewdImageStore : ImageStore
+    public class LewdImageStore : ImageStore
     {
         public List<string> Favorites = new List<string>();
         public void AddCurrentToFavorite()
@@ -39,11 +39,6 @@ namespace Lewd_Images
             return true;
         }
 
-        //wtf, fixes animations for some reason
-        public void Fix()
-        {
-            var _ = WebRequest.Create(NekosLife.APIUri + "neko").GetResponse();
-        }
         public LewdImageStore(string tag = "select_default")
         {
             if (tag == "select_default")

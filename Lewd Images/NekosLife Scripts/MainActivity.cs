@@ -55,7 +55,7 @@ namespace Lewd_Images
             }
         }
 
-        LewdImageStore imageStore = new LewdImageStore();
+        public static LewdImageStore imageStore = new LewdImageStore();
 
         int ImagePanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
 
@@ -155,7 +155,7 @@ namespace Lewd_Images
                 Task.Run(() =>
                 {
                     imageStore.GotoLast();
-                    imageStore.Fix();
+                    Fix();
                     RunOnUiThread(() =>
                     {
                         ReloadImagePanel();
@@ -179,31 +179,46 @@ namespace Lewd_Images
             {
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Tags));
             };
+
+            //Load image first time
+            ReloadImagePanel();
         }
 
-        public void GetNextImage()
+        /// <summary>
+        /// Gets the next image and sets it to the image panel
+        /// </summary>
+        /// <param name="animation">if it should be animated(may not be animated if Settings.AnimationsEnabled is false)</param>
+        public void GetNextImage(bool animate = true)
         {
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
                 return;
             }
+
             Toast.MakeText(this, "Forward", ToastLength.Short).Show();
             loading = true;
-            imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+            if (animate && Settings.AnimationsEnabled)
+                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
 
             Task.Run(() =>
             {
                 try
                 {
                     imageStore.Forward();
-                    imageStore.Fix();
+                    if (animate && Settings.AnimationsEnabled)
+                        Fix();
+
                     RunOnUiThread(() =>
                     {
                         ReloadImagePanel();
                         CheckPreviousImageButton();
-                        imagePanel.TranslationX = ImagePanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
+
+                        if (animate && Settings.AnimationsEnabled)
+                        {
+                            imagePanel.TranslationX = ImagePanelOffscreenX;
+                            imagePanel.Animate().TranslationX(0);
+                        }
                     });
                 }
                 catch (Exception e)
@@ -219,26 +234,40 @@ namespace Lewd_Images
                 }
             });
         }
-        public void GetPreviousImage()
+
+        /// <summary>
+        /// Gets the previous image and sets it to the image panel
+        /// </summary>
+        /// <param name="animation">if it should be animated(may not be animated if Settings.AnimationsEnabled is false)</param>
+        public void GetPreviousImage(bool animate = true)
         {
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
                 return;
             }
+
             Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
             loading = true;
-            imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
+            if(animate && Settings.AnimationsEnabled)
+                imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
+
             Task.Run(() =>
             {
                 imageStore.Back();
-                imageStore.Fix();
+                if (animate && Settings.AnimationsEnabled)
+                    Fix();
+
                 RunOnUiThread(() =>
                 {
                     ReloadImagePanel();
                     CheckPreviousImageButton();
-                    imagePanel.TranslationX = -ImagePanelOffscreenX;
-                    imagePanel.Animate().TranslationX(0);
+
+                    if (animate && Settings.AnimationsEnabled)
+                    {
+                        imagePanel.TranslationX = -ImagePanelOffscreenX;
+                        imagePanel.Animate().TranslationX(0);
+                    }
                 });
                 loading = false;
             });
@@ -331,21 +360,27 @@ namespace Lewd_Images
             } 
             if(item.ItemId == Resource.Id.menu_options)
             {
-                LinearLayout layout = new LinearLayout(this);
-                layout.Orientation = Orientation.Vertical;
+                LinearLayout layout = new LinearLayout(this)
+                {
+                    Orientation = Orientation.Vertical
+                };
                 layout.SetPadding(30, 20, 30, 20);
 
                 //Variables
-                Switch lewdSwitch = new Switch(this);
-                lewdSwitch.Text = "Enable NSFW Tags";
-                lewdSwitch.Checked = Settings.LewdTagsEnabled;
+                Switch lewdSwitch = new Switch(this)
+                {
+                    Text = "Enable NSFW Tags",
+                    Checked = Settings.LewdTagsEnabled
+                };
                 lewdSwitch.CheckedChange += delegate
                 {
                     Settings.LewdTagsEnabled = lewdSwitch.Checked;
                 };
 
-                Button resetButton = new Button(this);
-                resetButton.Text = "Reset Image History";
+                Button resetButton = new Button(this)
+                {
+                    Text = "Reset Image History"
+                };
                 resetButton.Click += (o, e) =>
                 {
                     Snackbar.Make(view, "Cleared Image History", Snackbar.LengthShort).Show();
@@ -353,8 +388,10 @@ namespace Lewd_Images
                     CheckPreviousImageButton();
                 };
 
-                Button serverCheckerButton = new Button(this);
-                serverCheckerButton.Text = "Check NekosLife Server";
+                Button serverCheckerButton = new Button(this)
+                {
+                    Text = "Check NekosLife Server"
+                };
                 serverCheckerButton.Click += delegate
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
@@ -394,6 +431,12 @@ namespace Lewd_Images
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
+        }
+
+        //wtf, fixes animations for some reason
+        public void Fix()
+        {
+            var _ = WebRequest.Create(NekosLife.APIUri + "neko").GetResponse();
         }
     }
 }
