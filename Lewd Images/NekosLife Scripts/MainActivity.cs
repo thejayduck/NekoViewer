@@ -192,32 +192,49 @@ namespace Lewd_Images
             Toast.MakeText(this, "Forward", ToastLength.Short).Show();
             loading = true;
             imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+
             Task.Run(() =>
             {
-                try
+                Toast.MakeText(this, "heyo", ToastLength.Long).Show();
+
+                imageStore.Forward();
+                imageStore.Fix();
+                RunOnUiThread(() =>
                 {
-                    imageStore.Forward();
-                    imageStore.Fix();
-                    RunOnUiThread(() =>
-                    {
-                        ReloadImagePanel();
-                        CheckPreviousImageButton();
-                        imagePanel.TranslationX = ImagePanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
-                    });
-                }
-                catch (Exception e)
-                {
-                    RunOnUiThread(() =>
-                    {
-                        Toast.MakeText(this, e.ToString(), ToastLength.Long).Show();
-                    });
-                }
-                finally
-                {
-                    loading = false;
-                }
+                    ReloadImagePanel();
+                    CheckPreviousImageButton();
+                    imagePanel.TranslationX = ImagePanelOffscreenX;
+                    imagePanel.Animate().TranslationX(0);
+                });
+                loading = false;
             });
+
+            //Task.Run(() =>
+            //{
+            //    try
+            //    {
+            //        imageStore.Forward();
+            //        imageStore.Fix();
+            //        RunOnUiThread(() =>
+            //        {
+            //            ReloadImagePanel();
+            //            CheckPreviousImageButton();
+            //            imagePanel.TranslationX = ImagePanelOffscreenX;
+            //            imagePanel.Animate().TranslationX(0);
+            //        });
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        RunOnUiThread(() =>
+            //        {
+            //            Toast.MakeText(this, e.ToString(), ToastLength.Long).Show();
+            //        });
+            //    }
+            //    finally
+            //    {
+            //        loading = false;
+            //    }
+            //});
         }
         public void GetPreviousImage()
         {
