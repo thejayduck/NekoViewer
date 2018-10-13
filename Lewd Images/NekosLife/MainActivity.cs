@@ -49,13 +49,13 @@ namespace Lewd_Images
         private string SelectedTag {
             get {
                 if (tagSpinner.SelectedItemPosition >= 0)
-                    return NekosLife.Tags[tagSpinner.SelectedItemPosition];
+                    return NekosLife.Instance.Tags[tagSpinner.SelectedItemPosition];
                 else
-                    return NekosLife.DefaultTag;
+                    return NekosLife.Instance.DefaultTag;
             }
         }
 
-        public static LewdImageStore imageStore = new LewdImageStore();
+        public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
         int ImagePanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
 
@@ -84,7 +84,7 @@ namespace Lewd_Images
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Lewds";
 
-            tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Tags));
+            tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
 
             tagSpinner.ItemSelected += (o, e) =>
             {
@@ -177,7 +177,7 @@ namespace Lewd_Images
 
             Settings.OnLewdTagsEnabledChange += delegate
             {
-                tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Tags));
+                tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             };
 
             //Load image first time

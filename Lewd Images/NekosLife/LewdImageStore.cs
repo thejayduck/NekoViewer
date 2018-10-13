@@ -7,7 +7,18 @@ namespace Lewd_Images
 {
     public class LewdImageStore : ImageStore
     {
-        public List<string> Favorites = new List<string>();
+        public IApi Api { get; set; }
+
+        public LewdImageStore(IApi api, string tag = "select_default")
+        {
+            Api = api;
+            if (tag == "select_default")
+                Tag = api.DefaultTag;
+            else
+                Tag = tag;
+        }
+
+        public List<string> Favorites { get; } = new List<string>();
         public void AddCurrentToFavorite()
         {
             Favorites.Add(GetLink());
@@ -26,25 +37,8 @@ namespace Lewd_Images
                 return false;
             }
 
-            string apiResponse = "";
-            using (HttpWebResponse response = NekosLife.Request(Tag))
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                apiResponse = reader.ReadToEnd();
-            }
-
-            var json = new Org.Json.JSONObject(apiResponse);
-            list.Add(json.GetString("url"));
+            list.Add(Api.GetImageUrl(Tag));
             return true;
-        }
-
-        public LewdImageStore(string tag = "select_default")
-        {
-            if (tag == "select_default")
-                Tag = NekosLife.DefaultTag;
-            else
-                Tag = tag;
         }
     }
 }

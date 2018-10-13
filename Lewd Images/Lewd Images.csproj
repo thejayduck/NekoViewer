@@ -72,10 +72,11 @@
   <ItemGroup>
     <Compile Include="DownloadManager.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="NekosLife Scripts\ImageStore.cs" />
-    <Compile Include="NekosLife Scripts\LewdImageStore.cs" />
-    <Compile Include="NekosLife Scripts\MainActivity.cs" />
-    <Compile Include="NekosLife Scripts\NekosLife.cs" />
+    <Compile Include="NekosLife\IApi.cs" />
+    <Compile Include="NekosLife\ImageStore.cs" />
+    <Compile Include="NekosLife\LewdImageStore.cs" />
+    <Compile Include="NekosLife\MainActivity.cs" />
+    <Compile Include="NekosLife\NekosLife.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

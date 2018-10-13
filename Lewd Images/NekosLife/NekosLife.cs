@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 
 namespace Lewd_Images
 {
-    class NekosLife
+    abstract class NekosLife : IApi
     {
+        class Dummy : NekosLife { }
+        public static NekosLife Instance = new Dummy();
+
         public class DownException : Exception
         {
             public override string ToString()
@@ -17,15 +21,29 @@ namespace Lewd_Images
 
         public static Uri APIUri = new Uri("https://nekos.life/api/v2/img/");
 
-        public static HttpWebResponse Request(string type)
+        private HttpWebResponse Request(string type)
         {
             WebRequest request = WebRequest.Create(APIUri + type);
                 
             return (HttpWebResponse)request.GetResponse();
         }
 
-        public static string DefaultTag => Tags[0];
-        public static string[] Tags
+        public string GetImageUrl(string tag)
+        {
+            string apiResponse = "";
+            using (HttpWebResponse response = Request(tag))
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                apiResponse = reader.ReadToEnd();
+            }
+
+            var json = new Org.Json.JSONObject(apiResponse);
+            return json.GetString("url");
+        }
+
+        public string DefaultTag => Tags[0];
+        public string[] Tags
         {
             get {
                 IEnumerable<string> endpoints = SfwEndpoints;
@@ -37,7 +55,7 @@ namespace Lewd_Images
             }
         }
 
-        private static readonly string[] SfwEndpoints =
+        private readonly string[] SfwEndpoints =
         {
                 "neko",
                 "wallpaper",
@@ -62,7 +80,7 @@ namespace Lewd_Images
                 "smug"
         };
                 
-        private static readonly string[] NsfwEndpoints =
+        private readonly string[] NsfwEndpoints =
         {
             "Random_hentai_gif",
             "pussy",
@@ -106,7 +124,7 @@ namespace Lewd_Images
             "lewdkemo"
         };
 
-        private static string[] BlacklistTags {
+        private string[] BlacklistTags {
             get => new string[]
             {
 
