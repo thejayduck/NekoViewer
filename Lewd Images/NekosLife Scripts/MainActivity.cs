@@ -18,6 +18,7 @@ using Android.Gms.Ads;
 using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
+using System.Net;
 
 namespace Lewd_Images
 {
@@ -297,7 +298,7 @@ namespace Lewd_Images
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                 {
                     Title = "Lewd Image",
-                    Text = "Checkout this image!",
+                    Text = "Checkout this Neko!",
                     Url = imageStore.GetLink().ToString()
                 });
             }
@@ -334,10 +335,31 @@ namespace Lewd_Images
                 LinearLayout layout = new LinearLayout(this);
                 layout.Orientation = Orientation.Vertical;
                 layout.SetPadding(30, 20, 30, 0);
+                //Variables
                 Switch lewdSwitch = new Switch(this);
                 lewdSwitch.Text = "Enable NSFW Tags";
                 Button resetButton = new Button(this);
                 resetButton.Text = "Reset Image History";
+                Button serverCheckerButton = new Button(this);
+                serverCheckerButton.Text = "Check NekosLife Server";
+
+                serverCheckerButton.Click += delegate
+                {
+                    HttpWebRequest _request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
+                    using (HttpWebResponse _response = (HttpWebResponse)_request.GetResponse())
+                        if (_response == null || _response.StatusCode != HttpStatusCode.OK)
+                        {
+                            Toast.MakeText(this, "Server Does Not Respond", ToastLength.Short).Show();
+                            serverCheckerButton.SetTextColor(Color.Red);
+                            serverCheckerButton.Text = "Error";
+                        }
+                        else
+                        {
+                            Toast.MakeText(this, "Server Works Fine", ToastLength.Short).Show();
+                            serverCheckerButton.SetTextColor(Color.DarkGreen);
+                            serverCheckerButton.Text = "Success";
+                        }
+                };
 
                 resetButton.Click += (o, e) =>
                 {
@@ -349,6 +371,7 @@ namespace Lewd_Images
                 aDialog.SetTitle("Options");
                 layout.AddView(lewdSwitch);
                 layout.AddView(resetButton);
+                layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout);
                 aDialog.SetNegativeButton("Help?", delegate
                 {
