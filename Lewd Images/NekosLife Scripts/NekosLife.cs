@@ -19,7 +19,7 @@ namespace Lewd_Images
         public static HttpWebResponse Request(string type)
         {
             WebRequest request = WebRequest.Create(APIUri + type);
-
+                
             return (HttpWebResponse)request.GetResponse();
         }
 
