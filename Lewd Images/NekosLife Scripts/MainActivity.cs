@@ -103,9 +103,9 @@ namespace Lewd_Images
 
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
-                aDialog.SetTitle("Image Download Request");
+                aDialog.SetTitle("Image Options");
                 aDialog.SetMessage("Are you sure about downloading this image?");
-                aDialog.SetPositiveButton("YES", delegate 
+                aDialog.SetPositiveButton("Download Image", delegate 
                 {
                     if (downloading)
                     {
@@ -133,7 +133,11 @@ namespace Lewd_Images
                         downloading = false;
                     });
                 });
-                aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+                aDialog.SetNeutralButton("Set As Wallpaper", delegate 
+                {
+                    WallpaperManager.GetInstance(this).SetBitmap(imageStore.GetImage());
+                    Toast.MakeText(this, "Wallpaper has been applied!", ToastLength.Short).Show();
+                });
                 aDialog.Show();
             };
 
