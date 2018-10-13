@@ -161,7 +161,9 @@
   <ItemGroup>
     <Folder Include="MainMenu\" />
     <Folder Include="Resources\layout-w1920dp-h1080dp-large-long-notround-port-v26\" />
-    <Folder Include="Rule34 Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ideas.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
