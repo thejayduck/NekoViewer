@@ -1,6 +1,6 @@
-﻿using Android.Widget;
-using System.IO;
+﻿using System.IO;
 using System.Net;
+using Plugin.Connectivity;
 
 namespace Lewd_Images
 {
@@ -9,6 +9,11 @@ namespace Lewd_Images
         public string Tag { get; set; }
         public override bool AppendNew()
         {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return false;
+            }
+
             string apiResponse = "";
             using (HttpWebResponse response = NekosLife.Request(Tag))
             using (Stream stream = response.GetResponseStream())

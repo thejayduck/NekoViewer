@@ -15,7 +15,6 @@ using Android.Views;
 using System.Collections;
 using Android.Runtime;
 using Android.Gms.Ads;
-using Plugin.Connectivity;
 using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
@@ -184,12 +183,6 @@ namespace Lewd_Images
 
         public void GetNextImage()
         {
-            if (!CrossConnectivity.Current.IsConnected)
-            {
-                Toast.MakeText(this, "Check your internet connection...", ToastLength.Short).Show();
-                return;
-            }
-
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
@@ -227,12 +220,6 @@ namespace Lewd_Images
         }
         public void GetPreviousImage()
         {
-            if (!CrossConnectivity.Current.IsConnected)
-            {
-                Toast.MakeText(this, "Check your internet connection...", ToastLength.Short).Show();
-                return;
-            }
-
             if (loading || downloading)
             {
                 Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
