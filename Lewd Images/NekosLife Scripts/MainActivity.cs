@@ -21,7 +21,7 @@ using System.Net;
 
 namespace Lewd_Images
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
     public class MainActivity : AppCompatActivity
     {
         //#FD4281 (253, 66, 129, 100) - pink button color
@@ -333,7 +333,7 @@ namespace Lewd_Images
             {
                 LinearLayout layout = new LinearLayout(this);
                 layout.Orientation = Orientation.Vertical;
-                layout.SetPadding(30, 20, 30, 0);
+                layout.SetPadding(30, 20, 30, 20);
 
                 //Variables
                 Switch lewdSwitch = new Switch(this);

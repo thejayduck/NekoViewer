@@ -2537,6 +2537,9 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0c001e
 			public const int adjust_width = 2131492894;
 			
+			// aapt resource value: 0x7f0c00be
+			public const int after_logo_tv = 2131493054;
+			
 			// aapt resource value: 0x7f0c0077
 			public const int alertTitle = 2131492983;
 			
@@ -2551,6 +2554,9 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f0c0023
 			public const int auto = 2131492899;
+			
+			// aapt resource value: 0x7f0c00bc
+			public const int before_logo_tv = 2131493052;
 			
 			// aapt resource value: 0x7f0c0037
 			public const int beginning = 2131492919;
@@ -2669,6 +2675,9 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0c005b
 			public const int @fixed = 2131492955;
 			
+			// aapt resource value: 0x7f0c00bf
+			public const int footer_tv = 2131493055;
+			
 			// aapt resource value: 0x7f0c005f
 			public const int forever = 2131492959;
 			
@@ -2677,6 +2686,9 @@ namespace Lewd_Images
 			
 			// aapt resource value: 0x7f0c0095
 			public const int gridLayout2 = 2131493013;
+			
+			// aapt resource value: 0x7f0c00bb
+			public const int header_tv = 2131493051;
 			
 			// aapt resource value: 0x7f0c0005
 			public const int home = 2131492869;
@@ -2732,29 +2744,32 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0c0068
 			public const int list_item = 2131492968;
 			
-			// aapt resource value: 0x7f0c00bc
-			public const int masked = 2131493052;
+			// aapt resource value: 0x7f0c00bd
+			public const int logo = 2131493053;
+			
+			// aapt resource value: 0x7f0c00c2
+			public const int masked = 2131493058;
 			
 			// aapt resource value: 0x7f0c00ad
 			public const int media_actions = 2131493037;
 			
-			// aapt resource value: 0x7f0c00be
-			public const int menu_favorite = 2131493054;
+			// aapt resource value: 0x7f0c00c4
+			public const int menu_favorite = 2131493060;
+			
+			// aapt resource value: 0x7f0c00c6
+			public const int menu_help = 2131493062;
+			
+			// aapt resource value: 0x7f0c00c5
+			public const int menu_info = 2131493061;
+			
+			// aapt resource value: 0x7f0c00c7
+			public const int menu_options = 2131493063;
+			
+			// aapt resource value: 0x7f0c00c3
+			public const int menu_share = 2131493059;
 			
 			// aapt resource value: 0x7f0c00c0
-			public const int menu_help = 2131493056;
-			
-			// aapt resource value: 0x7f0c00bf
-			public const int menu_info = 2131493055;
-			
-			// aapt resource value: 0x7f0c00c1
-			public const int menu_options = 2131493057;
-			
-			// aapt resource value: 0x7f0c00bd
-			public const int menu_share = 2131493053;
-			
-			// aapt resource value: 0x7f0c00ba
-			public const int message = 2131493050;
+			public const int message = 2131493056;
 			
 			// aapt resource value: 0x7f0c0039
 			public const int middle = 2131492921;
@@ -2909,6 +2924,9 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0c006b
 			public const int spacer = 2131492971;
 			
+			// aapt resource value: 0x7f0c00ba
+			public const int splash_wrapper_rl = 2131493050;
+			
 			// aapt resource value: 0x7f0c0008
 			public const int split_action_bar = 2131492872;
 			
@@ -3017,8 +3035,8 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0c0016
 			public const int view_offset_helper = 2131492886;
 			
-			// aapt resource value: 0x7f0c00bb
-			public const int visible = 2131493051;
+			// aapt resource value: 0x7f0c00c1
+			public const int visible = 2131493057;
 			
 			// aapt resource value: 0x7f0c0022
 			public const int wide = 2131492898;
@@ -3266,10 +3284,13 @@ namespace Lewd_Images
 			public const int select_dialog_singlechoice_material = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int support_simple_spinner_dropdown_item = 2130968635;
+			public const int splash = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int tooltip = 2130968636;
+			public const int support_simple_spinner_dropdown_item = 2130968636;
+			
+			// aapt resource value: 0x7f04003d
+			public const int tooltip = 2130968637;
 			
 			static Layout()
 			{
@@ -3530,8 +3551,11 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0a0160
 			public const int Animation_Design_BottomSheetDialog = 2131362144;
 			
+			// aapt resource value: 0x7f0a0182
+			public const int AppTheme = 2131362178;
+			
 			// aapt resource value: 0x7f0a0181
-			public const int AppTheme = 2131362177;
+			public const int AppTheme_AppStyled = 2131362177;
 			
 			// aapt resource value: 0x7f0a009b
 			public const int Base_AlertDialog_AppCompat = 2131361947;
