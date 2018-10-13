@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -27,9 +28,9 @@ namespace Lewd_Images
         public static string[] Tags
         {
             get {
-                string[] endpoints = SfwEndpoints;
+                IEnumerable<string> endpoints = SfwEndpoints;
                 if (Settings.LewdTagsEnabled)
-                    endpoints.Concat(NsfwEndpoints);
+                    endpoints = endpoints.Concat(NsfwEndpoints);
                 return endpoints
                             .Where(tag => !BlacklistTags.Contains(tag)) //Remove blacklisted tags
                             .ToArray(); //IEnumerable<string> -> string[]

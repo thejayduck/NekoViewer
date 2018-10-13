@@ -39,8 +39,6 @@ namespace Lewd_Images
         AdView adView;
 
         //Tags
-        ArrayAdapter nekosTagAdapter;
-        ArrayList nekosTags;
         readonly List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
@@ -71,7 +69,6 @@ namespace Lewd_Images
 
             //Finding Resources
             adView = FindViewById<AdView>(Resource.Id.adView);
-            nekosTags = new ArrayList();
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
             nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
@@ -87,13 +84,7 @@ namespace Lewd_Images
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Lewds";
 
-            foreach(string i in NekosLife.Tags)
-            {
-                nekosTags.Add(i);
-            }
-
-            nekosTagAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, nekosTags);
-            tagSpinner.Adapter = nekosTagAdapter;
+            tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Tags));
 
             tagSpinner.ItemSelected += (o, e) =>
             {
@@ -178,6 +169,11 @@ namespace Lewd_Images
             previousImageButton.Click += (o, e) =>
             {
                 GetPreviousImage();
+            };
+
+            Settings.OnLewdTagsEnabledChange += delegate
+            {
+                tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Tags));
             };
         }
 
