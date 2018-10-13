@@ -26,51 +26,14 @@ namespace Lewd_Images
         public static string DefaultTag => Tags[0];
         public static string[] Tags
         {
-            get => new string[]
-            {
-                "neko",
-                "yuri",
-                "trap",
-                "futanari",
-                "hololewd",
-                "lewdkemo",
-                "solog",
-                "feetg",
-                "erokemo",
-                "les",
-                "wallpaper",
-                "lewdk",
-                "meow",
-                "lewd",
-                "gecg",
-                "eroyuri",
-                "eron",
-                "cum_jpg",
-                "solo",
-                "kemonomimi",
-                "gasm",
-                "anal",
-                "erofeet",
-                "holo",
-                "keta",
-                "pussy",
-                "tits",
-                "holoero",
-                "lizard",
-                "pussy_jpg",
-                "pwankg",
-                "kuni",
-                "waifu",
-                "femdom",
-                "feet",
-                "erok",
-                "fox_girl",
-                "boobs",
-                "smallboobs",
-                "ero"
+            get {
+                string[] endpoints = SfwEndpoints;
+                if (Settings.LewdTagsEnabled)
+                    endpoints.Concat(NsfwEndpoints);
+                return endpoints
+                            .Where(tag => !BlacklistTags.Contains(tag)) //Remove blacklisted tags
+                            .ToArray(); //IEnumerable<string> -> string[]
             }
-            .Where(tag => !BlacklistTags.Contains(tag)) //Remove blacklisted tags
-            .ToArray(); //IEnumerable<string> -> string[]
         }
 
         private static readonly string[] SfwEndpoints =

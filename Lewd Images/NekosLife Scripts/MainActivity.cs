@@ -252,6 +252,12 @@ namespace Lewd_Images
         public void ReloadImagePanel()
         {
             imagePanel.SetImageBitmap(imageStore.GetImage());
+            UpdateFavorite();
+        }
+
+        public void UpdateFavorite()
+        {
+            imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Gold : Color.Transparent);
         }
 
         public override void OnBackPressed()
@@ -268,16 +274,6 @@ namespace Lewd_Images
         {
             MenuInflater.Inflate(Resource.Menu.toolbar_menu, menu);
             return base.OnCreateOptionsMenu(menu);
-        }
-
-        public void RemoveFromFavorite(string imageUrl)
-        {
-
-        }
-
-        public void SetAsFavorite(string imageUrl)
-        {
-
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -299,7 +295,7 @@ namespace Lewd_Images
                 {
                     Title = "Lewd Image",
                     Text = "Checkout this Neko!",
-                    Url = imageStore.GetLink().ToString()
+                    Url = imageStore.GetLink()
                 });
             }
             if(item.ItemId == Resource.Id.menu_favorite)
@@ -307,8 +303,11 @@ namespace Lewd_Images
                 if (imagePanel.Drawable == null)
                     return false;
 
-                Snackbar.Make(view, "Added As Favorite", Snackbar.LengthShort)
-                    .SetAction("Undo", v => RemoveFromFavorite("IMPLEMENT THE URL HERE"));
+                if (imageStore.IsCurrentFavorite)
+                    imageStore.RemoveCurrentFromFavorite();
+                else
+                    imageStore.AddCurrentToFavorite();
+                UpdateFavorite();
 
             }
             if (item.ItemId == Resource.Id.menu_info) 
@@ -329,20 +328,33 @@ namespace Lewd_Images
                     "after that when you hold down the image it will ask you to download the image into -internal/Downloads- folder");
                 aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
                 aDialog.Show();
-            }   
+            } 
             if(item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this);
                 layout.Orientation = Orientation.Vertical;
                 layout.SetPadding(30, 20, 30, 0);
+
                 //Variables
                 Switch lewdSwitch = new Switch(this);
                 lewdSwitch.Text = "Enable NSFW Tags";
+                lewdSwitch.Checked = Settings.LewdTagsEnabled;
+                lewdSwitch.CheckedChange += delegate
+                {
+                    Settings.LewdTagsEnabled = lewdSwitch.Checked;
+                };
+
                 Button resetButton = new Button(this);
                 resetButton.Text = "Reset Image History";
+                resetButton.Click += (o, e) =>
+                {
+                    Snackbar.Make(view, "Cleared Image History", Snackbar.LengthShort).Show();
+                    imageStore.Reset();
+                    CheckPreviousImageButton();
+                };
+
                 Button serverCheckerButton = new Button(this);
                 serverCheckerButton.Text = "Check NekosLife Server";
-
                 serverCheckerButton.Click += delegate
                 {
                     HttpWebRequest _request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
@@ -361,13 +373,6 @@ namespace Lewd_Images
                         }
                 };
 
-                resetButton.Click += (o, e) =>
-                {
-                    Snackbar.Make(view, "Cleared Image History", Snackbar.LengthShort).Show();
-                    imageStore.Reset();
-                    CheckPreviousImageButton();
-                };
-
                 aDialog.SetTitle("Options");
                 layout.AddView(lewdSwitch);
                 layout.AddView(resetButton);
@@ -377,23 +382,11 @@ namespace Lewd_Images
                 {
                     //Implement Help Here...
                 });
-                aDialog.SetPositiveButton("Apply!", delegate
-                {
-                    Toast.MakeText(this, "Applied!", ToastLength.Short).Show();
-                    //Implement Lewd Tag Switcher
-                    //Apply the option and save it
-                    aDialog.Dispose();
-                });
                 aDialog.Show();
             }
 
             return base.OnOptionsItemSelected(item);
         }
-
-        //private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        //{
-        //    //TODO (reload stuff with new tag)
-        //}
 
         private void CheckForPermissions()
         {

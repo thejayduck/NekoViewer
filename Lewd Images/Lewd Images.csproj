@@ -70,8 +70,6 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdControlView.cs" />
-    <Compile Include="AdViewRenderer.cs" />
     <Compile Include="DownloadManager.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="NekosLife Scripts\ImageStore.cs" />
