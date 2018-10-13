@@ -353,9 +353,9 @@ namespace Lewd_Images
                 serverCheckerButton.Text = "Check NekosLife Server";
                 serverCheckerButton.Click += delegate
                 {
-                    HttpWebRequest _request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
-                    using (HttpWebResponse _response = (HttpWebResponse)_request.GetResponse())
-                        if (_response == null || _response.StatusCode != HttpStatusCode.OK)
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                        if (response == null || response.StatusCode != HttpStatusCode.OK)
                         {
                             Toast.MakeText(this, "Server Does Not Respond", ToastLength.Short).Show();
                             serverCheckerButton.SetTextColor(Color.Red);
