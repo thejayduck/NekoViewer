@@ -37,7 +37,7 @@ namespace Lewd_Images
         FloatingActionButton previousImageButton;
 
         //Ad Banner
-        AdView adView;
+        protected AdView adView;
 
         //Tags
         ArrayAdapter nekosTagAdapter;
@@ -47,7 +47,7 @@ namespace Lewd_Images
         Spinner tagSpinner;
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
-        private static readonly int REQUEST_PERMISSION = 1;
+        private static readonly int REQUEST_PERMISSION = 3;
 
         private string SelectedTag {
             get {
@@ -79,8 +79,7 @@ namespace Lewd_Images
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
             //SetAdView
-            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
-            AdRequest adRequest = new AdRequest.Builder().Build();
+            var adRequest = new AdRequest.Builder().Build();
             adView.LoadAd(adRequest);
 
             //Toolbar Configurations
@@ -180,6 +179,15 @@ namespace Lewd_Images
             {
                 GetPreviousImage();
             };
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            if(adView != null)
+            {
+                adView.Resume();
+            }
         }
 
         public void GetNextImage()
