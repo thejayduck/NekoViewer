@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
 using System.Collections;
-using Android.Runtime;
 using Android.Gms.Ads;
 using Plugin.Share;
 using Plugin.CurrentActivity;
@@ -79,7 +78,7 @@ namespace Lewd_Images
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
             //SetAdView
-            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
+            MobileAds.Initialize(this, "ca-app-pub-5157629142822799~8600251110");
             var adRequest = new AdRequest.Builder().Build();
             adView.LoadAd(adRequest);
 

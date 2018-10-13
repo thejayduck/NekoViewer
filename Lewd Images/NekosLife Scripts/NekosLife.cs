@@ -19,8 +19,7 @@ namespace Lewd_Images
         public static HttpWebResponse Request(string type)
         {
             WebRequest request = WebRequest.Create(APIUri + type);
-            if (request.ContentLength < 0)
-                throw new DownException();
+
             return (HttpWebResponse)request.GetResponse();
         }
 
@@ -73,18 +72,79 @@ namespace Lewd_Images
             .Where(tag => !BlacklistTags.Contains(tag)) //Remove blacklisted tags
             .ToArray(); //IEnumerable<string> -> string[]
         }
+
+        private static readonly string[] SfwEndpoints =
+        {
+                "neko",
+                "wallpaper",
+                "ngif",
+                "meow",
+                "tickle",
+                "feed",
+                "gecg",
+                "kemonomimi",
+                "gasm",
+                "poke",
+                "slap",
+                "avatar",
+                "lizard",
+                "waifu",
+                "pat",
+                "kiss",
+                "cuddle",
+                "fox_girl",
+                "hug",
+                "baka",
+                "smug"
+        };
+                
+        private static readonly string[] NsfwEndpoints =
+        {
+            "Random_hentai_gif",
+            "pussy",
+            "nsfw_neko_gif",
+            "lewd",
+            "les",
+            "kuni",
+            "cum",
+            "classic",
+            "boobs",
+            "bj",
+            "anal",
+            "yuri",
+            "trap",
+            "tits",
+            "smallboobs",
+            "pussy_jpg",
+            "hentai",
+            "cum_jpg",
+            "solo",
+            "futanari",
+            "hololewd",
+            "lewdk",
+            "spank",
+            "erokemo",
+            "ero",
+            "erofeet",
+            "blowjob",
+            "erok",
+            "keta",
+            "eroyuri",
+            "eron",
+            "holoero",
+            "solog",
+            "feetg",
+            "nsfw_avatar",
+            "feet",
+            "holo",
+            "femdom",
+            "pwankg",
+            "lewdkemo"
+        };
+
         private static string[] BlacklistTags {
             get => new string[]
             {
-                "classic",
-                "smug",
-                "nsfw_avatar",
-                "avatar",
-                "bj",
-                "cum",
-                "tickle",
-                "feed",
-                "baka",
 
             };
         }
