@@ -4,12 +4,15 @@ using System.Collections.Generic;
 namespace Lewd_Images
 {
     public delegate void Func();
-    class Settings
+    abstract class Settings
     {
+        class Dummy : Settings { }
+        public static Settings Instance = new Dummy();
+
         //Lewd Tags Enabled Setting
-        public static event Func OnLewdTagsEnabledChange;
-        private static bool m_lewdTagsEnabled = false;
-        public static bool LewdTagsEnabled {
+        public event Func OnLewdTagsEnabledChange;
+        private bool m_lewdTagsEnabled = false;
+        public bool LewdTagsEnabled {
             get => m_lewdTagsEnabled;
             set {
                 m_lewdTagsEnabled = value;
@@ -18,9 +21,9 @@ namespace Lewd_Images
         }
 
         //Animations Enabled Setting
-        public static event Func OnAnimationsEnabledChange;
-        private static bool m_animationsEnabled = true;
-        public static bool AnimationsEnabled {
+        public event Func OnAnimationsEnabledChange;
+        private bool m_animationsEnabled = true;
+        public bool AnimationsEnabled {
             get => m_animationsEnabled;
             set {
                 m_animationsEnabled = value;

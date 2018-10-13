@@ -66,7 +66,7 @@ namespace Lewd_Images
                 IEnumerable<string> endpoints = SfwEndpoints;
 
                 //Adds nsfw endpoints to the endpoints array if LewdTags are enabled
-                if (Settings.LewdTagsEnabled)
+                if (Settings.Instance.LewdTagsEnabled)
                     endpoints = endpoints.Concat(NsfwEndpoints);
 
                 return endpoints

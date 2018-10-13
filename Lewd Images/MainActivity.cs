@@ -32,14 +32,9 @@ namespace Lewd_Images
         bool downloading = false;
 
         //Buttons
-        FloatingActionButton nextImageButton;
         FloatingActionButton previousImageButton;
 
-        //Ad Banner
-        AdView adView;
-
         //Tags
-        readonly List<string> images = new List<string>();
         ImageView imagePanel;
         Spinner tagSpinner;
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
@@ -68,11 +63,12 @@ namespace Lewd_Images
             CheckForPermissions();
 
             //Finding Resources
-            adView = FindViewById<AdView>(Resource.Id.adView);
             tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
-            nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
+            FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
+            AdView adView = FindViewById<AdView>(Resource.Id.adView);
+            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             //SetAdView
             MobileAds.Initialize(this, "ca-app-pub-5157629142822799~8600251110");
@@ -80,7 +76,6 @@ namespace Lewd_Images
             adView.LoadAd(adRequest);
 
             //Toolbar Configurations
-            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Lewds";
 
@@ -175,7 +170,7 @@ namespace Lewd_Images
                 GetPreviousImage();
             };
 
-            Settings.OnLewdTagsEnabledChange += delegate
+            Settings.Instance.OnLewdTagsEnabledChange += delegate
             {
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             };
@@ -198,7 +193,7 @@ namespace Lewd_Images
 
             Toast.MakeText(this, "Forward", ToastLength.Short).Show();
             loading = true;
-            if (animate && Settings.AnimationsEnabled)
+            if (animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
 
             Task.Run(() =>
@@ -206,15 +201,15 @@ namespace Lewd_Images
                 try
                 {
                     imageStore.Forward();
-                    if (animate && Settings.AnimationsEnabled)
+                    if (animate && Settings.Instance.AnimationsEnabled)
                         Fix();
 
                     RunOnUiThread(() =>
                     {
                         ReloadImagePanel();
-                        CheckPreviousImageButton();
+                        previousImageButton.Visibility = ViewStates.Visible;
 
-                        if (animate && Settings.AnimationsEnabled)
+                        if (animate && Settings.Instance.AnimationsEnabled)
                         {
                             imagePanel.TranslationX = ImagePanelOffscreenX;
                             imagePanel.Animate().TranslationX(0);
@@ -249,13 +244,13 @@ namespace Lewd_Images
 
             Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
             loading = true;
-            if(animate && Settings.AnimationsEnabled)
+            if(animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
 
             Task.Run(() =>
             {
                 imageStore.Back();
-                if (animate && Settings.AnimationsEnabled)
+                if (animate && Settings.Instance.AnimationsEnabled)
                     Fix();
 
                 RunOnUiThread(() =>
@@ -263,7 +258,7 @@ namespace Lewd_Images
                     ReloadImagePanel();
                     CheckPreviousImageButton();
 
-                    if (animate && Settings.AnimationsEnabled)
+                    if (animate && Settings.Instance.AnimationsEnabled)
                     {
                         imagePanel.TranslationX = -ImagePanelOffscreenX;
                         imagePanel.Animate().TranslationX(0);
@@ -341,22 +336,22 @@ namespace Lewd_Images
             }
             if (item.ItemId == Resource.Id.menu_info) 
             {
-                aDialog.SetTitle("App Info");
-                aDialog.SetMessage("Made By:\nJay and Nobbele\nImages From\nNekos.life");
-                aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
-                aDialog.Show();
+                aDialog.SetTitle("App Info")
+                .SetMessage("Made By:\nJay and Nobbele\nImages From:\nNekos.life")
+                .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
+                .Show();
             }
             if (item.ItemId == Resource.Id.menu_help)
             {
-                aDialog.SetTitle("How To Use?");
-                aDialog.SetMessage("The way you use the app is easy. " +
+                aDialog.SetTitle("How To Use?")
+                .SetMessage("The way you use the app is easy." +
                     "You can choose the tags that you want and then " +
                     "click the purple buttons to go forward(generate new image + if you hold forward button you can go back to your latest image) " +
                     "or " +
                     "backwards(go back to the old image) " +
-                    "after that when you hold down the image it will ask you to download the image into -internal/Downloads- folder");
-                aDialog.SetNeutralButton("OK", delegate { aDialog.Dispose(); });
-                aDialog.Show();
+                    "after that when you hold down the image it will ask you to download the image into -internal/Downloads- folder")
+                .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
+                .Show();
             } 
             if(item.ItemId == Resource.Id.menu_options)
             {
@@ -366,15 +361,24 @@ namespace Lewd_Images
                 };
                 layout.SetPadding(30, 20, 30, 20);
 
-                //Variables
                 Switch lewdSwitch = new Switch(this)
                 {
                     Text = "Enable NSFW Tags",
-                    Checked = Settings.LewdTagsEnabled
+                    Checked = Settings.Instance.LewdTagsEnabled
                 };
                 lewdSwitch.CheckedChange += delegate
                 {
-                    Settings.LewdTagsEnabled = lewdSwitch.Checked;
+                    Settings.Instance.LewdTagsEnabled = lewdSwitch.Checked;
+                };
+
+                Switch animationSwitch = new Switch(this)
+                {
+                    Text = "Enable Animations",
+                    Checked = Settings.Instance.AnimationsEnabled
+                };
+                animationSwitch.CheckedChange += delegate
+                {
+                    Settings.Instance.AnimationsEnabled = animationSwitch.Checked;
                 };
 
                 Button resetButton = new Button(this)
@@ -384,8 +388,10 @@ namespace Lewd_Images
                 resetButton.Click += (o, e) =>
                 {
                     Snackbar.Make(view, "Cleared Image History", Snackbar.LengthShort).Show();
+                    string link = imageStore.GetLink();
                     imageStore.Reset();
-                    CheckPreviousImageButton();
+                    imageStore.AddLink(link);
+                    previousImageButton.Visibility = ViewStates.Invisible;
                 };
 
                 Button serverCheckerButton = new Button(this)
@@ -410,16 +416,17 @@ namespace Lewd_Images
                         }
                 };
 
-                aDialog.SetTitle("Options");
                 layout.AddView(lewdSwitch);
+                layout.AddView(animationSwitch);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
-                aDialog.SetView(layout);
-                aDialog.SetNegativeButton("Help?", delegate
+                aDialog.SetView(layout)
+                .SetTitle("Options")
+                .SetNegativeButton("Help?", delegate
                 {
                     //Implement Help Here...
-                });
-                aDialog.Show();
+                })
+                .Show();
             }
 
             return base.OnOptionsItemSelected(item);

@@ -10,6 +10,12 @@ namespace Lewd_Images
         /// </summary>
         protected readonly List<string> list = new List<string>();
 
+        public void AddLink(string url)
+        {
+            list.Add(url);
+            Index++;
+        }
+
         /// <summary>
         /// Index of the list, -1 if no images exist
         /// </summary>
@@ -21,10 +27,10 @@ namespace Lewd_Images
         Bitmap current = null;
 
         /// <summary>
-        /// Appends a new url to the ImageStore internal array
+        /// Gets a new url to the ImageStore internal array
         /// </summary>
-        /// <returns>True if successful and false if not</returns>
-        public abstract bool AppendNew();
+        /// <returns>Image url</returns>
+        protected abstract string GetNew();
 
         /// <summary>
         /// Moves the <see cref="Index"/> forward and calls <see cref="AppendNew"/> if no urls are available
@@ -36,7 +42,7 @@ namespace Lewd_Images
             Index += count;
             while(Index > list.Count-1)
             {
-                AppendNew();
+                list.Add(GetNew());
             }
         }
         /// <summary>

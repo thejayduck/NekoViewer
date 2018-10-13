@@ -50,18 +50,17 @@ namespace Lewd_Images
         public string Tag { get; set; }
 
         /// <summary>
-        /// Adds an image url grabbed from <see cref="Api"/>
+        /// Gets an image url grabbed from <see cref="Api"/>
         /// </summary>
-        /// <returns>True if successful, false if not</returns>
-        public override bool AppendNew()
+        /// <returns>Image url</returns>
+        protected override string GetNew()
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                return false;
+                throw new System.Exception("No active internet connection");
             }
 
-            list.Add(Api.GetImageUrl(Tag));
-            return true;
+            return Api.GetImageUrl(Tag);
         }
     }
 }

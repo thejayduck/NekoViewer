@@ -20,7 +20,7 @@ namespace Lewd_Images.SplashScreen
                 .WithSplashTimeOut(2500)
                 .WithBackgroundColor(Color.ParseColor("#36454f"))
                 .WithHeaderText("Welcome To Neko Viewer")
-                .WithFooterText("Made By \n Jay and Nobbele");
+                .WithFooterText("Made By \nJay and Nobbele");
 
             //Text Color
             config.HeaderTextView.SetTextColor(Color.White);
