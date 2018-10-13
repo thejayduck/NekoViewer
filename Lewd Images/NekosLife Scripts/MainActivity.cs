@@ -37,7 +37,7 @@ namespace Lewd_Images
         FloatingActionButton previousImageButton;
 
         //Ad Banner
-        protected AdView adView;
+        AdView adView;
 
         //Tags
         ArrayAdapter nekosTagAdapter;
@@ -79,6 +79,7 @@ namespace Lewd_Images
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
 
             //SetAdView
+            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
             var adRequest = new AdRequest.Builder().Build();
             adView.LoadAd(adRequest);
 
@@ -179,15 +180,6 @@ namespace Lewd_Images
             {
                 GetPreviousImage();
             };
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            if(adView != null)
-            {
-                adView.Resume();
-            }
         }
 
         public void GetNextImage()
