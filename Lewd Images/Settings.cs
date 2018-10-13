@@ -6,7 +6,7 @@ namespace Lewd_Images
     public delegate void Func();
     class Settings
     {
-
+        //Lewd Tags Enabled Setting
         public static event Func OnLewdTagsEnabledChange;
         private static bool m_lewdTagsEnabled = false;
         public static bool LewdTagsEnabled {
@@ -17,6 +17,7 @@ namespace Lewd_Images
             }
         }
 
+        //Animations Enabled Setting
         public static event Func OnAnimationsEnabledChange;
         private static bool m_animationsEnabled = true;
         public static bool AnimationsEnabled {

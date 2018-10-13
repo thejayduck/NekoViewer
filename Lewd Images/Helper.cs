@@ -5,6 +5,11 @@ namespace Lewd_Images
 {
     static class Helper
     {
+        /// <summary>
+        /// Downloads image from url
+        /// </summary>
+        /// <param name="url">Url to download</param>
+        /// <returns>Image downloaded in Bitmap form</returns>
         public static Bitmap GetImageBitmapFromUrl(string url)
         {
             using (var webClient = new WebClient())

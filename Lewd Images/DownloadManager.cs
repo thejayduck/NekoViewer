@@ -7,7 +7,6 @@ namespace Lewd_Images
 {
     public class DownloadManager : AsyncTask<string, string, string>
     {
-        //private ProgressDialog pDialog;
         private readonly Context context;
         private readonly InputStream source;
         private readonly long size;
@@ -17,34 +16,6 @@ namespace Lewd_Images
             this.context = context;
             this.source = source;
             this.size = size;
-        }
-
-        protected override void OnPreExecute()
-        {
-            //pDialog = new ProgressDialog(context);
-            //pDialog.SetMessage("Downloading File Please Wait...");
-            //pDialog.Indeterminate = false;
-            //pDialog.Max = 100;
-            //pDialog.SetProgressStyle(ProgressDialogStyle.Horizontal);
-            //pDialog.SetCancelable(true);
-            //pDialog.Show();
-            base.OnPreExecute();
-        }
-
-        protected override void OnProgressUpdate(params string[] values)
-        {
-            base.OnProgressUpdate(values);
-            //pDialog.SetProgressNumberFormat(values[0]);
-            //pDialog.Progress = int.Parse(values[0]);
-        }
-
-        protected override void OnPostExecute(string result)
-        {
-            //string storagePath = Android.OS.Environment.ExternalStorageDirectory.Path;
-            //string filePath = System.IO.Path.Combine(storagePath, "download.jpg");
-
-            //imgView.SetImageDrawable(Drawable.CreateFromPath(filePath));
-            //pDialog.Dismiss();
         }
 
         static string DownloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
