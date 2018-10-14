@@ -171,11 +171,6 @@
   <ItemGroup>
     <Folder Include="Resources\layout-w1920dp-h1080dp-large-long-notround-port-v26\" />
   </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\content_menu_left.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

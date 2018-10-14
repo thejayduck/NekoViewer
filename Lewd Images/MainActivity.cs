@@ -36,10 +36,7 @@ namespace Lewd_Images
         //Buttons
         FloatingActionButton imageInfoButton;
         FloatingActionButton nextImageButton;
-        FloatingActionButton previousImageButton;
-
-        //Layouts
-        ScrollView scrollView;
+        FloatingActionButton previousImageButton;   
 
         //Tags
         ImageView imagePanel;
