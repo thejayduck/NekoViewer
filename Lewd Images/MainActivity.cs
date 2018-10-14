@@ -18,6 +18,8 @@ using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
 using System.Net;
+using Android.Animation;
+using System.Threading;
 
 namespace Lewd_Images
 {
@@ -91,13 +93,24 @@ namespace Lewd_Images
                 Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
             };
 
+            bool infoButtonIsUp = false;
             //Request image download vvv
             imagePanel.LongClick += (o, e) =>
             {
-                imageInfoButton.Animate().TranslationY(0);
-                //just make this delayed
-                //imageInfoButton.Animate().TranslationY(50).SetStartDelay(3000);
-                //imageInfoButton.TranslationY = ScreenPanelOffscreenY;
+                if (!infoButtonIsUp)
+                {
+                    infoButtonIsUp = true;
+                    imageInfoButton.Animate().TranslationY(50);
+                    Task.Run(() =>
+                    {
+                        Thread.Sleep(3000);
+                        RunOnUiThread(() =>
+                        {
+                            imageInfoButton.Animate().TranslationY(100);
+                            infoButtonIsUp = false;
+                        });
+                    });
+                }
             };
 
             imageInfoButton.Click += (o, e) =>
