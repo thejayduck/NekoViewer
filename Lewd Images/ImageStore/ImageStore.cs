@@ -10,6 +10,10 @@ namespace Lewd_Images
         /// </summary>
         protected readonly List<string> list = new List<string>();
 
+        /// <summary>
+        /// Adds a custom link to internal list
+        /// </summary>
+        /// <param name="url">Custom link</param>
         public void AddLink(string url)
         {
             list.Add(url);

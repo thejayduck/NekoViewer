@@ -64,28 +64,12 @@ class ObjectSaver
         }
     }
 
-    private byte[] ObjectToByteArray(object obj)
-    {
-        if (obj == null)
-            return null;
-
-        BinaryFormatter bf = new BinaryFormatter();
-        MemoryStream ms = new MemoryStream();
-        bf.Serialize(ms, obj);
-
-        return ms.ToArray();
-    }
-    private T ByteArrayToObject<T>(byte[] arrBytes)
-    {
-        MemoryStream memStream = new MemoryStream();
-        BinaryFormatter binForm = new BinaryFormatter();
-        memStream.Write(arrBytes, 0, arrBytes.Length);
-        memStream.Seek(0, SeekOrigin.Begin);
-        T obj = (T)binForm.Deserialize(memStream);
-
-        return obj;
-    }
-
+    /// <summary>
+    /// Serializes object to file
+    /// </summary>
+    /// <typeparam name="T">Type of object to serialize</typeparam>
+    /// <param name="location">Location to write object to</param>
+    /// <param name="obj">Instance of object to serialize</param>
     public static void SerializeObject<T>(string location, T obj)
     {
         IFormatter formatter = new BinaryFormatter();
@@ -94,6 +78,12 @@ class ObjectSaver
             formatter.Serialize(stream, obj);
         }
     }
+    /// <summary>
+    /// Deserializes object from file
+    /// </summary>
+    /// <typeparam name="T">Type of object to deserialize</typeparam>
+    /// <param name="location">Location to read object from</param>
+    /// <returns>Deserialized object</returns>
     public static T DeserializeObject<T>(string location)
     {
         IFormatter formatter = new BinaryFormatter();
