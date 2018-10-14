@@ -386,12 +386,12 @@ namespace Lewd_Images
                 .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
-            //if(item.ItemId == Resource.Id.menu_favoritelist)
-            //{
-            //    ScrollView scroll = new ScrollView(this);
-            //    scroll.SetPadding(30, 20, 30, 20);
+            /*if(item.ItemId == Resource.Id.menu_favoritelist)
+            {
+                ScrollView scroll = new ScrollView(this);
+                scroll.SetPadding(30, 20, 30, 20);
 
-            //    LinearLayout linearLayout = new LinearLayout(this);
+                LinearLayout linearLayout = new LinearLayout(this);
 
                 scroll.AddView(linearLayout);
                 foreach(string i in imageStore.Favorites)
@@ -403,12 +403,12 @@ namespace Lewd_Images
                     linearLayout.AddView(btn);
                 }
 
-            //    aDialog.SetView(scroll)
-            //    .SetTitle("Favorites")
-            //    .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
-            //    .Show();
+                aDialog.SetView(scroll)
+                .SetTitle("Favorites")
+                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                .Show();
 
-            //}
+            }*/
             if(item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this)
