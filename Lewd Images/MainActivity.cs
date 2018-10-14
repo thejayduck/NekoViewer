@@ -204,6 +204,8 @@ namespace Lewd_Images
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             };
 
+            previousImageButton.Visibility = ViewStates.Invisible;
+
             //Load image first time
             ReloadImagePanel();
         }
@@ -344,8 +346,7 @@ namespace Lewd_Images
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            Android.App.AlertDialog.Builder aDialog;
-            aDialog = new Android.App.AlertDialog.Builder(this);
+            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
 
             View view = FindViewById(Android.Resource.Id.Content);
 
@@ -385,7 +386,7 @@ namespace Lewd_Images
                 "Images From:" +
                 "\n" +
                 "Nekos.life")
-                .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
+                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
             if(item.ItemId == Resource.Id.menu_options)
@@ -460,9 +461,9 @@ namespace Lewd_Images
                 .SetNegativeButton("Help?", delegate
                 {
                     aDialog.Dispose();
-                    Snackbar.Make(view, "Click to learn more", Snackbar.LengthLong)
-                    .SetAction("Click Here", V => HelpInfo()).Show();
+                    HelpInfo();
                 })
+                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
 
@@ -471,8 +472,7 @@ namespace Lewd_Images
 
         void HelpInfo()
         {
-            Android.App.AlertDialog.Builder aDialog;
-            aDialog = new Android.App.AlertDialog.Builder(this);
+            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
 
             LinearLayout layout = new LinearLayout(this)
             {
