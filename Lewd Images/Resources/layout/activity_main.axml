@@ -7,7 +7,8 @@
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
 	android:minWidth="25px"
-	android:minHeight="25px">
+	android:minHeight="25px"
+	android:layoutMode="clipBounds">
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
@@ -37,7 +38,8 @@
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="79.5dp"
-		android:id="@+id/gridLayout2">
+		android:id="@+id/gridLayout2"
+		android:layoutMode="clipBounds">
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/previousImageButton"
 			android:layout_width="wrap_content"
@@ -58,7 +60,8 @@
 			android:layout_marginBottom="15dp"
 			android:layout_marginTop="10dp"
 			android:longClickable="true"
-			android:visibility="visible" />
+			android:visibility="visible" 
+		    android:layout_margin="@dimen/fab_margin"/>
 	</GridLayout>
 	<com.google.android.gms.ads.AdView
 		xmlns:ads="http://schemas.android.com/apk/res-auto"
