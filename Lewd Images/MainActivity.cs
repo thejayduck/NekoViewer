@@ -96,7 +96,7 @@ namespace Lewd_Images
             {
                 imageInfoButton.Animate().TranslationY(0);
                 //just make this delayed
-                imageInfoButton.Animate().TranslationY(50).SetStartDelay(3000);
+                //imageInfoButton.Animate().TranslationY(50).SetStartDelay(3000);
                 //imageInfoButton.TranslationY = ScreenPanelOffscreenY;
             };
 
