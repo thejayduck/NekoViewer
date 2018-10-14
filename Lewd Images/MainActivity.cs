@@ -316,7 +316,6 @@ namespace Lewd_Images
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
 
-            Activity activity = CrossCurrentActivity.Current.Activity;
             View view = FindViewById(Android.Resource.Id.Content);
 
             if (item.ItemId == Resource.Id.menu_share)
@@ -429,9 +428,9 @@ namespace Lewd_Images
                 .SetTitle("Options")
                 .SetNegativeButton("Help?", delegate
                 {
-                    Snackbar.Make(view, "Click :Here: to learn more", Snackbar.LengthLong)
-                    .SetAction("Click Here", V => HelpInfo()).Show();
                     aDialog.Dispose();
+                    Snackbar.Make(view, "Click to learn more", Snackbar.LengthLong)
+                    .SetAction("Click Here", V => HelpInfo()).Show();
                 })
                 .Show();
             }
