@@ -19,13 +19,12 @@ namespace Lewd_Images.SplashScreen
                 .WithFullScreen()
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
                 .WithSplashTimeOut(2500)
-                .WithBackgroundColor(Color.ParseColor("#36454f"))
                 .WithBeforeLogoText("Welcome To Neko Viewer")
                 .WithFooterText("Made By: Jay and Nobbele");
 
             //Text Color
-            config.BeforeLogoTextView.SetTextColor(Color.White);
-            config.FooterTextView.SetTextColor(Color.White);
+            config.BeforeLogoTextView.SetTextColor(Color.Black);
+            config.FooterTextView.SetTextColor(Color.Black);
 
             //Create View
             View view = config.Create();

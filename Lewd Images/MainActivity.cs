@@ -18,6 +18,7 @@ using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
 using System.Net;
+using Android.Animation;
 
 namespace Lewd_Images
 {
@@ -32,6 +33,8 @@ namespace Lewd_Images
         bool downloading = false;
 
         //Buttons
+        FloatingActionButton imageInfoButton;
+        FloatingActionButton nextImageButton;
         FloatingActionButton previousImageButton;
 
         //Tags
@@ -52,21 +55,23 @@ namespace Lewd_Images
 
         public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
-        int ImagePanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
+        int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
+        int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
 
         protected override void OnCreate(Bundle bundle) 
         {
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.nekos_main);
+            SetContentView(Resource.Layout.activity_main);
 
             CheckForPermissions();
 
             //Finding Resources
-            tagSpinner = FindViewById<Spinner>(Resource.Id.tagSpinner);
+            tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
+            imageInfoButton = FindViewById<FloatingActionButton>(Resource.Id.imageInfoButton);
+            nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
-            FloatingActionButton nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             //AdView adView = FindViewById<AdView>(Resource.Id.adView);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
@@ -77,10 +82,10 @@ namespace Lewd_Images
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Nekos";
+            SupportActionBar.Title = null;
 
+            //Spinner
             tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
-
             tagSpinner.ItemSelected += (o, e) =>
             {
                 imageStore.Tag = SelectedTag;
@@ -90,7 +95,15 @@ namespace Lewd_Images
             //Request image download vvv
             imagePanel.LongClick += (o, e) =>
             {
-                if(imagePanel.Drawable == null)
+                imageInfoButton.Animate().TranslationY(0);
+                //just make this delayed
+                imageInfoButton.Animate().TranslationY(50).SetStartDelay(3000);
+                //imageInfoButton.TranslationY = ScreenPanelOffscreenY;
+            };
+
+            imageInfoButton.Click += (o, e) =>
+            {
+                if (imagePanel.Drawable == null)
                 {
                     Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
                     return;
@@ -99,7 +112,7 @@ namespace Lewd_Images
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Image Options");
-                aDialog.SetPositiveButton("Download Image", delegate 
+                aDialog.SetPositiveButton("Download Image", delegate
                 {
                     if (downloading)
                     {
@@ -127,7 +140,7 @@ namespace Lewd_Images
                         downloading = false;
                     });
                 });
-                aDialog.SetNeutralButton("Set As Wallpaper", delegate 
+                aDialog.SetNeutralButton("Set As Wallpaper", delegate
                 {
                     WallpaperManager.GetInstance(this).SetBitmap(imageStore.GetImage());
                     Toast.MakeText(this, "Wallpaper has been applied!", ToastLength.Short).Show();
@@ -145,7 +158,7 @@ namespace Lewd_Images
                 }
                 Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                 loading = true;
-                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
                 Task.Run(() =>
                 {
                     imageStore.GotoLast();
@@ -154,7 +167,7 @@ namespace Lewd_Images
                     {
                         ReloadImagePanel();
                         CheckPreviousImageButton();
-                        imagePanel.TranslationX = ImagePanelOffscreenX;
+                        imagePanel.TranslationX = ScreenPanelOffscreenX;
                         imagePanel.Animate().TranslationX(0);
                     });
                     loading = false;
@@ -178,6 +191,29 @@ namespace Lewd_Images
             ReloadImagePanel();
         }
 
+        private class FabAnimationListener : Java.Lang.Object, Animator.IAnimatorListener
+        {
+            public void OnAnimationCancel(Animator animation)
+            {
+
+            }
+
+            public void OnAnimationEnd(Animator animation)
+            {
+
+            }
+
+            public void OnAnimationRepeat(Animator animation)
+            {
+
+            }
+
+            public void OnAnimationStart(Animator animation)
+            {
+
+            }
+        }
+
         /// <summary>
         /// Gets the next image and sets it to the image panel
         /// </summary>
@@ -193,7 +229,7 @@ namespace Lewd_Images
             Toast.MakeText(this, "Forward", ToastLength.Short).Show();
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(-ImagePanelOffscreenX);
+                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
 
             Task.Run(() =>
             {
@@ -210,7 +246,7 @@ namespace Lewd_Images
 
                         if (animate && Settings.Instance.AnimationsEnabled)
                         {
-                            imagePanel.TranslationX = ImagePanelOffscreenX;
+                            imagePanel.TranslationX = ScreenPanelOffscreenX;
                             imagePanel.Animate().TranslationX(0);
                         }
                     });
@@ -244,7 +280,7 @@ namespace Lewd_Images
             Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
             loading = true;
             if(animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
+                imagePanel.Animate().TranslationX(ScreenPanelOffscreenX);
 
             Task.Run(() =>
             {
@@ -259,7 +295,7 @@ namespace Lewd_Images
 
                     if (animate && Settings.Instance.AnimationsEnabled)
                     {
-                        imagePanel.TranslationX = -ImagePanelOffscreenX;
+                        imagePanel.TranslationX = -ScreenPanelOffscreenX;
                         imagePanel.Animate().TranslationX(0);
                     }
                 });

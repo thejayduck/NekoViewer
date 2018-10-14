@@ -1,77 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:minWidth="25px"
-	android:minHeight="25px"
-	android:layoutMode="clipBounds">
-	<android.support.v7.widget.Toolbar
-		android:id="@+id/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="46.5dp"
-		android:minHeight="@dimen/abc_action_bar_default_height_material"
-		android:background="?attr/colorPrimary"
-		android:elevation="4dp"
-		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-	</android.support.v7.widget.Toolbar>
-	<Spinner
-		android:layout_width="match_parent"
-		android:layout_height="34.3dp"
-		android:id="@+id/tagSpinner"
-		android:layout_marginTop="0.0dp"
-		android:layout_marginLeft="45.0dp"
-		android:layout_marginRight="45.0dp" />
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="46.5dp"
+			android:minHeight="@dimen/abc_action_bar_default_height_material"
+			android:background="?attr/colorPrimary"
+			android:elevation="4dp"
+			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+		<Spinner
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/apiEndPoints" />
+
+		</android.support.v7.widget.Toolbar>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/nextImageButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		app:srcCompat="@android:drawable/ic_media_ff"
+		android:layout_marginBottom="10dp"
+		android:layout_marginRight="10dp" />
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/previousImageButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|start"
+		app:srcCompat="@android:drawable/ic_media_rew"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/imageInfoButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|center"
+		app:srcCompat="@android:drawable/ic_dialog_info"
+		android:layout_marginBottom="10dp"
+		android:translationY="50dp" />
 	<ImageView
 		android:layout_width="match_parent"
-		android:layout_height="396.0dp"
+		android:layout_height="match_parent"
 		android:id="@+id/imageView"
-		android:layout_marginBottom="0.0dp"
-		android:longClickable="true"
-		android:layout_marginRight="0.0dp"
-		android:padding="1dp"/>
-	<GridLayout
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="79.5dp"
-		android:id="@+id/gridLayout2"
-		android:layoutMode="clipBounds">
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/previousImageButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="right|center"
-			android:src="@android:drawable/ic_media_rew"
-			android:layout_marginLeft="15dp"
-			android:layout_marginBottom="15dp"
-			android:visibility="invisible"
-			android:layout_marginTop="10dp" />
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/nextImageButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center|right"
-			android:src="@android:drawable/ic_media_ff"
-			android:layout_marginRight="15dp"
-			android:layout_marginBottom="15dp"
-			android:layout_marginTop="10dp"
-			android:longClickable="true"
-			android:visibility="visible" 
-		/>
-	</GridLayout>
-	<com.google.android.gms.ads.AdView
-		xmlns:ads="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/adView"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:layout_alignParentBottom="true"
-		ads:adSize="BANNER"
-		ads:adUnitId="ca-app-pub-5157629142822799/4430562503">
-	</com.google.android.gms.ads.AdView>
+		android:layout_marginTop="45.5dp" />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
