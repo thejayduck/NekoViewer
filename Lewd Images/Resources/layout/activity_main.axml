@@ -5,20 +5,21 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="46.5dp"
-			android:minHeight="@dimen/abc_action_bar_default_height_material"
-			android:background="?attr/colorPrimary"
-			android:elevation="4dp"
-			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+	android:layout_height="match_parent"
+	android:background="#ffda7d7d">
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="46.5dp"
+		android:minHeight="@dimen/abc_action_bar_default_height_material"
+		android:background="?attr/colorPrimary"
+		android:elevation="4dp"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 		<Spinner
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/apiEndPoints" />
-		</android.support.v7.widget.Toolbar>
+	</android.support.v7.widget.Toolbar>
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/nextImageButton"
 		android:layout_width="wrap_content"
@@ -42,10 +43,20 @@
 		android:layout_gravity="bottom|center"
 		app:srcCompat="@android:drawable/ic_dialog_info"
 		android:layout_marginBottom="0.0dp"/>
-	<ImageView
+				<com.jkb.slidemenu.SlideMenuLayout
+		android:id="@+id/mainSlideMenu"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:slideMode="left"
+		app:parallax="true"
+		android:background="#ffffffff"
+		app:contentToggle="true">
+		<include
+			layout="@layout/content_menu_left" />
+			<ImageView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/imageView"
-		android:layout_marginTop="45.5dp" />
-
+		android:layout_marginTop="45.5dp"/>
+	</com.jkb.slidemenu.SlideMenuLayout>
 </android.support.design.widget.CoordinatorLayout>

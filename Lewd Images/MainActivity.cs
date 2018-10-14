@@ -38,6 +38,9 @@ namespace Lewd_Images
         FloatingActionButton nextImageButton;
         FloatingActionButton previousImageButton;
 
+        //Layouts
+        ScrollView scrollView;
+
         //Tags
         ImageView imagePanel;
         Spinner tagSpinner;

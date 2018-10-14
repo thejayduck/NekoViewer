@@ -144,6 +144,9 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Gcm">
       <Version>60.1142.1</Version>
     </PackageReference>
+    <PackageReference Include="XamarinSlideMenuLayout">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\toolbar_menu.axml">
@@ -167,6 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout-w1920dp-h1080dp-large-long-notround-port-v26\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\content_menu_left.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
