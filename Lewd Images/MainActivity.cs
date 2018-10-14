@@ -20,6 +20,7 @@ using System;
 using System.Net;
 using Android.Animation;
 using System.Threading;
+using Android.Content;
 
 namespace Lewd_Images
 {
@@ -210,12 +211,6 @@ namespace Lewd_Images
             ReloadImagePanel();
         }
 
-        protected override void OnPause()
-        {
-            Settings.SaveToFile();
-            imageStore.SaveFavorites();
-            base.OnPause();
-        }
         protected override void OnDestroy()
         {
             Settings.SaveToFile();
@@ -463,11 +458,25 @@ namespace Lewd_Images
                     aDialog.Dispose();
                     HelpInfo();
                 })
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                .SetNeutralButton("Close", delegate { aDialog.Dispose(); Settings.SaveToFile(); })
+                .SetOnDismissListener(new OptionsDialogCallbackHandler())
+                .SetOnCancelListener(new OptionsDialogCallbackHandler())
                 .Show();
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+        class OptionsDialogCallbackHandler : Java.Lang.Object, IDialogInterfaceOnDismissListener, IDialogInterfaceOnCancelListener
+        {
+            public void OnCancel(IDialogInterface dialog)
+            {
+                Settings.SaveToFile();
+            }
+
+            public void OnDismiss(IDialogInterface dialog)
+            {
+                Settings.SaveToFile();
+            }
         }
 
         void HelpInfo()

@@ -31,6 +31,7 @@ namespace Lewd_Images
         public void AddCurrentToFavorite()
         {
             Favorites.Add(GetLink());
+            SaveFavorites();
         }
         /// <summary>
         /// Removes current image from <see cref="Favorites"/>
@@ -38,6 +39,7 @@ namespace Lewd_Images
         public void RemoveCurrentFromFavorite()
         {
             Favorites.Remove(GetLink());
+            SaveFavorites();
         }
         /// <summary>
         /// True when current image is in <see cref="Favorites"/> and false if not
