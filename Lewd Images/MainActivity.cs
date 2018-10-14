@@ -99,7 +99,6 @@ namespace Lewd_Images
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Image Options");
-                aDialog.SetMessage("Are you sure about downloading this image?");
                 aDialog.SetPositiveButton("Download Image", delegate 
                 {
                     if (downloading)
