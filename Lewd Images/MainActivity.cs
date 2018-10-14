@@ -79,6 +79,8 @@ namespace Lewd_Images
             //AdView adView = FindViewById<AdView>(Resource.Id.adView);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
+            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
+
             //SetAdView
             //MobileAds.Initialize(this, "ca-app-pub-5157629142822799~8600251110");
             //var adRequest = new AdRequest.Builder().Build();
@@ -103,13 +105,13 @@ namespace Lewd_Images
                 if (!infoButtonIsUp)
                 {
                     infoButtonIsUp = true;
-                    imageInfoButton.Animate().TranslationY(50);
+                    imageInfoButton.Animate().TranslationY(-100);
                     Task.Run(() =>
                     {
                         Thread.Sleep(3000);
                         RunOnUiThread(() =>
                         {
-                            imageInfoButton.Animate().TranslationY(100);
+                            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
                             infoButtonIsUp = false;
                         });
                     });
