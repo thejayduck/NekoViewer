@@ -18,7 +18,13 @@ namespace Lewd_Images.SplashScreen
             var config = new EasySplashScreen(this)
                 .WithFullScreen()
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
-                .WithSplashTimeOut(2500)
+                .WithSplashTimeOut(
+#if DEBUG
+                    1000
+#else
+                    2500
+#endif
+                )
                 .WithBeforeLogoText("Welcome To Neko Viewer")
                 .WithFooterText("Made By: Jay and Nobbele");
 

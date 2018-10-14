@@ -394,11 +394,12 @@ namespace Lewd_Images
                 LinearLayout linearLayout = new LinearLayout(this);
 
                 scroll.AddView(linearLayout);
-
                 foreach(string i in imageStore.Favorites)
                 {
-                    Button btn = new Button(this);
-                    btn.Text = i;
+                    Button btn = new Button(this)
+                    {
+                        Text = i
+                    };
                     linearLayout.AddView(btn);
                 }
 
