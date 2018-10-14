@@ -20,6 +20,8 @@ using System;
 using System.Net;
 using Android.Animation;
 using System.Threading;
+using Android.Support.V4.Widget;
+using Android.Support.V4.View;
 
 namespace Lewd_Images
 {
@@ -388,6 +390,28 @@ namespace Lewd_Images
                 "Nekos.life")
                 .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
+            }
+            if(item.ItemId == Resource.Id.menu_favoritelist)
+            {
+                ScrollView scroll = new ScrollView(this);
+                scroll.SetPadding(30, 20, 30, 20);
+
+                LinearLayout linearLayout = new LinearLayout(this);
+
+                scroll.AddView(linearLayout);
+
+                foreach(string i in imageStore.Favorites)
+                {
+                    Button btn = new Button(this);
+                    btn.Text = i;
+                    linearLayout.AddView(btn);
+                }
+
+                aDialog.SetView(scroll)
+                .SetTitle("Favorites")
+                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                .Show();
+
             }
             if(item.ItemId == Resource.Id.menu_options)
             {

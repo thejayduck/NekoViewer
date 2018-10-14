@@ -21,6 +21,10 @@
     app:showAsAction="never"
     android:title="Info"/>
   <item
+    android:id="@+id/menu_favoritelist"
+    app:showAsAction="never"
+    android:title="Favorites List"/>
+  <item
     android:id="@+id/menu_options"
     app:showAsAction="never"
     android:title="Options"/>
