@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Lewd_Images
+﻿namespace Lewd_Images
 {
     public delegate void Func();
     abstract class Settings

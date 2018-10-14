@@ -39,7 +39,7 @@ namespace Lewd_Images
         Spinner tagSpinner;
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
-        private static readonly int REQUEST_PERMISSION = 3;
+        private static readonly int REQUEST_PERMISSION = 1;
 
         private string SelectedTag {
             get {
@@ -78,7 +78,6 @@ namespace Lewd_Images
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
             SupportActionBar.Title = "Nekos";
-
             tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
 
             tagSpinner.ItemSelected += (o, e) =>
@@ -280,7 +279,7 @@ namespace Lewd_Images
 
         public void UpdateFavorite()
         {
-            imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Gold : Color.Transparent);
+            imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Goldenrod : Color.Transparent);
         }
 
         public override void OnBackPressed()

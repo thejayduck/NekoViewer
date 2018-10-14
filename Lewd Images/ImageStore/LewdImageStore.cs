@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using Plugin.Connectivity;
 
 namespace Lewd_Images
