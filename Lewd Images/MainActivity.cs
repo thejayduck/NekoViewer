@@ -191,29 +191,6 @@ namespace Lewd_Images
             ReloadImagePanel();
         }
 
-        private class FabAnimationListener : Java.Lang.Object, Animator.IAnimatorListener
-        {
-            public void OnAnimationCancel(Animator animation)
-            {
-
-            }
-
-            public void OnAnimationEnd(Animator animation)
-            {
-
-            }
-
-            public void OnAnimationRepeat(Animator animation)
-            {
-
-            }
-
-            public void OnAnimationStart(Animator animation)
-            {
-
-            }
-        }
-
         /// <summary>
         /// Gets the next image and sets it to the image panel
         /// </summary>
