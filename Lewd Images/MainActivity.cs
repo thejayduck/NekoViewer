@@ -71,7 +71,7 @@ namespace Lewd_Images
             CheckForPermissions();
 
             Settings.LoadFromFile();
-            imageStore.LoadFavorites();
+            //imageStore.LoadFavorites();
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -317,13 +317,13 @@ namespace Lewd_Images
         public void ReloadImagePanel()
         {
             imagePanel.SetImageBitmap(imageStore.GetImage());
-            UpdateFavorite();
+            //UpdateFavorite();
         }
 
-        public void UpdateFavorite()
-        {
-            imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Goldenrod : Color.Transparent);
-        }
+        //public void UpdateFavorite()
+        //{
+        //    imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Goldenrod : Color.Transparent);
+        //}
 
         public override void OnBackPressed()
         {
@@ -361,18 +361,18 @@ namespace Lewd_Images
                     Url = imageStore.GetLink()
                 });
             }
-            if(item.ItemId == Resource.Id.menu_favorite)
-            {
-                if (imagePanel.Drawable == null)
-                    return false;
+            //if(item.ItemId == Resource.Id.menu_favorite)
+            //{
+            //    if (imagePanel.Drawable == null)
+            //        return false;
 
-                if (imageStore.IsCurrentFavorite)
-                    imageStore.RemoveCurrentFromFavorite();
-                else
-                    imageStore.AddCurrentToFavorite();
-                UpdateFavorite();
+            //    if (imageStore.IsCurrentFavorite)
+            //        imageStore.RemoveCurrentFromFavorite();
+            //    else
+            //        imageStore.AddCurrentToFavorite();
+            //    UpdateFavorite();
 
-            }
+            //}
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info")
@@ -386,28 +386,28 @@ namespace Lewd_Images
                 .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
-            if(item.ItemId == Resource.Id.menu_favoritelist)
-            {
-                ScrollView scroll = new ScrollView(this);
-                scroll.SetPadding(30, 20, 30, 20);
+            //if(item.ItemId == Resource.Id.menu_favoritelist)
+            //{
+            //    ScrollView scroll = new ScrollView(this);
+            //    scroll.SetPadding(30, 20, 30, 20);
 
-                LinearLayout linearLayout = new LinearLayout(this);
+            //    LinearLayout linearLayout = new LinearLayout(this);
 
-                scroll.AddView(linearLayout);
+            //    scroll.AddView(linearLayout);
 
-                foreach(string i in imageStore.Favorites)
-                {
-                    Button btn = new Button(this);
-                    btn.Text = i;
-                    linearLayout.AddView(btn);
-                }
+            //    foreach(string i in imageStore.Favorites)
+            //    {
+            //        Button btn = new Button(this);
+            //        btn.Text = i;
+            //        linearLayout.AddView(btn);
+            //    }
 
-                aDialog.SetView(scroll)
-                .SetTitle("Favorites")
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
-                .Show();
+            //    aDialog.SetView(scroll)
+            //    .SetTitle("Favorites")
+            //    .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+            //    .Show();
 
-            }
+            //}
             if(item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this)

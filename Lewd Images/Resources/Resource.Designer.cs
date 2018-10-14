@@ -2778,16 +2778,10 @@ namespace Lewd_Images
 			public const int media_actions = 2131493037;
 			
 			// aapt resource value: 0x7f0c00c4
-			public const int menu_favorite = 2131493060;
-			
-			// aapt resource value: 0x7f0c00c6
-			public const int menu_favoritelist = 2131493062;
+			public const int menu_info = 2131493060;
 			
 			// aapt resource value: 0x7f0c00c5
-			public const int menu_info = 2131493061;
-			
-			// aapt resource value: 0x7f0c00c7
-			public const int menu_options = 2131493063;
+			public const int menu_options = 2131493061;
 			
 			// aapt resource value: 0x7f0c00c3
 			public const int menu_share = 2131493059;

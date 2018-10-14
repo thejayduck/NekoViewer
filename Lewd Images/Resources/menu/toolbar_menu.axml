@@ -11,19 +11,19 @@
     android:icon="@android:drawable/ic_menu_share"
     app:showAsAction="ifRoom"
     android:title="Share Image"/>
-  <item
+  <!--<item
     android:id="@+id/menu_favorite"
     android:icon="@android:drawable/btn_star_big_off"
     app:showAsAction="always"
-    android:title="Favorite Image"/>
+    android:title="Favorite Image"/>-->
   <item
     android:id="@+id/menu_info"
     app:showAsAction="never"
     android:title="Info"/>
-  <item
+  <!--<item
     android:id="@+id/menu_favoritelist"
     app:showAsAction="never"
-    android:title="Favorites List"/>
+    android:title="Favorites List"/>-->
   <item
     android:id="@+id/menu_options"
     app:showAsAction="never"
