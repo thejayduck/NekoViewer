@@ -78,6 +78,7 @@
     <Compile Include="ImageStore\LewdImageStore.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Apis\NekosLife.cs" />
+    <Compile Include="MainNekoActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -166,6 +167,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout-w1920dp-h1080dp-large-long-notround-port-v26\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\nekos_main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

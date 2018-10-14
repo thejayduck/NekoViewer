@@ -4,11 +4,12 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Gr.Net.MaroulisLib;
+using Android.Support.V7.App;
 
 namespace Lewd_Images.SplashScreen
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, Icon = "@mipmap/ic_launcher")]
-    public class SplashScreen : Activity
+    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppTheme", Icon = "@mipmap/ic_launcher")]
+    public class SplashScreen : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

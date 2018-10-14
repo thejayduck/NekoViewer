@@ -21,8 +21,8 @@ using System.Net;
 
 namespace Lewd_Images
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
-    public class MainActivity : AppCompatActivity
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    public class MainNekoActivity : AppCompatActivity
     {
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
@@ -38,11 +38,13 @@ namespace Lewd_Images
         ImageView imagePanel;
         Spinner tagSpinner;
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
-        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
+        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet, Manifest.Permission.AccessNetworkState };
         private static readonly int REQUEST_PERMISSION = 1;
 
-        private string SelectedTag {
-            get {
+        private string SelectedTag
+        {
+            get
+            {
                 if (tagSpinner.SelectedItemPosition >= 0)
                     return NekosLife.Instance.Tags[tagSpinner.SelectedItemPosition];
                 else
@@ -54,7 +56,7 @@ namespace Lewd_Images
 
         int ImagePanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
 
-        protected override void OnCreate(Bundle bundle) 
+        protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
@@ -90,7 +92,7 @@ namespace Lewd_Images
             //Request image download vvv
             imagePanel.LongClick += (o, e) =>
             {
-                if(imagePanel.Drawable == null)
+                if (imagePanel.Drawable == null)
                 {
                     Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
                     return;
@@ -99,7 +101,7 @@ namespace Lewd_Images
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Image Options");
-                aDialog.SetPositiveButton("Download Image", delegate 
+                aDialog.SetPositiveButton("Download Image", delegate
                 {
                     if (downloading)
                     {
@@ -127,7 +129,7 @@ namespace Lewd_Images
                         downloading = false;
                     });
                 });
-                aDialog.SetNeutralButton("Set As Wallpaper", delegate 
+                aDialog.SetNeutralButton("Set As Wallpaper", delegate
                 {
                     WallpaperManager.GetInstance(this).SetBitmap(imageStore.GetImage());
                     Toast.MakeText(this, "Wallpaper has been applied!", ToastLength.Short).Show();
@@ -160,7 +162,7 @@ namespace Lewd_Images
                     loading = false;
                 });
             };
-            nextImageButton.Click += (o,e) =>
+            nextImageButton.Click += (o, e) =>
             {
                 GetNextImage();
             };
@@ -243,7 +245,7 @@ namespace Lewd_Images
 
             Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
             loading = true;
-            if(animate && Settings.Instance.AnimationsEnabled)
+            if (animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(ImagePanelOffscreenX);
 
             Task.Run(() =>
@@ -311,7 +313,7 @@ namespace Lewd_Images
             {
                 if (!CrossShare.IsSupported || imagePanel.Drawable == null)
                 {
-                    return false;   
+                    return false;
                 }
 
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
@@ -321,7 +323,7 @@ namespace Lewd_Images
                     Url = imageStore.GetLink()
                 });
             }
-            if(item.ItemId == Resource.Id.menu_favorite)
+            if (item.ItemId == Resource.Id.menu_favorite)
             {
                 if (imagePanel.Drawable == null)
                     return false;
@@ -333,7 +335,7 @@ namespace Lewd_Images
                 UpdateFavorite();
 
             }
-            if (item.ItemId == Resource.Id.menu_info) 
+            if (item.ItemId == Resource.Id.menu_info)
             {
                 aDialog.SetTitle("App Info")
                 .SetMessage("Made By:" +
@@ -346,7 +348,7 @@ namespace Lewd_Images
                 .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
                 .Show();
             }
-            if(item.ItemId == Resource.Id.menu_options)
+            if (item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this)
                 {
@@ -483,7 +485,7 @@ namespace Lewd_Images
 
         private void CheckForPermissions()
         {
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted) 
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted)
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
