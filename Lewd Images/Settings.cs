@@ -1,10 +1,13 @@
-﻿namespace Lewd_Images
+﻿using System;
+using System.IO;
+using System.Xml.Serialization;
+
+namespace Lewd_Images
 {
     public delegate void Func();
-    abstract class Settings
+    public class Settings
     {
-        class Dummy : Settings { }
-        public static Settings Instance = new Dummy();
+        public static Settings Instance = new Settings();
 
         //Lewd Tags Enabled Setting
         public event Func OnLewdTagsEnabledChange;
@@ -26,6 +29,19 @@
                 m_animationsEnabled = value;
                 OnAnimationsEnabledChange?.Invoke();
             }
+        }
+
+        public static readonly string SettingsFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "settings.xml");
+
+        public static void SaveToFile()
+        {
+            ObjectSaver.WriteToXmlFile(SettingsFileLocation, Instance);
+        }
+        public static void LoadFromFile()
+        {
+            if (!File.Exists(SettingsFileLocation))
+                SaveToFile();
+            Instance = ObjectSaver.ReadFromXmlFile<Settings>(SettingsFileLocation);
         }
     }
 }

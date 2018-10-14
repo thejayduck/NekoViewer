@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Plugin.Connectivity;
 
 namespace Lewd_Images
@@ -22,7 +24,7 @@ namespace Lewd_Images
         /// <summary>
         /// List of favorite images
         /// </summary>
-        public List<string> Favorites { get; } = new List<string>();
+        public List<string> Favorites { get; private set; } = new List<string>();
         /// <summary>
         /// Adds current image to <see cref="Favorites"/>
         /// </summary>
@@ -41,6 +43,19 @@ namespace Lewd_Images
         /// True when current image is in <see cref="Favorites"/> and false if not
         /// </summary>
         public bool IsCurrentFavorite => Favorites.Contains(GetLink());
+
+        public static readonly string FavoritesFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "favorites.dat");
+
+        public void SaveFavorites()
+        {
+            ObjectSaver.SerializeObject(FavoritesFileLocation, Favorites);
+        }
+        public void LoadFavorites()
+        {
+            if (!File.Exists(FavoritesFileLocation))
+                SaveFavorites();
+            Favorites = ObjectSaver.DeserializeObject<List<string>>(FavoritesFileLocation);
+        }
 
         /// <summary>
         /// Tag to use when getting new image

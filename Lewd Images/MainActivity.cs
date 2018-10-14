@@ -67,6 +67,9 @@ namespace Lewd_Images
 
             CheckForPermissions();
 
+            Settings.LoadFromFile();
+            imageStore.LoadFavorites();
+
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
@@ -201,6 +204,19 @@ namespace Lewd_Images
 
             //Load image first time
             ReloadImagePanel();
+        }
+
+        protected override void OnPause()
+        {
+            Settings.SaveToFile();
+            imageStore.SaveFavorites();
+            base.OnPause();
+        }
+        protected override void OnDestroy()
+        {
+            Settings.SaveToFile();
+            imageStore.SaveFavorites();
+            base.OnDestroy();
         }
 
         /// <summary>
