@@ -18,7 +18,6 @@ using Plugin.Share;
 using Plugin.CurrentActivity;
 using System;
 using System.Net;
-using Android.Animation;
 
 namespace Lewd_Images
 {
@@ -430,9 +429,9 @@ namespace Lewd_Images
                 .SetTitle("Options")
                 .SetNegativeButton("Help?", delegate
                 {
-                    aDialog.Dispose();
                     Snackbar.Make(view, "Click :Here: to learn more", Snackbar.LengthLong)
                     .SetAction("Click Here", V => HelpInfo()).Show();
+                    aDialog.Dispose();
                 })
                 .Show();
             }
