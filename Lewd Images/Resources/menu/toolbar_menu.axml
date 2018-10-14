@@ -20,10 +20,6 @@
     app:showAsAction="never"
     android:title="Info"/>
   <item
-    android:id="@+id/menu_help"
-    app:showAsAction="never"
-    android:title="Help"/>
-  <item
     android:id="@+id/menu_options"
     app:showAsAction="never"
     android:title="Options"/>

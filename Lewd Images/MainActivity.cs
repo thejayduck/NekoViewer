@@ -77,7 +77,7 @@ namespace Lewd_Images
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Lewds";
+            SupportActionBar.Title = "Nekos";
 
             tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
 
@@ -337,22 +337,16 @@ namespace Lewd_Images
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info")
-                .SetMessage("Made By:\nJay and Nobbele\nImages From:\nNekos.life")
+                .SetMessage("Made By:" +
+                "\n" +
+                "Jay and Nobbele" +
+                "\n" +
+                "Images From:" +
+                "\n" +
+                "Nekos.life")
                 .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
                 .Show();
             }
-            if (item.ItemId == Resource.Id.menu_help)
-            {
-                aDialog.SetTitle("How To Use?")
-                .SetMessage("The way you use the app is easy." +
-                    "You can choose the tags that you want and then " +
-                    "click the purple buttons to go forward(generate new image + if you hold forward button you can go back to your latest image) " +
-                    "or " +
-                    "backwards(go back to the old image) " +
-                    "after that when you hold down the image it will ask you to download the image into -internal/Downloads- folder")
-                .SetNeutralButton("OK", delegate { aDialog.Dispose(); })
-                .Show();
-            } 
             if(item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this)
@@ -424,12 +418,68 @@ namespace Lewd_Images
                 .SetTitle("Options")
                 .SetNegativeButton("Help?", delegate
                 {
-                    //Implement Help Here...
+                    aDialog.Dispose();
+                    Snackbar.Make(view, "Click :Here: to learn more", Snackbar.LengthLong)
+                    .SetAction("Click Here", V => HelpInfo()).Show();
                 })
                 .Show();
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+
+        void HelpInfo()
+        {
+            Android.App.AlertDialog.Builder aDialog;
+            aDialog = new Android.App.AlertDialog.Builder(this);
+
+            LinearLayout layout = new LinearLayout(this)
+            {
+                Orientation = Orientation.Vertical
+            };
+            layout.SetPadding(30, 20, 30, 20);
+
+            //Components
+            TextView helpText = new TextView(this)
+            {
+                Text = $":Buttons And Their Functionality:" +
+                $"\n" +
+                $"Forward: Generates New Image \n " +
+                $"(you can hold down on forward to go back to the last image)" +
+                $"\n" +
+                $"Backwards Goes Back One Image" +
+                $"\n" +
+                $"Dropdown: Choose The Tag You Want!" +
+                $"\n" +
+                $"Image: When A New Image Is Generated Hold Your Finger Down On It To See More Options!" +
+                $"\n" +
+                $"Share Image: Gives Sharing Options" +
+                $"\n" +
+                $"Favorite Button: Saves Your Favorited Images In A List To Use Them In App" +
+                $"\n" +
+                $"\n" +
+                $":Options And Their Functionality:" +
+                $"\n" +
+                $"Enable NSFW Tags: Enables (lewd) Tags" +
+                $"\n" +
+                $"Enable Animations: Enables Animations (Saves Performance When Disabled)" +
+                $"\n" +
+                $"Reset Image History: Resets The Generated Image List (Saves Performance)" +
+                $"\n" +
+                $"Check NekosLife Server: To Check Is Host Is Online",
+                Gravity = GravityFlags.CenterHorizontal
+            };
+
+            //Add Views
+            layout.AddView(helpText);
+
+            aDialog.SetView(layout)
+            .SetTitle("Help")
+            .SetNegativeButton("Close", delegate
+            {
+                aDialog.Dispose();
+            })
+            .Show();
         }
 
         private void CheckForPermissions()
