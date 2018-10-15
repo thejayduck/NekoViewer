@@ -72,7 +72,7 @@ namespace Lewd_Images
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                throw new System.Exception("No active internet connection");
+                throw new Exception("No active internet connection");
             }
 
             return Api.GetImageUrl(Tag);

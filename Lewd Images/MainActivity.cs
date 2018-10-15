@@ -32,6 +32,8 @@ namespace Lewd_Images
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
 
+        public static MainActivity Instance;
+
         //bools
         bool loading = false;
         bool downloading = false;
@@ -39,7 +41,7 @@ namespace Lewd_Images
         //Buttons
         FloatingActionButton imageInfoButton;
         FloatingActionButton nextImageButton;
-        FloatingActionButton previousImageButton;   
+        public FloatingActionButton previousImageButton;   
 
         //Tags
         ImageView imagePanel;
@@ -59,14 +61,16 @@ namespace Lewd_Images
 
         public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
-        int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
-        int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
+        public int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
+        public int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
 
         protected override void OnCreate(Bundle bundle) 
         {
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+
+            Instance = this;
 
             CheckForPermissions();
 
@@ -185,10 +189,12 @@ namespace Lewd_Images
                     Fix();
                     RunOnUiThread(() =>
                     {
-                        ReloadImagePanel();
-                        CheckPreviousImageButton();
-                        imagePanel.TranslationX = ScreenPanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
+                        ReloadImagePanel(() =>
+                        {
+                            CheckPreviousImageButton();
+                            imagePanel.TranslationX = ScreenPanelOffscreenX;
+                            imagePanel.Animate().TranslationX(0);
+                        });
                     });
                     loading = false;
                 });
@@ -210,7 +216,7 @@ namespace Lewd_Images
             previousImageButton.Visibility = ViewStates.Invisible;
 
             //Load image first time
-            ReloadImagePanel();
+            ReloadImagePanel(null);
         }
 
         protected override void OnDestroy()
@@ -232,7 +238,8 @@ namespace Lewd_Images
                 return;
             }
 
-            Toast.MakeText(this, "Forward", ToastLength.Short).Show();
+            DateTime start = DateTime.Now;
+
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
@@ -247,14 +254,19 @@ namespace Lewd_Images
 
                     RunOnUiThread(() =>
                     {
-                        ReloadImagePanel();
-                        previousImageButton.Visibility = ViewStates.Visible;
-
-                        if (animate && Settings.Instance.AnimationsEnabled)
+                        ReloadImagePanel(() =>
                         {
-                            imagePanel.TranslationX = ScreenPanelOffscreenX;
-                            imagePanel.Animate().TranslationX(0);
-                        }
+                            previousImageButton.Visibility = ViewStates.Visible;
+
+                            if (animate && Settings.Instance.AnimationsEnabled)
+                            {
+                                imagePanel.TranslationX = ScreenPanelOffscreenX;
+                                imagePanel.Animate().TranslationX(0);
+                            }
+
+                            DateTime end = DateTime.Now;
+                            Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+                        });
                     });
                 }
                 catch (Exception e)
@@ -283,7 +295,6 @@ namespace Lewd_Images
                 return;
             }
 
-            Toast.MakeText(this, "Backwards", ToastLength.Short).Show();
             loading = true;
             if(animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(ScreenPanelOffscreenX);
@@ -292,18 +303,21 @@ namespace Lewd_Images
             {
                 imageStore.Back();
                 if (animate && Settings.Instance.AnimationsEnabled)
-                    Fix();
+                Fix();
 
                 RunOnUiThread(() =>
                 {
-                    ReloadImagePanel();
-                    CheckPreviousImageButton();
-
-                    if (animate && Settings.Instance.AnimationsEnabled)
+                    ReloadImagePanel(() =>
                     {
-                        imagePanel.TranslationX = -ScreenPanelOffscreenX;
-                        imagePanel.Animate().TranslationX(0);
-                    }
+                    
+                        CheckPreviousImageButton();
+
+                        if (animate && Settings.Instance.AnimationsEnabled)
+                        {
+                            imagePanel.TranslationX = -ScreenPanelOffscreenX;
+                            imagePanel.Animate().TranslationX(0);
+                        }
+                    });
                 });
                 loading = false;
             });
@@ -314,9 +328,9 @@ namespace Lewd_Images
             previousImageButton.Visibility = imageStore.IsFirst ? ViewStates.Invisible : ViewStates.Visible;
         }
 
-        public void ReloadImagePanel()
+        public void ReloadImagePanel(Action post)
         {
-            imagePanel.SetImageBitmap(imageStore.GetImage());
+            imageStore.SetImage(imagePanel, post);
             //UpdateFavorite();
         }
 
