@@ -3566,6 +3566,9 @@ namespace Lewd_Images
 			// aapt resource value: 0x7f0a0160
 			public const int Animation_Design_BottomSheetDialog = 2131362144;
 			
+			// aapt resource value: 0x7f0a0183
+			public const int AppDarkTheme = 2131362179;
+			
 			// aapt resource value: 0x7f0a0182
 			public const int AppTheme = 2131362178;
 			
