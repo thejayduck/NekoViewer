@@ -573,7 +573,7 @@ namespace Lewd_Images
 
         private void CheckForPermissions()
         {
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted) 
+            if (Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted) 
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
