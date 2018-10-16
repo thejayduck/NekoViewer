@@ -18,6 +18,7 @@ namespace Lewd_Images.SplashScreen
             var config = new EasySplashScreen(this)
                 .WithFullScreen()
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
+                .WithBackgroundColor(Color.ParseColor("#36454f"))
                 .WithSplashTimeOut(
 #if DEBUG
                     1000
@@ -29,8 +30,8 @@ namespace Lewd_Images.SplashScreen
                 .WithFooterText("Made By: Jay and Nobbele");
 
             //Text Color
-            config.BeforeLogoTextView.SetTextColor(Color.Black);
-            config.FooterTextView.SetTextColor(Color.Black);
+            config.BeforeLogoTextView.SetTextColor(Color.White);
+            config.FooterTextView.SetTextColor(Color.White);
 
             //Create View
             View view = config.Create();

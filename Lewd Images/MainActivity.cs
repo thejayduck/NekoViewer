@@ -361,11 +361,12 @@ namespace Lewd_Images
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(_title)
                 .SetContentText(_text)
+                .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher))
                 .SetSmallIcon(Resource.Mipmap.ic_launcher);
 
             Notification notification = builder.Build();
 
-            NotificationManager notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+            NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
 
             const int notificationId = 0;
             notificationManager.Notify(notificationId, notification);
