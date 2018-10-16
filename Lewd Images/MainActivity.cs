@@ -158,6 +158,7 @@ namespace Lewd_Images
                         RunOnUiThread(() =>
                         {
                             Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
+                            CreateNotification("Download Completed!", $"{ImageName}");
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
                         });
@@ -353,6 +354,21 @@ namespace Lewd_Images
         {
             MenuInflater.Inflate(Resource.Menu.toolbar_menu, menu);
             return base.OnCreateOptionsMenu(menu);
+        }
+
+        public void CreateNotification(string _title, string _text)
+        {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .SetContentTitle(_title)
+                .SetContentText(_text)
+                .SetSmallIcon(Resource.Mipmap.ic_launcher);
+
+            Notification notification = builder.Build();
+
+            NotificationManager notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+
+            const int notificationId = 0;
+            notificationManager.Notify(notificationId, notification);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
