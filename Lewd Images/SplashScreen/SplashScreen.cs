@@ -18,12 +18,12 @@ namespace Lewd_Images.SplashScreen
             var config = new EasySplashScreen(this)
                 .WithFullScreen()
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
-                .WithBackgroundColor(Color.ParseColor("#36454f"))
+                .WithBackgroundColor(Color.ParseColor("#141212"))
                 .WithSplashTimeOut(
 #if DEBUG
                     1000
 #else
-                    5000
+                    2500
 #endif
                 )
                 .WithBeforeLogoText("Welcome To Neko Viewer")
