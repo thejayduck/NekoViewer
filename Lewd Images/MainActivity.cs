@@ -26,13 +26,15 @@ using Android.Content;
 
 namespace Lewd_Images
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppDarkTheme")]
     public class MainActivity : AppCompatActivity
     {
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
 
         public static MainActivity Instance;
+
+        //Themes
 
         //bools
         bool loading = false;
@@ -71,6 +73,8 @@ namespace Lewd_Images
             SetContentView(Resource.Layout.activity_main);
 
             Instance = this;
+
+            //Application.SetTheme(1);
 
             CheckForPermissions();
 
@@ -358,6 +362,8 @@ namespace Lewd_Images
 
         public void CreateNotification(string _title, string _text)
         {
+            //make it so it shows downloaded image
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(_title)
                 .SetContentText(_text)

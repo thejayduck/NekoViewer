@@ -6,7 +6,6 @@
     <item name="colorPrimary">#ff1976d2</item>
     <item name="colorAccent">#ec407a</item>
   </style>
-
   <style name="AppDarkTheme" parent="Theme.AppCompat.Light">
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
