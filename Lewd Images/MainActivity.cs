@@ -7,21 +7,15 @@ using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Graphics;
-using System.Collections.Generic;
 using Android.Support.Design.Widget;
 using System.Threading.Tasks;
 using Java.IO;
 using Android.Views;
 using System.Collections;
-using Android.Gms.Ads;
 using Plugin.Share;
-using Plugin.CurrentActivity;
 using System;
 using System.Net;
-using Android.Animation;
 using System.Threading;
-using Android.Support.V4.Widget;
-using Android.Support.V4.View;
 using Android.Content;
 
 namespace Lewd_Images
@@ -33,8 +27,6 @@ namespace Lewd_Images
         //#424040 (66, 64, 64, 100) - faded out pink color
 
         public static MainActivity Instance;
-
-        //Themes
 
         //bools
         bool loading = false;
@@ -77,6 +69,8 @@ namespace Lewd_Images
             //Application.SetTheme(1);
 
             CheckForPermissions();
+
+            imageStore.Forward();
 
             Settings.LoadFromFile();
             //imageStore.LoadFavorites();

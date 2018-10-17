@@ -8,7 +8,7 @@ using Android.Support.V7.App;
 
 namespace Lewd_Images.SplashScreen
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppTheme", Icon = "@mipmap/ic_launcher")]
+    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@mipmap/ic_launcher")]
     public class SplashScreen : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -23,7 +23,7 @@ namespace Lewd_Images.SplashScreen
 #if DEBUG
                     1000
 #else
-                    2500
+                    5000
 #endif
                 )
                 .WithBeforeLogoText("Welcome To Neko Viewer")
@@ -38,8 +38,6 @@ namespace Lewd_Images.SplashScreen
 
             //Set Content View
             SetContentView(view);
-
-            MainActivity.imageStore.Forward();
         }
     }
 }
