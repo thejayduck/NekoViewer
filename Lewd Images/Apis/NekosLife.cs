@@ -81,26 +81,12 @@ namespace Lewd_Images
         private readonly string[] SfwEndpoints =
         {
                 "neko",
-                "wallpaper",
-                "ngif",
                 "meow",
-                "tickle",
-                "feed",
                 "gecg",
                 "kemonomimi",
-                "gasm",
-                "poke",
-                "slap",
                 "avatar",
-                "lizard",
-                "waifu",
-                "pat",
-                "kiss",
-                "cuddle",
+                "lizard", 
                 "fox_girl",
-                "hug",
-                "baka",
-                "smug"
         };
             
         /// <summary>
@@ -108,21 +94,13 @@ namespace Lewd_Images
         /// </summary>
         private readonly string[] NsfwEndpoints =
         {
-            "Random_hentai_gif",
-            "pussy",
-            "nsfw_neko_gif",
             "lewd",
-            "les",
-            "kuni",
-            "cum",
-            "classic",
-            "boobs",
-            "bj",
-            "anal",
-            "yuri",
             "trap",
-            "tits",
             "smallboobs",
+            "ero",
+            "wallpaper",
+            "yuri",
+            "tits",
             "pussy_jpg",
             "hentai",
             "cum_jpg",
@@ -130,9 +108,7 @@ namespace Lewd_Images
             "futanari",
             "hololewd",
             "lewdk",
-            "spank",
             "erokemo",
-            "ero",
             "erofeet",
             "blowjob",
             "erok",
@@ -140,13 +116,10 @@ namespace Lewd_Images
             "eroyuri",
             "eron",
             "holoero",
-            "solog",
-            "feetg",
             "nsfw_avatar",
             "feet",
             "holo",
             "femdom",
-            "pwankg",
             "lewdkemo"
         };
 
@@ -157,7 +130,36 @@ namespace Lewd_Images
         private string[] BlacklistTags {
             get => new string[]
             {
+                //SFW
+                "waifu",
+                "ngif",
+                "tickle",
+                "feed",
+                "gasm",
+                "poke",
+                "slap",
+                "pat",
+                "kiss",
+                "cuddle",
+                "hug",
+                "baka",
+                "smug",
 
+                //NSFW
+                "Random_hentai_gif",
+                "nsfw_neko_gif",
+                "pussy",
+                "les",
+                "cum",
+                "classic",
+                "boobs",
+                "bj",
+                "anal",
+                "spank",
+                "solog",
+                "feetg",
+                "pwankg",
+                "kuni",
             };
         }
     }
