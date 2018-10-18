@@ -66,7 +66,7 @@ namespace Lewd_Images
 
             Instance = this;
 
-            //Application.SetTheme(1);
+            Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
             CheckForPermissions();
 
@@ -455,7 +455,13 @@ namespace Lewd_Images
                 };
                 lewdSwitch.CheckedChange += delegate
                 {
-                    Settings.Instance.LewdTagsEnabled = lewdSwitch.Checked;
+                    if (lewdSwitch.Checked)
+                        NsfwInfo(lewdSwitch);
+                    else
+                    {
+                        lewdSwitch.Checked = false;
+                        Settings.Instance.LewdTagsEnabled = lewdSwitch.Checked;
+                    }
                 };
 
                 Switch animationSwitch = new Switch(this)
@@ -522,6 +528,30 @@ namespace Lewd_Images
 
             return base.OnOptionsItemSelected(item);
         }
+
+        private void NsfwInfo(Switch _switch)
+        {
+            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
+
+            if (_switch.Checked)
+            {
+                aDialog.SetCancelable(false);
+                aDialog.SetTitle("You are about to enable NSFW tags!");
+                aDialog.SetPositiveButton("Enable It", delegate
+                {
+                    _switch.Checked = true;
+                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
+                });
+
+                aDialog.SetNegativeButton("Nevermind", delegate
+                {
+                    _switch.Checked = false;
+                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
+                });
+            }
+            aDialog.Show();
+        }
+
         class OptionsDialogCallbackHandler : Java.Lang.Object, IDialogInterfaceOnDismissListener, IDialogInterfaceOnCancelListener
         {
             public void OnCancel(IDialogInterface dialog)

@@ -13,8 +13,7 @@
 		android:layout_height="46.5dp"
 		android:minHeight="@dimen/abc_action_bar_default_height_material"
 		android:background="?attr/colorPrimary"
-		android:elevation="4dp"
-		android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+		android:elevation="4dp">
 		<Spinner
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
