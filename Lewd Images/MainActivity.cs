@@ -356,20 +356,37 @@ namespace Lewd_Images
 
         public void CreateNotification(string _title, string _text)
         {
-            //make it so it shows downloaded image
+            Task.Run(() =>
+            {
+                var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+                string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .SetContentTitle(_title)
-                .SetContentText(_text)
-                .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher))
-                .SetSmallIcon(Resource.Mipmap.ic_launcher);
+                Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
-            Notification notification = builder.Build();
+                Thread.Sleep(1000);
+                RunOnUiThread(() =>
+                {
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                        .SetContentTitle(_title)
+                        .SetContentText(_text)
+                        .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                        .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher));
 
-            NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
+                    NotificationCompat.BigPictureStyle bigImage = new NotificationCompat.BigPictureStyle();
+                    bigImage.BigPicture(bitmap);
 
-            const int notificationId = 0;
-            notificationManager.Notify(notificationId, notification);
+                    bigImage.SetSummaryText("The summary text goes here.");
+
+                    builder.SetStyle(bigImage);
+
+                    Notification notification = builder.Build();
+
+                    NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
+
+                    const int notificationId = 0;
+                    notificationManager.Notify(notificationId, notification);
+                });
+            });
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -551,21 +568,7 @@ namespace Lewd_Images
             }
             aDialog.Show();
         }
-
-        class OptionsDialogCallbackHandler : Java.Lang.Object, IDialogInterfaceOnDismissListener, IDialogInterfaceOnCancelListener
-        {
-            public void OnCancel(IDialogInterface dialog)
-            {
-                Settings.SaveToFile();
-            }
-
-            public void OnDismiss(IDialogInterface dialog)
-            {
-                Settings.SaveToFile();
-            }
-        }
-
-        void HelpInfo()
+        private void HelpInfo()
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
 
@@ -617,6 +620,20 @@ namespace Lewd_Images
             })
             .Show();
         }
+
+        class OptionsDialogCallbackHandler : Java.Lang.Object, IDialogInterfaceOnDismissListener, IDialogInterfaceOnCancelListener
+        {
+            public void OnCancel(IDialogInterface dialog)
+            {
+                Settings.SaveToFile();
+            }
+
+            public void OnDismiss(IDialogInterface dialog)
+            {
+                Settings.SaveToFile();
+            }
+        }
+
 
         private void CheckForPermissions()
         {
