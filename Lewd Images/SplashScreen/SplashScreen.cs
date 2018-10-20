@@ -8,7 +8,7 @@ using Android.Support.V7.App;
 
 namespace Lewd_Images.SplashScreen
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@mipmap/ic_launcher")]
+    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@mipmap/app_icon")]
     public class SplashScreen : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
