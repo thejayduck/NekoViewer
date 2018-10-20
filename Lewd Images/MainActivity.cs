@@ -356,37 +356,33 @@ namespace Lewd_Images
 
         public void CreateNotification(string _title, string _text)
         {
-            Task.Run(() =>
-            {
-                var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-                string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
+            if (!Settings.Instance.NotificationsEnabled)
+                return;
 
-                Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
+            var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+            string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
 
-                Thread.Sleep(1000);
-                RunOnUiThread(() =>
-                {
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .SetContentTitle(_title)
-                        .SetContentText(_text)
-                        .SetSmallIcon(Resource.Mipmap.ic_launcher)
-                        .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher));
+            Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
-                    NotificationCompat.BigPictureStyle bigImage = new NotificationCompat.BigPictureStyle();
-                    bigImage.BigPicture(bitmap);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .SetContentTitle(_title)
+                .SetContentText(_text)
+                .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher));
 
-                    bigImage.SetSummaryText("The summary text goes here.");
+            NotificationCompat.BigPictureStyle bigImage = new NotificationCompat.BigPictureStyle();
+            bigImage.BigPicture(bitmap);
 
-                    builder.SetStyle(bigImage);
+            bigImage.SetSummaryText("The summary text goes here.");
 
-                    Notification notification = builder.Build();
+            builder.SetStyle(bigImage);
 
-                    NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
+            Notification notification = builder.Build();
 
-                    const int notificationId = 0;
-                    notificationManager.Notify(notificationId, notification);
-                });
-            });
+            NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
+
+            const int notificationId = 0;
+            notificationManager.Notify(notificationId, notification);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -481,6 +477,16 @@ namespace Lewd_Images
                     }
                 };
 
+                Switch notificationSwitch = new Switch(this)
+                {
+                    Text = "Enable Notifications",
+                    Checked = Settings.Instance.NotificationsEnabled
+                };
+                notificationSwitch.CheckedChange += delegate
+                {
+                    Settings.Instance.NotificationsEnabled = notificationSwitch.Checked;
+                };
+
                 Switch animationSwitch = new Switch(this)
                 {
                     Text = "Enable Animations",
@@ -528,6 +534,7 @@ namespace Lewd_Images
 
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
+                layout.AddView(notificationSwitch);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout)

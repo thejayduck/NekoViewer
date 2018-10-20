@@ -20,6 +20,19 @@ namespace Lewd_Images
             }
         }
 
+        //Notification Enabled Setting
+        public event Func OnNotificationsEnabledChange;
+        private bool m_notificationsEnabled = false;
+        public bool NotificationsEnabled
+        {
+            get => m_notificationsEnabled;
+            set
+            {
+                m_notificationsEnabled = value;
+                OnNotificationsEnabledChange?.Invoke();
+            }
+        }
+
         //Animations Enabled Setting
         public event Func OnAnimationsEnabledChange;
         private bool m_animationsEnabled = true;
