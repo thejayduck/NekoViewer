@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" package="NobbeleJayDuck.NekoViewer" android:installLocation="auto" android:versionName="Junior">
-	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="26" />
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.SET_WALLPAPER" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<application android:allowBackup="true" android:label="Neko_Viewer" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:icon="@mipmap/ic_launcher">
+	<application android:allowBackup="true" android:label="Neko_Viewer" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:icon="@drawable/Icon">
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5157629142822799~8600251110" />
 	</application>
 </manifest>

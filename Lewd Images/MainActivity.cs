@@ -264,7 +264,7 @@ namespace Lewd_Images
                             }
 
                             DateTime end = DateTime.Now;
-                            Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+                            //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
                 }
