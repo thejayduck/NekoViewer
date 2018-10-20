@@ -156,9 +156,9 @@ namespace Lewd_Images
                         RunOnUiThread(() =>
                         {
                             Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
-                            CreateNotification("Download Completed!", $"{ImageName}");
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
+                            CreateNotification("Download Completed!", $"{ImageName}");
                         });
                         downloading = false;
                     });
@@ -362,20 +362,22 @@ namespace Lewd_Images
             var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
             string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
 
+
+            Toast.MakeText(this, imageFile, ToastLength.Short).Show();
+
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
+
+            if (System.IO.File.Exists(imageFile))
+            {
+                Toast.MakeText(this, "gay brah", ToastLength.Short).Show();
+            }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(_title)
                 .SetContentText(_text)
+                .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
                 .SetSmallIcon(Resource.Mipmap.ic_launcher)
-                .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher));
-
-            NotificationCompat.BigPictureStyle bigImage = new NotificationCompat.BigPictureStyle();
-            bigImage.BigPicture(bitmap);
-
-            bigImage.SetSummaryText("The summary text goes here.");
-
-            builder.SetStyle(bigImage);
+                .SetLargeIcon(bitmap);
 
             Notification notification = builder.Build();
 
