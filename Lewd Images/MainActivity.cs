@@ -40,7 +40,7 @@ namespace Lewd_Images
         //Tags
         ImageView imagePanel;
         Spinner tagSpinner;
-        string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+        public string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
         private static readonly int REQUEST_PERMISSION = 1;
 
@@ -158,7 +158,6 @@ namespace Lewd_Images
                             Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
-                            CreateNotification("Download Completed!", $"{ImageName}");
                         });
                         downloading = false;
                     });
@@ -359,8 +358,7 @@ namespace Lewd_Images
             if (!Settings.Instance.NotificationsEnabled)
                 return;
 
-            var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-            string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
+            string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
 
 
             Toast.MakeText(this, imageFile, ToastLength.Short).Show();
@@ -376,15 +374,23 @@ namespace Lewd_Images
                 .SetContentTitle(_title)
                 .SetContentText(_text)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
-                .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                .SetSmallIcon(Resource.Mipmap.app_icon)
                 .SetLargeIcon(bitmap);
-
-            Notification notification = builder.Build();
 
             NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
 
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                var channelId = $"{PackageName}.general";
+                var channel = new NotificationChannel(channelId, "General", NotificationImportance.Default);
+
+                notificationManager.CreateNotificationChannel(channel);
+
+                builder.SetChannelId(channelId);
+            }
+
             const int notificationId = 0;
-            notificationManager.Notify(notificationId, notification);
+            notificationManager.Notify(notificationId, builder.Build());
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

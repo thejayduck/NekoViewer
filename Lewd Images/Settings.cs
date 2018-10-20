@@ -22,7 +22,7 @@ namespace Lewd_Images
 
         //Notification Enabled Setting
         public event Func OnNotificationsEnabledChange;
-        private bool m_notificationsEnabled = false;
+        private bool m_notificationsEnabled = true;
         public bool NotificationsEnabled
         {
             get => m_notificationsEnabled;

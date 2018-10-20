@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Java.IO;
+using Java.Lang;
 
 namespace Lewd_Images
 {
@@ -18,7 +19,7 @@ namespace Lewd_Images
             this.size = size;
         }
 
-        static string DownloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+        public static string DownloadPath => Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 
         protected override string RunInBackground(params string[] @params)
         {
@@ -42,9 +43,17 @@ namespace Lewd_Images
             source.Close();
             if(!System.IO.File.Exists(filePath))
             {
-                throw new Exception();
+                throw new System.Exception();
             }
             return null;
+        }
+
+        protected override void OnPostExecute(string result)
+        {
+            MainActivity.Instance.RunOnUiThread(() =>
+            {
+                MainActivity.Instance.CreateNotification("Download Completed!", MainActivity.Instance.ImageName);
+            });
         }
     }
 }
