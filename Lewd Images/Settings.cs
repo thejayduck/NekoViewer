@@ -20,6 +20,8 @@ namespace Lewd_Images
             }
         }
 
+        public bool isInsignificantToastsEnabled = true;
+
         //Notification Enabled Setting
         public event Func OnNotificationsEnabledChange;
         private bool m_notificationsEnabled = true;

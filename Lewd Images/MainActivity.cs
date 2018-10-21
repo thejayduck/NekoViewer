@@ -469,6 +469,16 @@ namespace Lewd_Images
                 };
                 layout.SetPadding(30, 20, 30, 20);
 
+                Switch ToastSwitch = new Switch(this)
+                {
+                    Text = "Enable Insignificant Toasts",
+                    Checked = Settings.Instance.isInsignificantToastsEnabled
+                };
+                ToastSwitch.CheckedChange += delegate
+                {
+                    Settings.Instance.isInsignificantToastsEnabled = ToastSwitch.Checked;
+                };
+
                 Switch lewdSwitch = new Switch(this)
                 {
                     Text = "Enable NSFW Tags",
@@ -540,6 +550,7 @@ namespace Lewd_Images
                         }
                 };
 
+                layout.AddView(ToastSwitch);
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
                 layout.AddView(notificationSwitch);
