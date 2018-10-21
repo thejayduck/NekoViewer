@@ -20,6 +20,9 @@ namespace Lewd_Images
             }
         }
 
+	   //wether to show toasts like "took x seconds to load image"
+	   public bool isInsignificantToastsEnabled = true;
+
         //Animations Enabled Setting
         public event Func OnAnimationsEnabledChange;
         private bool m_animationsEnabled = true;

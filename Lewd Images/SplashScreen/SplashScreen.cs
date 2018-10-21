@@ -27,7 +27,7 @@ namespace Lewd_Images.SplashScreen
 #endif
                 )
                 .WithBeforeLogoText("Welcome To Neko Viewer")
-                .WithFooterText("Made By: Jay and Nobbele");
+                .WithFooterText("Made By: Jay, Nobbele and the OSS community");
 
             //Text Color
             config.BeforeLogoTextView.SetTextColor(Color.White);
