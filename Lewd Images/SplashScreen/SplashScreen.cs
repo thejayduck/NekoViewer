@@ -8,7 +8,7 @@ using Android.Support.V7.App;
 
 namespace Lewd_Images.SplashScreen
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@mipmap/ic_launcher")]
+    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@drawable/Icon")]
     public class SplashScreen : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -17,6 +17,7 @@ namespace Lewd_Images.SplashScreen
 
             var config = new EasySplashScreen(this)
                 .WithFullScreen()
+                .WithLogo(Resource.Drawable.Icon_Transparent)
                 .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
                 .WithBackgroundColor(Color.ParseColor("#141212"))
                 .WithSplashTimeOut(
@@ -30,6 +31,8 @@ namespace Lewd_Images.SplashScreen
                 .WithFooterText("Made By: Jay, Nobbele and the OSS community");
 
             //Text Color
+            config.Logo.ScaleX = 0.5f;
+            config.Logo.ScaleY = 0.5f;
             config.BeforeLogoTextView.SetTextColor(Color.White);
             config.FooterTextView.SetTextColor(Color.White);
 

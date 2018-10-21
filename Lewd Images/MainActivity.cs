@@ -40,8 +40,13 @@ namespace Lewd_Images
         //Tags
         ImageView imagePanel;
         Spinner tagSpinner;
+<<<<<<< HEAD
         string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet, Manifest.Permission.AccessNetworkState };
+=======
+        public string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
         private static readonly int REQUEST_PERMISSION = 1;
 
         private string SelectedTag
@@ -159,7 +164,6 @@ namespace Lewd_Images
                         RunOnUiThread(() =>
                         {
                             Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
-                            CreateNotification("Download Completed!", $"{ImageName}");
                             imagePanel.Animate().ScaleX(1);
                             imagePanel.Animate().ScaleY(1);
                         });
@@ -267,8 +271,12 @@ namespace Lewd_Images
                             }
 
                             DateTime end = DateTime.Now;
+<<<<<<< HEAD
                             if(Settings.Instance.isInsignificantToastsEnabled)
                                 Toast.MakeText(this, string.Format("it took {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+=======
+                            //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
                         });
                     });
                 } catch(Exception e)
@@ -360,37 +368,42 @@ namespace Lewd_Images
 
         public void CreateNotification(string _title, string _text)
         {
-            Task.Run(() =>
+            if (!Settings.Instance.NotificationsEnabled)
+                return;
+
+            string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
+
+
+            Toast.MakeText(this, imageFile, ToastLength.Short).Show();
+
+            Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
+
+            if (System.IO.File.Exists(imageFile))
             {
-                var directory = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-                string imageFile = System.IO.Path.Combine(directory, $"{ImageName}.png");
+                Toast.MakeText(this, "gay brah", ToastLength.Short).Show();
+            }
 
-                Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .SetContentTitle(_title)
+                .SetContentText(_text)
+                .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
+                .SetSmallIcon(Resource.Mipmap.app_icon)
+                .SetLargeIcon(bitmap);
 
-                Thread.Sleep(1000);
-                RunOnUiThread(() =>
-                {
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .SetContentTitle(_title)
-                        .SetContentText(_text)
-                        .SetSmallIcon(Resource.Mipmap.ic_launcher)
-                        .SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Mipmap.ic_launcher));
+            NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
 
-                    NotificationCompat.BigPictureStyle bigImage = new NotificationCompat.BigPictureStyle();
-                    bigImage.BigPicture(bitmap);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                var channelId = $"{PackageName}.general";
+                var channel = new NotificationChannel(channelId, "General", NotificationImportance.Default);
 
-                    bigImage.SetSummaryText("The summary text goes here.");
+                notificationManager.CreateNotificationChannel(channel);
 
-                    builder.SetStyle(bigImage);
+                builder.SetChannelId(channelId);
+            }
 
-                    Notification notification = builder.Build();
-
-                    NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
-
-                    const int notificationId = 0;
-                    notificationManager.Notify(notificationId, notification);
-                });
-            });
+            const int notificationId = 0;
+            notificationManager.Notify(notificationId, builder.Build());
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -486,6 +499,16 @@ namespace Lewd_Images
                     }
                 };
 
+                Switch notificationSwitch = new Switch(this)
+                {
+                    Text = "Enable Notifications",
+                    Checked = Settings.Instance.NotificationsEnabled
+                };
+                notificationSwitch.CheckedChange += delegate
+                {
+                    Settings.Instance.NotificationsEnabled = notificationSwitch.Checked;
+                };
+
                 Switch animationSwitch = new Switch(this)
                 {
                     Text = "Enable Animations",
@@ -542,7 +565,11 @@ namespace Lewd_Images
 
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
+<<<<<<< HEAD
                 layout.AddView(InsignificantToastSwitch);
+=======
+                layout.AddView(notificationSwitch);
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout)
