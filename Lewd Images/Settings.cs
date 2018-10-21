@@ -20,6 +20,10 @@ namespace Lewd_Images
             }
         }
 
+<<<<<<< HEAD
+	   //wether to show toasts like "took x seconds to load image"
+	   public bool isInsignificantToastsEnabled = true;
+=======
         //Notification Enabled Setting
         public event Func OnNotificationsEnabledChange;
         private bool m_notificationsEnabled = true;
@@ -32,6 +36,7 @@ namespace Lewd_Images
                 OnNotificationsEnabledChange?.Invoke();
             }
         }
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
 
         //Animations Enabled Setting
         public event Func OnAnimationsEnabledChange;

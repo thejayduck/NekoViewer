@@ -35,18 +35,25 @@ namespace Lewd_Images
         //Buttons
         FloatingActionButton imageInfoButton;
         FloatingActionButton nextImageButton;
-        public FloatingActionButton previousImageButton;   
+        public FloatingActionButton previousImageButton;
 
         //Tags
         ImageView imagePanel;
         Spinner tagSpinner;
+<<<<<<< HEAD
+        string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+        private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet, Manifest.Permission.AccessNetworkState };
+=======
         public string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
         private static readonly int REQUEST_PERMISSION = 1;
 
-        private string SelectedTag {
-            get {
-                if (tagSpinner.SelectedItemPosition >= 0)
+        private string SelectedTag
+        {
+            get
+            {
+                if(tagSpinner.SelectedItemPosition >= 0)
                     return NekosLife.Instance.Tags[tagSpinner.SelectedItemPosition];
                 else
                     return NekosLife.Instance.DefaultTag;
@@ -58,7 +65,7 @@ namespace Lewd_Images
         public int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
         public int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
 
-        protected override void OnCreate(Bundle bundle) 
+        protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             // Set our view from the "main" layout resource
@@ -100,14 +107,15 @@ namespace Lewd_Images
             tagSpinner.ItemSelected += (o, e) =>
             {
                 imageStore.Tag = SelectedTag;
-                Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                if(Settings.Instance.isInsignificantToastsEnabled)
+                    Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
             };
 
             bool infoButtonIsUp = false;
             //Request image download vvv
             imagePanel.LongClick += (o, e) =>
             {
-                if (!infoButtonIsUp)
+                if(!infoButtonIsUp)
                 {
                     infoButtonIsUp = true;
                     imageInfoButton.Animate().TranslationY(-100);
@@ -125,7 +133,7 @@ namespace Lewd_Images
 
             imageInfoButton.Click += (o, e) =>
             {
-                if (imagePanel.Drawable == null)
+                if(imagePanel.Drawable == null)
                 {
                     Toast.MakeText(this, "No Images Were Found!", ToastLength.Short).Show();
                     return;
@@ -136,9 +144,9 @@ namespace Lewd_Images
                 aDialog.SetTitle("Image Options");
                 aDialog.SetPositiveButton("Download Image", delegate
                 {
-                    if (downloading)
+                    if(downloading)
                     {
-                        Toast.MakeText(this, "An Image Is Being Downloaded Please Be Patient", ToastLength.Short).Show();
+                        Toast.MakeText(this, "An Image Is Being Downloaded, Please Be Patient", ToastLength.Short).Show();
                         return;
                     }
 
@@ -173,9 +181,9 @@ namespace Lewd_Images
             //Buttons Functions
             nextImageButton.LongClick += (o, e) =>
             {
-                if (loading || downloading)
+                if(loading || downloading)
                 {
-                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading, Please Be Patient", ToastLength.Short).Show();
                     return;
                 }
                 Toast.MakeText(this, "Last image", ToastLength.Short).Show();
@@ -197,7 +205,7 @@ namespace Lewd_Images
                     loading = false;
                 });
             };
-            nextImageButton.Click += (o,e) =>
+            nextImageButton.Click += (o, e) =>
             {
                 GetNextImage();
             };
@@ -230,16 +238,16 @@ namespace Lewd_Images
         /// <param name="animation">if it should be animated(may not be animated if Settings.AnimationsEnabled is false)</param>
         public void GetNextImage(bool animate = true)
         {
-            if (loading || downloading)
+            if(loading || downloading)
             {
-                Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                Toast.MakeText(this, "An Image Is Being Downloaded or Loading, Please Be Patient", ToastLength.Short).Show();
                 return;
             }
 
             DateTime start = DateTime.Now;
 
             loading = true;
-            if (animate && Settings.Instance.AnimationsEnabled)
+            if(animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
 
             Task.Run(() =>
@@ -247,7 +255,7 @@ namespace Lewd_Images
                 try
                 {
                     imageStore.Forward();
-                    if (animate && Settings.Instance.AnimationsEnabled)
+                    if(animate && Settings.Instance.AnimationsEnabled)
                         Fix();
 
                     RunOnUiThread(() =>
@@ -256,25 +264,28 @@ namespace Lewd_Images
                         {
                             previousImageButton.Visibility = ViewStates.Visible;
 
-                            if (animate && Settings.Instance.AnimationsEnabled)
+                            if(animate && Settings.Instance.AnimationsEnabled)
                             {
                                 imagePanel.TranslationX = ScreenPanelOffscreenX;
                                 imagePanel.Animate().TranslationX(0);
                             }
 
                             DateTime end = DateTime.Now;
+<<<<<<< HEAD
+                            if(Settings.Instance.isInsignificantToastsEnabled)
+                                Toast.MakeText(this, string.Format("it took {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+=======
                             //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
                         });
                     });
-                }
-                catch (Exception e)
+                } catch(Exception e)
                 {
                     RunOnUiThread(() =>
                     {
                         Toast.MakeText(this, e.ToString(), ToastLength.Long).Show();
                     });
-                }
-                finally
+                } finally
                 {
                     loading = false;
                 }
@@ -287,9 +298,9 @@ namespace Lewd_Images
         /// <param name="animation">if it should be animated(may not be animated if Settings.AnimationsEnabled is false)</param>
         public void GetPreviousImage(bool animate = true)
         {
-            if (loading || downloading)
+            if(loading || downloading)
             {
-                Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                Toast.MakeText(this, "An Image Is Being Downloaded or Loading, Please Be Patient", ToastLength.Short).Show();
                 return;
             }
 
@@ -300,17 +311,17 @@ namespace Lewd_Images
             Task.Run(() =>
             {
                 imageStore.Back();
-                if (animate && Settings.Instance.AnimationsEnabled)
-                Fix();
+                if(animate && Settings.Instance.AnimationsEnabled)
+                    Fix();
 
                 RunOnUiThread(() =>
                 {
                     ReloadImagePanel(() =>
                     {
-                    
+
                         CheckPreviousImageButton();
 
-                        if (animate && Settings.Instance.AnimationsEnabled)
+                        if(animate && Settings.Instance.AnimationsEnabled)
                         {
                             imagePanel.TranslationX = -ScreenPanelOffscreenX;
                             imagePanel.Animate().TranslationX(0);
@@ -342,8 +353,10 @@ namespace Lewd_Images
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
             aDialog.SetTitle("Are You Sure About Quitting?");
-            aDialog.SetPositiveButton("YES", delegate { Process.KillProcess(Process.MyPid()); });
-            aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
+            aDialog.SetPositiveButton("YES", delegate
+            { Process.KillProcess(Process.MyPid()); });
+            aDialog.SetNegativeButton("NO", delegate
+            { aDialog.Dispose(); });
             aDialog.Show();
         }
 
@@ -399,11 +412,11 @@ namespace Lewd_Images
 
             View view = FindViewById(Android.Resource.Id.Content);
 
-            if (item.ItemId == Resource.Id.menu_share)
+            if(item.ItemId == Resource.Id.menu_share)
             {
-                if (!CrossShare.IsSupported || imagePanel.Drawable == null)
+                if(!CrossShare.IsSupported || imagePanel.Drawable == null)
                 {
-                    return false;   
+                    return false;
                 }
 
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
@@ -425,17 +438,18 @@ namespace Lewd_Images
             //    UpdateFavorite();
 
             //}
-            if (item.ItemId == Resource.Id.menu_info) 
+            if(item.ItemId == Resource.Id.menu_info)
             {
                 aDialog.SetTitle("App Info")
                 .SetMessage("Made By:" +
                 "\n" +
-                "Jay and Nobbele" +
+                "Jay, Nobbele and the OSS community" +
                 "\n" +
                 "Images From:" +
                 "\n" +
                 "Nekos.life")
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                .SetNeutralButton("Close", delegate
+                { aDialog.Dispose(); })
                 .Show();
             }
             /*if(item.ItemId == Resource.Id.menu_favoritelist)
@@ -476,7 +490,7 @@ namespace Lewd_Images
                 };
                 lewdSwitch.CheckedChange += delegate
                 {
-                    if (lewdSwitch.Checked)
+                    if(lewdSwitch.Checked)
                         NsfwInfo(lewdSwitch);
                     else
                     {
@@ -505,6 +519,16 @@ namespace Lewd_Images
                     Settings.Instance.AnimationsEnabled = animationSwitch.Checked;
                 };
 
+                Switch InsignificantToastSwitch = new Switch(this)
+                {
+                    Text = "Enable Insignificant Toasts",
+                    Checked = Settings.Instance.isInsignificantToastsEnabled
+                };
+                InsignificantToastSwitch.CheckedChange += delegate
+                {
+                    Settings.Instance.isInsignificantToastsEnabled = InsignificantToastSwitch.Checked;
+                };
+
                 Button resetButton = new Button(this)
                 {
                     Text = "Reset Image History"
@@ -525,14 +549,13 @@ namespace Lewd_Images
                 serverCheckerButton.Click += delegate
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
-                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                        if (response == null || response.StatusCode != HttpStatusCode.OK)
+                    using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                        if(response == null || response.StatusCode != HttpStatusCode.OK)
                         {
                             Toast.MakeText(this, "Server Does Not Respond", ToastLength.Short).Show();
                             serverCheckerButton.SetTextColor(Color.Red);
                             serverCheckerButton.Text = "Error";
-                        }
-                        else
+                        } else
                         {
                             Toast.MakeText(this, "Server Works Fine", ToastLength.Short).Show();
                             serverCheckerButton.SetTextColor(Color.DarkGreen);
@@ -542,7 +565,11 @@ namespace Lewd_Images
 
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
+<<<<<<< HEAD
+                layout.AddView(InsignificantToastSwitch);
+=======
                 layout.AddView(notificationSwitch);
+>>>>>>> 7de7cbb7640a67712716531c37b78382699457db
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout)
@@ -552,7 +579,8 @@ namespace Lewd_Images
                     aDialog.Dispose();
                     HelpInfo();
                 })
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); Settings.SaveToFile(); })
+                .SetNeutralButton("Close", delegate
+                { aDialog.Dispose(); Settings.SaveToFile(); })
                 .SetOnDismissListener(new OptionsDialogCallbackHandler())
                 .SetOnCancelListener(new OptionsDialogCallbackHandler())
                 .Show();
@@ -565,7 +593,7 @@ namespace Lewd_Images
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
 
-            if (_switch.Checked)
+            if(_switch.Checked)
             {
                 aDialog.SetCancelable(false);
                 aDialog.SetTitle("You are about to enable NSFW tags!");
@@ -652,7 +680,7 @@ namespace Lewd_Images
 
         private void CheckForPermissions()
         {
-            if (Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted) 
+            if(Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Internet) != (int)Permission.Granted)
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             }
