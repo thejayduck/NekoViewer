@@ -65,13 +65,13 @@ namespace Lewd_Images
 
         public static void SaveToFile()
         {
-            ObjectSaver.WriteToXmlFile(SettingsFileLocation, Instance);
+            //ObjectSaver.WriteToXmlFile(SettingsFileLocation, Instance);
         }
         public static void LoadFromFile()
         {
-            if (!File.Exists(SettingsFileLocation))
-                SaveToFile();
-            Instance = ObjectSaver.ReadFromXmlFile<Settings>(SettingsFileLocation);
+            //if (!File.Exists(SettingsFileLocation))
+            //    SaveToFile();
+            //Instance = ObjectSaver.ReadFromXmlFile<Settings>(SettingsFileLocation);
         }
     }
 }

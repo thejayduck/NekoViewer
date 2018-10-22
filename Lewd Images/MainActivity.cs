@@ -409,7 +409,7 @@ namespace Lewd_Images
 
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                 {
-                    Title = "Lewd Image",
+                    Title = "Neko Image",
                     Text = "Checkout this Neko!",
                     Url = imageStore.GetLink()
                 });
@@ -428,15 +428,32 @@ namespace Lewd_Images
             //}
             if (item.ItemId == Resource.Id.menu_info) 
             {
-                aDialog.SetTitle("App Info")
-                .SetMessage("Made By:" +
-                "\n" +
-                "Jay and Nobbele" +
-                "\n" +
-                "Images From:" +
-                "\n" +
-                "Nekos.life")
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                aDialog.SetTitle("App Info");
+
+                LinearLayout layout = new LinearLayout(this)
+                {
+                    Orientation = Orientation.Vertical
+                };
+                layout.SetPadding(30, 20, 30, 20);
+
+                TextView creditsText = new TextView(this)
+                {
+                    Text = $":Made By:" +
+                    $"\n" +
+                    $"TheJayDuck and Nobbele" +
+                    $"\n" +
+                    $":Images From:" +
+                    $"\n" +
+                    $"Nekos.Life",
+                    Gravity = GravityFlags.CenterHorizontal
+                };
+
+                layout.AddView(creditsText);
+
+                aDialog.SetView(layout);
+
+
+                aDialog.SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
             /*if(item.ItemId == Resource.Id.menu_favoritelist)
@@ -619,9 +636,11 @@ namespace Lewd_Images
                 $"\n" +
                 $"Enable Animations: Enables Animations (Saves Performance When Disabled)" +
                 $"\n" +
+                $"Enable Notifications: Enables Notifications" +
+                $"\n" +
                 $"Reset Image History: Resets The Generated Image List (Saves Performance)" +
                 $"\n" +
-                $"Check NekosLife Server: To Check Is Host Is Online",
+                $"Check NekosLife Server: To Check If The Host Is Online",
                 Gravity = GravityFlags.CenterHorizontal
             };
 
