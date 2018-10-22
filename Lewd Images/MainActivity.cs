@@ -101,6 +101,7 @@ namespace Lewd_Images
             {
                 imageStore.Tag = SelectedTag;
                 Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                GetNextImage();
             };
 
             bool infoButtonIsUp = false;
