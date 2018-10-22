@@ -361,9 +361,6 @@ namespace Lewd_Images
 
             string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
 
-
-            Toast.MakeText(this, imageFile, ToastLength.Short).Show();
-
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
