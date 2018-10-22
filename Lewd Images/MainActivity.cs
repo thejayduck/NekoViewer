@@ -366,11 +366,6 @@ namespace Lewd_Images
 
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
-            if (System.IO.File.Exists(imageFile))
-            {
-                Toast.MakeText(this, "gay brah", ToastLength.Short).Show();
-            }
-
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(_title)
                 .SetContentText(_text)
