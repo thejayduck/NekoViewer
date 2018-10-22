@@ -10,6 +10,6 @@
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
     <item name="colorPrimary">#8a959b</item>
-    <item name="colorAccent">#ffffff</item>
+    <item name="colorAccent">#ec407a</item>
   </style>
 </resources>
