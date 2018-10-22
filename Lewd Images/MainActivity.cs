@@ -207,7 +207,7 @@ namespace Lewd_Images
                 GetPreviousImage();
             };
 
-            Settings.Instance.OnLewdTagsEnabledChange += delegate
+            Settings.Instance.LewdTagsEnabled.OnChange += delegate
             {
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             };
@@ -482,7 +482,7 @@ namespace Lewd_Images
                     else
                     {
                         lewdSwitch.Checked = false;
-                        Settings.Instance.LewdTagsEnabled = lewdSwitch.Checked;
+                        Settings.Instance.LewdTagsEnabled.Set(lewdSwitch.Checked);
                     }
                 };
 
@@ -493,7 +493,7 @@ namespace Lewd_Images
                 };
                 notificationSwitch.CheckedChange += delegate
                 {
-                    Settings.Instance.NotificationsEnabled = notificationSwitch.Checked;
+                    Settings.Instance.NotificationsEnabled.Set(notificationSwitch.Checked);
                 };
 
                 Switch animationSwitch = new Switch(this)
@@ -503,7 +503,7 @@ namespace Lewd_Images
                 };
                 animationSwitch.CheckedChange += delegate
                 {
-                    Settings.Instance.AnimationsEnabled = animationSwitch.Checked;
+                    Settings.Instance.AnimationsEnabled.Set(animationSwitch.Checked);
                 };
 
                 Button resetButton = new Button(this)
@@ -562,24 +562,24 @@ namespace Lewd_Images
             return base.OnOptionsItemSelected(item);
         }
 
-        private void NsfwInfo(Switch _switch)
+        private void NsfwInfo(Switch @switch)
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
 
-            if (_switch.Checked)
+            if (@switch.Checked)
             {
                 aDialog.SetCancelable(false);
                 aDialog.SetTitle("You are about to enable NSFW tags!");
                 aDialog.SetPositiveButton("Enable It", delegate
                 {
-                    _switch.Checked = true;
-                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
+                    @switch.Checked = true;
+                    Settings.Instance.LewdTagsEnabled.Set(@switch.Checked);
                 });
 
                 aDialog.SetNegativeButton("Nevermind", delegate
                 {
-                    _switch.Checked = false;
-                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
+                    @switch.Checked = false;
+                    Settings.Instance.LewdTagsEnabled.Set(@switch.Checked);
                 });
             }
             aDialog.Show();

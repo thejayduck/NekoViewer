@@ -4,45 +4,62 @@ using System.Xml.Serialization;
 
 namespace Lewd_Images
 {
-    public delegate void Func();
+    /// <summary>
+    /// Setting to be stored, contains <see cref="Get"/> and <see cref="Set"/>.
+    /// Callback <see cref="OnChange"/> for updating stuff when setting is modified
+    /// </summary>
+    /// <typeparam name="T">Type of setting to be stored</typeparam>
+    public class Setting<T>
+    {
+        /// <summary>
+        /// Type of delgate used for changed calls
+        /// </summary>
+        public delegate void OnChangeCall();
+
+        /// <summary>
+        /// Settings constructor
+        /// </summary>
+        /// <param name="startingValue">Value to set the setting to</param>
+        internal Setting(T startingValue)
+        {
+            t = startingValue;
+        }
+
+        /// <summary>
+        /// Called when setting is changed
+        /// </summary>
+        public event OnChangeCall OnChange;
+
+        // Property
+        private T t;
+        public void Set(T newT)
+        {
+            t = newT;
+            OnChange?.Invoke();
+        }
+        public T Get()
+        {
+            return t;
+        }
+
+        // Implictly convert between setting and internal value
+        public static implicit operator T(Setting<T> me)
+        {
+            return me.t;
+        }
+    }
     public class Settings
     {
         public static Settings Instance = new Settings();
 
-        //Lewd Tags Enabled Setting
-        public event Func OnLewdTagsEnabledChange;
-        private bool m_lewdTagsEnabled = false;
-        public bool LewdTagsEnabled {
-            get => m_lewdTagsEnabled;
-            set {
-                m_lewdTagsEnabled = value;
-                OnLewdTagsEnabledChange?.Invoke();
-            }
-        }
+        // Lewd Tags Enabled Setting
+        public readonly Setting<bool> LewdTagsEnabled = new Setting<bool>(false);
 
-        //Notification Enabled Setting
-        public event Func OnNotificationsEnabledChange;
-        private bool m_notificationsEnabled = true;
-        public bool NotificationsEnabled
-        {
-            get => m_notificationsEnabled;
-            set
-            {
-                m_notificationsEnabled = value;
-                OnNotificationsEnabledChange?.Invoke();
-            }
-        }
+        // Notification Enabled Setting
+        public readonly Setting<bool> NotificationsEnabled = new Setting<bool>(true);
 
-        //Animations Enabled Setting
-        public event Func OnAnimationsEnabledChange;
-        private bool m_animationsEnabled = true;
-        public bool AnimationsEnabled {
-            get => m_animationsEnabled;
-            set {
-                m_animationsEnabled = value;
-                OnAnimationsEnabledChange?.Invoke();
-            }
-        }
+        // Animations Enabled Setting
+        public readonly Setting<bool> AnimationsEnabled = new Setting<bool>(true);
 
         public static readonly string SettingsFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "settings.xml");
 
