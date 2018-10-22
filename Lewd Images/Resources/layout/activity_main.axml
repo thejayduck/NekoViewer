@@ -12,14 +12,13 @@
 		android:layout_width="match_parent"
 		android:layout_height="46.5dp"
 		android:minHeight="@dimen/abc_action_bar_default_height_material"
-		android:background="?attr/colorPrimary"
+		android:background="@color/colorToolbar"
 		android:elevation="4dp">
 		<Spinner
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/apiEndPoints"/>
 	</android.support.v7.widget.Toolbar>
-
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/nextImageButton"
 		android:layout_width="wrap_content"
@@ -27,7 +26,7 @@
 		android:layout_gravity="bottom|end"
 		app:srcCompat="@android:drawable/ic_media_ff"
 		android:layout_marginBottom="10dp"
-		android:layout_marginRight="10dp" />
+		android:layout_marginRight="10dp"/>
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/previousImageButton"
 		android:layout_width="wrap_content"
