@@ -17,6 +17,25 @@ namespace Lewd_Images
         /// </summary>
         protected readonly List<string> list = new List<string>();
 
+        private int m_index = -1;
+        /// <summary>
+        /// Index of the list, -1 if no images exist
+        /// </summary>
+        public int Index {
+            get => m_index;
+            protected set {
+                if(value >= list.Count)
+                    throw new IndexOutOfRangeException();
+                m_index = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a new url to the ImageStore internal array
+        /// </summary>
+        /// <returns>Image url</returns>
+        protected abstract string GetNew();
+
         /// <summary>
         /// Adds a custom link to internal list
         /// </summary>
@@ -28,27 +47,16 @@ namespace Lewd_Images
         }
 
         /// <summary>
-        /// Index of the list, -1 if no images exist
-        /// </summary>
-        public int Index { get; protected set; } = -1;
-
-        /// <summary>
-        /// Gets a new url to the ImageStore internal array
-        /// </summary>
-        /// <returns>Image url</returns>
-        protected abstract string GetNew();
-
-        /// <summary>
         /// Moves the <see cref="Index"/> forward and calls <see cref="AppendNew"/> if no urls are available
         /// </summary>
         /// <param name="count"></param>
         public void Forward(int count = 1)
         {
-            Index += count;
             while(Index > list.Count-1)
             {
                 list.Add(GetNew());
             }
+            Index += count;
         }
         /// <summary>
         /// Moves the <see cref="Index"/> back
