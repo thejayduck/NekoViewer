@@ -83,8 +83,8 @@ namespace Lewd_Images
         /// </summary>
         public void Reset()
         {
-            Index = -1;
             list.Clear();
+            Index = -1;
         }
 
         // Sample Size: 10
@@ -196,6 +196,8 @@ namespace Lewd_Images
         /// <returns>Link to current image</returns>
         public string GetLink()
         {
+            if (Index < 0)
+                throw new ImageStoreEmptyException();
             return list[Index];
         }
 
@@ -207,5 +209,13 @@ namespace Lewd_Images
         /// If <see cref="Index"/> points to the first image in the list
         /// </summary>
         public bool IsFirst => Index <= 0;
+    }
+
+    public class ImageStoreEmptyException : Exception
+    {
+        public override string ToString()
+        {
+            return "Tried to get image while ImageStore contained no images";
+        }
     }
 }
