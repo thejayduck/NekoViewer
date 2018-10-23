@@ -70,8 +70,6 @@ namespace Lewd_Images
 
             CheckForPermissions();
 
-            imageStore.Forward();
-
             Settings.LoadFromFile();
             //imageStore.LoadFavorites();
 
