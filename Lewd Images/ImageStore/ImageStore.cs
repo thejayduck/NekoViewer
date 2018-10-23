@@ -213,9 +213,6 @@ namespace Lewd_Images
 
     public class ImageStoreEmptyException : Exception
     {
-        public override string ToString()
-        {
-            return "Tried to get image while ImageStore contained no images";
-        }
+        public override string Message => "Tried to get image while ImageStore contained no images";
     }
 }
