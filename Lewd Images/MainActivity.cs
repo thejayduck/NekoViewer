@@ -350,7 +350,7 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        public void CreateNotification(string _title, string _text)
+        public void CreateNotification(string title, string text)
         {
             if (!Settings.Instance.NotificationsEnabled)
                 return;
@@ -359,19 +359,17 @@ namespace Lewd_Images
 
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
-            Java.IO.File file = new Java.IO.File(imageFile);
-
-            Android.Net.Uri uri = Android.Net.Uri.FromFile(file);
+            Android.Net.Uri uri = Android.Net.Uri.Parse(imageFile);
             Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(uri, ".png");
+            intent.SetDataAndType(uri, "image/png");
 
-            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);  
+            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);  
 
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .SetContentTitle(_title)
-                .SetContentText(_text)
+                .SetContentTitle(title)
+                .SetContentText(text)
                 .SetContentIntent(pendingIntent)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
                 .SetSmallIcon(Resource.Mipmap.app_icon)
