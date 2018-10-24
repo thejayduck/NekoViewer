@@ -21,7 +21,7 @@ using Android.Content;
 namespace Lewd_Images
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppDarkTheme")]
-    public class MainActivity : AppCompatActivity
+    public partial class MainActivity : AppCompatActivity
     {
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
@@ -502,25 +502,9 @@ namespace Lewd_Images
                     }
                 };
 
-                Switch notificationSwitch = new Switch(this)
-                {
-                    Text = "Enable Notifications",
-                    Checked = Settings.Instance.NotificationsEnabled
-                };
-                notificationSwitch.CheckedChange += delegate
-                {
-                    Settings.Instance.NotificationsEnabled.Set(notificationSwitch.Checked);
-                };
+                SettingSwitch notificationSwitch = new SettingSwitch(this, "Enable Notifications", Settings.Instance.NotificationsEnabled);
 
-                Switch animationSwitch = new Switch(this)
-                {
-                    Text = "Enable Animations",
-                    Checked = Settings.Instance.AnimationsEnabled
-                };
-                animationSwitch.CheckedChange += delegate
-                {
-                    Settings.Instance.AnimationsEnabled.Set(animationSwitch.Checked);
-                };
+                SettingSwitch animationSwitch = new SettingSwitch(this, "Enable Animations", Settings.Instance.AnimationsEnabled);
 
                 Button resetButton = new Button(this)
                 {
@@ -537,6 +521,7 @@ namespace Lewd_Images
 
                 Button serverCheckerButton = new Button(this)
                 {
+
                     Text = "Check NekosLife Server"
                 };
                 serverCheckerButton.Click += delegate
