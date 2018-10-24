@@ -64,14 +64,17 @@ namespace Lewd_Images
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
+            CheckForPermissions();
+
             Instance = this;
 
             Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
-            CheckForPermissions();
 
             Settings.LoadFromFile();
             //imageStore.LoadFavorites();
+
+            imageStore.Forward();
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -99,7 +102,7 @@ namespace Lewd_Images
             {
                 imageStore.Tag = SelectedTag;
                 Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
-                GetNextImage();
+                //GetNextImage();
             };
 
             bool infoButtonIsUp = false;
@@ -211,9 +214,6 @@ namespace Lewd_Images
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;
-
-            //Load image first time
-            ReloadImagePanel(null);
         }
 
         protected override void OnDestroy()
