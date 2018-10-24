@@ -361,18 +361,18 @@ namespace Lewd_Images
 
             Android.Net.Uri uri = Android.Net.Uri.Parse(imageFile);
             Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(uri, "image/png");
+            intent.SetDataAndType(uri, "image/.png");
 
             intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);  
 
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.Immutable);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(title)
                 .SetContentText(text)
                 .SetContentIntent(pendingIntent)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
-                .SetSmallIcon(Resource.Mipmap.app_icon)
+                .SetSmallIcon(Resource.Drawable.Icon)
                 .SetLargeIcon(bitmap);
 
             NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
