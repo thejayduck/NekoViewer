@@ -52,7 +52,7 @@ namespace Lewd_Images
         /// <param name="count"></param>
         public void Forward(int count = 1)
         {
-            while(Index > list.Count-1)
+            while((Index + count) > list.Count-1)
             {
                 list.Add(GetNew());
             }
