@@ -74,8 +74,6 @@ namespace Lewd_Images
             Settings.LoadFromFile();
             //imageStore.LoadFavorites();
 
-            imageStore.Forward();
-
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
@@ -102,7 +100,7 @@ namespace Lewd_Images
             {
                 imageStore.Tag = SelectedTag;
                 Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
-                //GetNextImage();
+                GetNextImage();
             };
 
             bool infoButtonIsUp = false;
@@ -361,9 +359,20 @@ namespace Lewd_Images
 
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
+            Java.IO.File file = new Java.IO.File(imageFile);
+
+            Android.Net.Uri uri = Android.Net.Uri.FromFile(file);
+            Intent intent = new Intent(Intent.ActionView);
+            intent.SetDataAndType(uri, ".png");
+
+            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);  
+
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .SetContentTitle(_title)
                 .SetContentText(_text)
+                .SetContentIntent(pendingIntent)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
                 .SetSmallIcon(Resource.Mipmap.app_icon)
                 .SetLargeIcon(bitmap);
