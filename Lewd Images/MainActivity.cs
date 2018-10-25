@@ -17,6 +17,8 @@ using System;
 using System.Net;
 using System.Threading;
 using Android.Content;
+using Plugin.Connectivity;
+using Android.Gms.Ads;
 
 namespace Lewd_Images
 {
@@ -80,15 +82,15 @@ namespace Lewd_Images
             imageInfoButton = FindViewById<FloatingActionButton>(Resource.Id.imageInfoButton);
             nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
-            //AdView adView = FindViewById<AdView>(Resource.Id.adView);
+            AdView adView = FindViewById<AdView>(Resource.Id.adView);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
 
             //SetAdView
-            //MobileAds.Initialize(this, "ca-app-pub-5157629142822799~8600251110");
-            //var adRequest = new AdRequest.Builder().Build();
-            //adView.LoadAd(adRequest);
+            MobileAds.Initialize(this, "");
+            var adRequest = new AdRequest.Builder().Build();
+            adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
@@ -259,7 +261,7 @@ namespace Lewd_Images
                                 imagePanel.Animate().TranslationX(0);
                             }
 
-                            DateTime end = DateTime.Now;
+                            //DateTime end = DateTime.Now;
                             //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
@@ -524,6 +526,12 @@ namespace Lewd_Images
                 };
                 serverCheckerButton.Click += delegate
                 {
+                    if (!CrossConnectivity.Current.IsConnected)
+                    {
+                        Toast.MakeText(this, "No active internet connection", ToastLength.Short).Show();
+                        return;
+                    }
+
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
                     using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                         if (response == null || response.StatusCode != HttpStatusCode.OK)
