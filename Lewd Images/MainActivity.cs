@@ -73,8 +73,16 @@ namespace Lewd_Images
             Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
 
-            Settings.LoadFromFile();
+            //Settings.LoadFromFile();
             //imageStore.LoadFavorites();
+
+            AdView adView = new AdView(this);
+            adView.AdSize = AdSize.SmartBanner;
+            adView.AdUnitId = "ca-app-pub-3940256099942544/6300978111";
+
+            CoordinatorLayout _cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
+            _cLayout.AddView(adView);
+            adView.TranslationY = 100;
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -82,13 +90,12 @@ namespace Lewd_Images
             imageInfoButton = FindViewById<FloatingActionButton>(Resource.Id.imageInfoButton);
             nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
-            AdView adView = FindViewById<AdView>(Resource.Id.adView);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
 
             //SetAdView
-            MobileAds.Initialize(this, "");
+            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
             var adRequest = new AdRequest.Builder().Build();
             adView.LoadAd(adRequest);
 
