@@ -57,8 +57,8 @@ namespace Lewd_Images
 
         public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
-        public int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
-        public int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
+        public int PhoneWidth => Resources.DisplayMetrics.WidthPixels;
+        public int PhoneHeight => Resources.DisplayMetrics.HeightPixels;
 
         protected override void OnCreate(Bundle bundle) 
         {
@@ -73,16 +73,18 @@ namespace Lewd_Images
             Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
 
-            //Settings.LoadFromFile();
-            //imageStore.LoadFavorites();
+            Settings.LoadFromFile();
+            imageStore.LoadFavorites();
 
-            AdView adView = new AdView(this);
-            adView.AdSize = AdSize.SmartBanner;
-            adView.AdUnitId = "ca-app-pub-3940256099942544/6300978111";
+            AdView adView = new AdView(this)
+            {
+                AdSize = AdSize.SmartBanner,
+                AdUnitId = "ca-app-pub-3940256099942544/6300978111"
+            };
 
-            CoordinatorLayout _cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
-            _cLayout.AddView(adView);
-            adView.TranslationY = 100;
+            CoordinatorLayout cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
+            cLayout.AddView(adView);
+            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this));
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -92,7 +94,7 @@ namespace Lewd_Images
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
-            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
+            imageInfoButton.Animate().TranslationY(PhoneHeight);
 
             //SetAdView
             MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
@@ -125,7 +127,7 @@ namespace Lewd_Images
                         Thread.Sleep(3000);
                         RunOnUiThread(() =>
                         {
-                            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
+                            imageInfoButton.Animate().TranslationY(PhoneHeight);
                             infoButtonIsUp = false;
                         });
                     });
@@ -189,7 +191,7 @@ namespace Lewd_Images
                 }
                 Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                 loading = true;
-                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(-PhoneWidth);
                 Task.Run(() =>
                 {
                     imageStore.GotoLast();
@@ -199,7 +201,7 @@ namespace Lewd_Images
                         ReloadImagePanel(() =>
                         {
                             CheckPreviousImageButton();
-                            imagePanel.TranslationX = ScreenPanelOffscreenX;
+                            imagePanel.TranslationX = PhoneWidth;
                             imagePanel.Animate().TranslationX(0);
                         });
                     });
@@ -246,7 +248,7 @@ namespace Lewd_Images
 
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(-PhoneWidth);
 
             Task.Run(() =>
             {
@@ -264,7 +266,7 @@ namespace Lewd_Images
 
                             if (animate && Settings.Instance.AnimationsEnabled)
                             {
-                                imagePanel.TranslationX = ScreenPanelOffscreenX;
+                                imagePanel.TranslationX = PhoneWidth;
                                 imagePanel.Animate().TranslationX(0);
                             }
 
@@ -301,7 +303,7 @@ namespace Lewd_Images
 
             loading = true;
             if(animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(PhoneWidth);
 
             Task.Run(() =>
             {
@@ -318,7 +320,7 @@ namespace Lewd_Images
 
                         if (animate && Settings.Instance.AnimationsEnabled)
                         {
-                            imagePanel.TranslationX = -ScreenPanelOffscreenX;
+                            imagePanel.TranslationX = -PhoneWidth;
                             imagePanel.Animate().TranslationX(0);
                         }
                     });

@@ -107,7 +107,7 @@ namespace Lewd_Images
         /// <summary>
         /// Local path to where cached images should be stored
         /// </summary>
-        public static string CacheStorageFolder = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "images");
+        public static string CacheStorageFolder => System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "images");
         static string GetImageCacheLocation(string id) => System.IO.Path.Combine(CacheStorageFolder, id);
         static bool ExistsInCache(string id) => System.IO.File.Exists(System.IO.Path.Combine(CacheStorageFolder, GetUrlId(id)));
         static string GetUrlId(string url) => new FileInfo(url).Name;
@@ -199,6 +199,16 @@ namespace Lewd_Images
             if (Index < 0)
                 throw new ImageStoreEmptyException();
             return list[Index];
+        }
+
+        public void DeleteCache()
+        {
+            Directory.Delete(CacheStorageFolder);
+        }
+
+        public ImageStore()
+        {
+            DeleteCache();
         }
 
         /// <summary>
