@@ -71,6 +71,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Apis\GoogleAdMob.cs" />
     <Compile Include="DownloadManager.cs" />
     <Compile Include="Apis\IApi.cs" />
     <Compile Include="ImageStore\ImageStore.cs" />
