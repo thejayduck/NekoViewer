@@ -6,7 +6,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
 
 namespace Lewd_Images
 {
