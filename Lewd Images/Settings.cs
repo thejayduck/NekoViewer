@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Xml.Serialization;
 
 namespace Lewd_Images
@@ -15,15 +17,6 @@ namespace Lewd_Images
         /// Type of delgate used for changed calls
         /// </summary>
         public delegate void OnChangeCall();
-
-        /// <summary>
-        /// Settings constructor
-        /// </summary>
-        /// <param name="startingValue">Value to set the setting to</param>
-        internal Setting(T startingValue)
-        {
-            t = startingValue;
-        }
 
         /// <summary>
         /// Called when setting is changed
@@ -42,6 +35,19 @@ namespace Lewd_Images
             return t;
         }
 
+        /// <summary>
+        /// Settings constructor
+        /// </summary>
+        /// <param name="startingValue">Value to set the setting to</param>
+        internal Setting(T startingValue)
+        {
+            t = startingValue;
+        }
+        /// <summary>
+        /// Required for serialization
+        /// </summary>
+        public Setting() { }
+
         // Implictly convert between setting and internal value
         public static implicit operator T(Setting<T> me)
         {
@@ -51,6 +57,7 @@ namespace Lewd_Images
     public class Settings
     {
         public static Settings Instance = new Settings();
+        public Settings() { }
 
         // Lewd Tags Enabled Setting
         public readonly Setting<bool> LewdTagsEnabled = new Setting<bool>(false);
@@ -65,13 +72,14 @@ namespace Lewd_Images
 
         public static void SaveToFile()
         {
-            //ObjectSaver.WriteToXmlFile(SettingsFileLocation, Instance);
+            ObjectSaver.WriteToFile(SettingsFileLocation, Instance);
         }
         public static void LoadFromFile()
         {
-            //if (!File.Exists(SettingsFileLocation))
-            //    SaveToFile();
-            //Instance = ObjectSaver.ReadFromXmlFile<Settings>(SettingsFileLocation);
+            if (!File.Exists(SettingsFileLocation))
+                SaveToFile();
+            else
+                Instance = ObjectSaver.ReadFromFile<Settings>(SettingsFileLocation);
         }
     }
 }
