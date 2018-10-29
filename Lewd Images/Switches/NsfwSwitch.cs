@@ -18,14 +18,12 @@ namespace Lewd_Images
         {
             if (Checked)
             {
-                Checked = false;
                 new Android.App.AlertDialog.Builder(Context)
                     .SetCancelable(false)
                     .SetTitle("You are about to enable NSFW tags!")
                     .SetPositiveButton("Enable It", delegate
                     {
                         Setting.Set(true);
-                        Checked = true;
                     })
                     .SetNegativeButton("Nevermind", delegate
                     {

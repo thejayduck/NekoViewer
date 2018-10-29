@@ -30,6 +30,17 @@ namespace Lewd_Images
 
         public static MainActivity Instance;
 
+        public int getStatusBarHeight()
+        {
+            int result = 0;
+            int resourceId = Resources.GetIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0)
+            {
+                result = Resources.GetDimensionPixelSize(resourceId);
+            }
+            return result;
+        }
+
         //bools
         bool loading = false;
         bool downloading = false;
@@ -70,8 +81,7 @@ namespace Lewd_Images
 
             Instance = this;
 
-            Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
-
+            //Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
             Settings.LoadFromFile();
             imageStore.LoadFavorites();
@@ -84,7 +94,7 @@ namespace Lewd_Images
 
             CoordinatorLayout cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
             cLayout.AddView(adView);
-            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this));
+            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this) - getStatusBarHeight());
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -249,7 +259,7 @@ namespace Lewd_Images
                 return;
             }
 
-            DateTime start = DateTime.Now;
+            //DateTime start = DateTime.Now;
 
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)

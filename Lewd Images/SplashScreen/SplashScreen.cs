@@ -16,7 +16,6 @@ namespace Lewd_Images.SplashScreen
             base.OnCreate(savedInstanceState);
 
             var config = new EasySplashScreen(this);
-            config.WithFullScreen();
             config.WithLogo(Resource.Drawable.Icon_Transparent);
             config.WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)));
             config.WithBackgroundColor(Color.ParseColor("#141212"));
