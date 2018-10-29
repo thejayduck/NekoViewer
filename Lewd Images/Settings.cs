@@ -25,10 +25,12 @@ namespace Lewd_Images
 
         // Property
         private T t;
-        public void Set(T newT)
+        public void Set(T newT, bool callChange = true)
         {
             t = newT;
-            OnChange?.Invoke();
+
+            if(callChange)
+                OnChange?.Invoke();
         }
         public T Get()
         {
@@ -59,15 +61,26 @@ namespace Lewd_Images
         public static Settings Instance = new Settings();
         public Settings() { }
 
-        // Lewd Tags Enabled Setting
-        public readonly Setting<bool> LewdTagsEnabled = new Setting<bool>(false);
+        /// <summary>
+        /// If NSFW tags should be displayed
+        /// </summary>
+        public Setting<bool> LewdTagsEnabled { get; } = new Setting<bool>(false);
 
-        // Notification Enabled Setting
-        public readonly Setting<bool> NotificationsEnabled = new Setting<bool>(true);
+        /// <summary>
+        /// If notification should be sent when downloading
+        /// </summary>
+        public Setting<bool> DownloadNotificationEnabled { get; } = new Setting<bool>(true);
 
-        // Animations Enabled Setting
-        public readonly Setting<bool> AnimationsEnabled = new Setting<bool>(true);
+        /// <summary>
+        /// If animation should play
+        /// </summary>
+        public Setting<bool> AnimationsEnabled { get; } = new Setting<bool>(true);
 
+        /// <summary>
+        /// If we should generate a new image automatically when changing the tag
+        /// </summary>
+        public Setting<bool> GenerateNewImageOnTagChange { get; } = new Setting<bool>(true);
+ 
         public static readonly string SettingsFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "settings.xml");
 
         public static void SaveToFile()

@@ -8,17 +8,22 @@ namespace Lewd_Images
 {
     class SettingSwitch : Switch
     {
-        private readonly Setting<bool> m_setting;
+        protected Setting<bool> Setting { get; }
 
-        public SettingSwitch(Context context, string text, Setting<bool> setting) : base(context) {
-            m_setting = setting;
-            Text = text;
-            Checked = setting;
+        public SettingSwitch(Context context, Setting<bool> setting) : base(context)
+        {
+            Setting = setting;
+        }
 
-            CheckedChange += delegate
-            {
-                setting.Set(Checked);
-            };
+        public new event Action CheckedChange;
+
+        public override bool Checked {
+            get => Setting?.Get() ?? false;
+            set {
+                Setting?.Set(value);
+                base.Checked = value;
+                CheckedChange?.Invoke();
+            }
         }
     }
 }

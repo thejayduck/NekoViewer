@@ -200,15 +200,13 @@ namespace Lewd_Images
             return list[Index];
         }
 
-        //public void DeleteCache()
-        //{
-        //    Directory.Delete(CacheStorageFolder);
-        //}
-
-        //public ImageStore()
-        //{
-        //    DeleteCache();
-        //}
+        /// <summary>
+        /// DO NOT USE CURRENTLY, CRASHES THE APP WITH JNI ERROR
+        /// </summary>
+        public void DeleteCache()
+        {
+            Directory.Delete(CacheStorageFolder);
+        }
 
         /// <summary>
         /// If <see cref="Index"/> points to the last image in the list

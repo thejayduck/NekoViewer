@@ -109,9 +109,12 @@ namespace Lewd_Images
             tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             tagSpinner.ItemSelected += (o, e) =>
             {
-                imageStore.Tag = SelectedTag;
-                Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
-                GetNextImage();
+                if (Settings.Instance.GenerateNewImageOnTagChange)
+                {
+                    imageStore.Tag = SelectedTag;
+                    Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                    GetNextImage();
+                }
             };
 
             bool infoButtonIsUp = false;
@@ -219,7 +222,9 @@ namespace Lewd_Images
 
             Settings.Instance.LewdTagsEnabled.OnChange += delegate
             {
+                Settings.Instance.GenerateNewImageOnTagChange.Set(false, false);
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
+                Settings.Instance.GenerateNewImageOnTagChange.Set(true, false);
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;
@@ -262,7 +267,7 @@ namespace Lewd_Images
                     {
                         ReloadImagePanel(() =>
                         {
-                            previousImageButton.Visibility = ViewStates.Visible;
+                            CheckPreviousImageButton();
 
                             if (animate && Settings.Instance.AnimationsEnabled)
                             {
@@ -363,7 +368,7 @@ namespace Lewd_Images
 
         public void CreateNotification(string title, string text)
         {
-            if (!Settings.Instance.NotificationsEnabled)
+            if (!Settings.Instance.DownloadNotificationEnabled)
                 return;
 
             string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
@@ -495,25 +500,20 @@ namespace Lewd_Images
                 };
                 layout.SetPadding(30, 20, 30, 20);
 
-                Switch lewdSwitch = new Switch(this)
+                NsfwSwitch lewdSwitch = new NsfwSwitch(this, Settings.Instance.LewdTagsEnabled)
                 {
-                    Text = "Enable NSFW Tags",
-                    Checked = Settings.Instance.LewdTagsEnabled
-                };
-                lewdSwitch.CheckedChange += delegate
-                {
-                    if (lewdSwitch.Checked)
-                        NsfwInfo(lewdSwitch);
-                    else
-                    {
-                        lewdSwitch.Checked = false;
-                        Settings.Instance.LewdTagsEnabled.Set(lewdSwitch.Checked);
-                    }
+                    Text = "Enable NSFW Tags"
                 };
 
-                SettingSwitch notificationSwitch = new SettingSwitch(this, "Enable Notifications", Settings.Instance.NotificationsEnabled);
+                SettingSwitch notificationSwitch = new SettingSwitch(this, Settings.Instance.DownloadNotificationEnabled)
+                {
+                    Text = "Enable Notifications"
+                };
 
-                SettingSwitch animationSwitch = new SettingSwitch(this, "Enable Animations", Settings.Instance.AnimationsEnabled);
+                SettingSwitch animationSwitch = new SettingSwitch(this, Settings.Instance.AnimationsEnabled)
+                {
+                    Text = "Enable Animations"
+                };
 
                 Button resetButton = new Button(this)
                 {
@@ -530,7 +530,6 @@ namespace Lewd_Images
 
                 Button serverCheckerButton = new Button(this)
                 {
-
                     Text = "Check NekosLife Server"
                 };
                 serverCheckerButton.Click += delegate
@@ -578,28 +577,7 @@ namespace Lewd_Images
             return base.OnOptionsItemSelected(item);
         }
 
-        private void NsfwInfo(Switch @switch)
-        {
-            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
-
-            if (@switch.Checked)
-            {
-                aDialog.SetCancelable(false);
-                aDialog.SetTitle("You are about to enable NSFW tags!");
-                aDialog.SetPositiveButton("Enable It", delegate
-                {
-                    @switch.Checked = true;
-                    Settings.Instance.LewdTagsEnabled.Set(@switch.Checked);
-                });
-
-                aDialog.SetNegativeButton("Nevermind", delegate
-                {
-                    @switch.Checked = false;
-                    Settings.Instance.LewdTagsEnabled.Set(@switch.Checked);
-                });
-            }
-            aDialog.Show();
-        }
+        
         private void HelpInfo()
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
