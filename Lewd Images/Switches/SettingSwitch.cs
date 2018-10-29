@@ -13,17 +13,11 @@ namespace Lewd_Images
         public SettingSwitch(Context context, Setting<bool> setting) : base(context)
         {
             Setting = setting;
-        }
-
-        public new event Action CheckedChange;
-
-        public override bool Checked {
-            get => Setting?.Get() ?? false;
-            set {
-                Setting?.Set(value);
-                base.Checked = value;
-                CheckedChange?.Invoke();
-            }
+            Checked = setting.Get();
+            CheckedChange += delegate
+            {
+                setting.Set(Checked);
+            };
         }
     }
 }
