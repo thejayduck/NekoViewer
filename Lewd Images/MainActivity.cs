@@ -510,6 +510,16 @@ namespace Lewd_Images
                 };
                 layout.SetPadding(30, 20, 30, 20);
 
+                TextView text_1 = new TextView(this)
+                {
+                    Text = "Auto Slide Timer"
+                };
+
+                SeekBar sliderWaitTime = new SeekBar(this)
+                {
+                    Max = 10
+                };
+
                 NsfwSwitch lewdSwitch = new NsfwSwitch(this, Settings.Instance.LewdTagsEnabled)
                 {
                     Text = "Enable NSFW Tags"
@@ -569,6 +579,8 @@ namespace Lewd_Images
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
                 layout.AddView(notificationSwitch);
+                layout.AddView(text_1);
+                layout.AddView(sliderWaitTime);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout)
