@@ -164,31 +164,14 @@ namespace Lewd_Images
                 aDialog.SetTitle("Image Options");
                 aDialog.SetPositiveButton("Download Image", delegate
                 {
-                    if (downloading)
+                    string path = Android.Provider.MediaStore.Images.Media.InsertImage(ContentResolver, imageStore.GetImage(), ImageName, "A neko from NekoViewer app");
+                    if(path == null)
                     {
-                        Toast.MakeText(this, "An Image Is Being Downloaded Please Be Patient", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Couldn't download image", ToastLength.Short).Show();
                         return;
                     }
-
-                    downloading = true;
-                    imagePanel.Animate().ScaleX(1.1f);
-                    imagePanel.Animate().ScaleY(1.1f);
-                    Task.Run(() =>
-                    {
-                        MemoryStream buffer = new MemoryStream();
-                        imageStore.GetImage().Compress(Bitmap.CompressFormat.Png, 0, buffer);
-                        buffer.Seek(0, SeekOrigin.Begin);
-                        BufferedInputStream stream = new BufferedInputStream(buffer);
-                        DownloadManager download = new DownloadManager(this, stream, buffer.Length);
-                        download.Execute(ImageName + ".png");
-                        RunOnUiThread(() =>
-                        {
-                            Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
-                            imagePanel.Animate().ScaleX(1);
-                            imagePanel.Animate().ScaleY(1);
-                        });
-                        downloading = false;
-                    });
+                    Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
+                    CreateDownloadNotification("Download Completed!", ImageName, path);
                 });
                 aDialog.SetNeutralButton("Set As Wallpaper", delegate
                 {
@@ -373,18 +356,16 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        public void CreateNotification(string title, string text)
+        public void CreateDownloadNotification(string title, string text, string path)
         {
             if (!Settings.Instance.DownloadNotificationEnabled)
                 return;
 
-            string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
+            Bitmap bitmap = BitmapFactory.DecodeFile(path);
 
-            Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
-
-            Android.Net.Uri uri = Android.Net.Uri.Parse(imageFile);
+            Android.Net.Uri uri = Android.Net.Uri.Parse(path);
             Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(uri, "image/.png");
+            intent.SetDataAndType(uri, "image/png");
 
             intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);  
 
@@ -426,7 +407,6 @@ namespace Lewd_Images
                 {
                     return false;   
                 }
-
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                 {
                     Title = "Neko Image",
