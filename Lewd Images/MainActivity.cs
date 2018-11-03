@@ -391,8 +391,11 @@ namespace Lewd_Images
                 builder.SetChannelId(channelId);
             }
 
+            Notification notification = builder.Build();
+            notification.Flags |= NotificationFlags.AutoCancel;
+
             const int notificationId = 0;
-            notificationManager.Notify(notificationId, builder.Build());
+            notificationManager.Notify(notificationId, notification);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
