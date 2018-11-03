@@ -344,7 +344,7 @@ namespace Lewd_Images
         {
             Android.App.AlertDialog.Builder aDialog;
             aDialog = new Android.App.AlertDialog.Builder(this);
-            aDialog.SetTitle("Are You Sure About Quitting?");
+            aDialog.SetTitle("Meow! Don't Abandon Us!");
             aDialog.SetPositiveButton("YES", delegate { Process.KillProcess(Process.MyPid()); });
             aDialog.SetNegativeButton("NO", delegate { aDialog.Dispose(); });
             aDialog.Show();
