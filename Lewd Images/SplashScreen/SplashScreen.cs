@@ -8,27 +8,26 @@ using Android.Support.V7.App;
 
 namespace Lewd_Images.SplashScreen
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true ,Theme = "@style/AppDarkTheme", Icon = "@drawable/Icon")]
+    [Activity(Label = "@string/app_name", MainLauncher = true, Theme = "@style/AppDarkTheme", Icon = "@drawable/Icon")]
     public class SplashScreen : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            var config = new EasySplashScreen(this)
-                .WithFullScreen()
-                .WithLogo(Resource.Drawable.Icon_Transparent)
-                .WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)))
-                .WithBackgroundColor(Color.ParseColor("#141212"))
-                .WithSplashTimeOut(
+            var config = new EasySplashScreen(this);
+            config.WithLogo(Resource.Drawable.Icon_Transparent);
+            config.WithTargetActivity(Java.Lang.Class.FromType(typeof(MainActivity)));
+            config.WithBackgroundColor(Color.ParseColor("#141212"));
+            config.WithSplashTimeOut(
 #if DEBUG
-                    1000
+                1000
 #else
-                    2500
+                2500
 #endif
-                )
-                .WithBeforeLogoText("Welcome To Neko Viewer")
-                .WithFooterText("Made By: Jay and Nobbele");
+            );
+            config.WithBeforeLogoText("Welcome To Neko Viewer");
+            config.WithFooterText("Made By: Jay and Nobbele");
 
             //Text Color
             config.Logo.ScaleX = 0.5f;

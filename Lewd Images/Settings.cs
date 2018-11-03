@@ -1,60 +1,98 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Xml.Serialization;
 
 namespace Lewd_Images
 {
-    public delegate void Func();
+    /// <summary>
+    /// Setting to be stored, contains <see cref="Get"/> and <see cref="Set"/>.
+    /// Callback <see cref="OnChange"/> for updating stuff when setting is modified
+    /// </summary>
+    /// <typeparam name="T">Type of setting to be stored</typeparam>
+    public class Setting<T>
+    {
+        /// <summary>
+        /// Type of delgate used for changed calls
+        /// </summary>
+        public delegate void OnChangeCall();
+
+        /// <summary>
+        /// Called when setting is changed
+        /// </summary>
+        public event OnChangeCall OnChange;
+
+        // Property
+        private T t;
+        public void Set(T newT, bool callChange = true)
+        {
+            t = newT;
+
+            if(callChange)
+                OnChange?.Invoke();
+        }
+        public T Get()
+        {
+            return t;
+        }
+
+        /// <summary>
+        /// Settings constructor
+        /// </summary>
+        /// <param name="startingValue">Value to set the setting to</param>
+        internal Setting(T startingValue)
+        {
+            t = startingValue;
+        }
+        /// <summary>
+        /// Required for serialization
+        /// </summary>
+        public Setting() { }
+
+        // Implictly convert between setting and internal value
+        public static implicit operator T(Setting<T> me)
+        {
+            return me.t;
+        }
+    }
     public class Settings
     {
         public static Settings Instance = new Settings();
+        public Settings() { }
 
-        //Lewd Tags Enabled Setting
-        public event Func OnLewdTagsEnabledChange;
-        private bool m_lewdTagsEnabled = false;
-        public bool LewdTagsEnabled {
-            get => m_lewdTagsEnabled;
-            set {
-                m_lewdTagsEnabled = value;
-                OnLewdTagsEnabledChange?.Invoke();
-            }
-        }
+        /// <summary>
+        /// If NSFW tags should be displayed
+        /// </summary>
+        public Setting<bool> LewdTagsEnabled { get; } = new Setting<bool>(false);
 
-        //Notification Enabled Setting
-        public event Func OnNotificationsEnabledChange;
-        private bool m_notificationsEnabled = true;
-        public bool NotificationsEnabled
-        {
-            get => m_notificationsEnabled;
-            set
-            {
-                m_notificationsEnabled = value;
-                OnNotificationsEnabledChange?.Invoke();
-            }
-        }
+        /// <summary>
+        /// If notification should be sent when downloading
+        /// </summary>
+        public Setting<bool> DownloadNotificationEnabled { get; } = new Setting<bool>(true);
 
-        //Animations Enabled Setting
-        public event Func OnAnimationsEnabledChange;
-        private bool m_animationsEnabled = true;
-        public bool AnimationsEnabled {
-            get => m_animationsEnabled;
-            set {
-                m_animationsEnabled = value;
-                OnAnimationsEnabledChange?.Invoke();
-            }
-        }
+        /// <summary>
+        /// If animation should play
+        /// </summary>
+        public Setting<bool> AnimationsEnabled { get; } = new Setting<bool>(true);
 
+        /// <summary>
+        /// If we should generate a new image automatically when changing the tag
+        /// </summary>
+        public Setting<bool> GenerateNewImageOnTagChange { get; } = new Setting<bool>(true);
+ 
         public static readonly string SettingsFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "settings.xml");
 
         public static void SaveToFile()
         {
-            ObjectSaver.WriteToXmlFile(SettingsFileLocation, Instance);
+            ObjectSaver.WriteToFile(SettingsFileLocation, Instance);
         }
         public static void LoadFromFile()
         {
             if (!File.Exists(SettingsFileLocation))
                 SaveToFile();
-            Instance = ObjectSaver.ReadFromXmlFile<Settings>(SettingsFileLocation);
+            else
+                Instance = ObjectSaver.ReadFromFile<Settings>(SettingsFileLocation);
         }
     }
 }

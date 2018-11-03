@@ -17,16 +17,29 @@ using System;
 using System.Net;
 using System.Threading;
 using Android.Content;
+using Plugin.Connectivity;
+using Android.Gms.Ads;
 
 namespace Lewd_Images
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppDarkTheme")]
-    public class MainActivity : AppCompatActivity
+    public partial class MainActivity : AppCompatActivity
     {
         //#FD4281 (253, 66, 129, 100) - pink button color
         //#424040 (66, 64, 64, 100) - faded out pink color
 
         public static MainActivity Instance;
+
+        public int getStatusBarHeight()
+        {
+            int result = 0;
+            int resourceId = Resources.GetIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0)
+            {
+                result = Resources.GetDimensionPixelSize(resourceId);
+            }
+            return result;
+        }
 
         //bools
         bool loading = false;
@@ -55,8 +68,8 @@ namespace Lewd_Images
 
         public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
-        public int ScreenPanelOffscreenX => Resources.DisplayMetrics.WidthPixels;
-        public int ScreenPanelOffscreenY => Resources.DisplayMetrics.HeightPixels;
+        public int PhoneWidth => Resources.DisplayMetrics.WidthPixels;
+        public int PhoneHeight => Resources.DisplayMetrics.HeightPixels;
 
         protected override void OnCreate(Bundle bundle) 
         {
@@ -64,16 +77,24 @@ namespace Lewd_Images
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-            Instance = this;
-
-            Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
-
             CheckForPermissions();
 
-            imageStore.Forward();
+            Instance = this;
+
+            //Window.AddFlags(WindowManagerFlags.Fullscreen); //to show
 
             Settings.LoadFromFile();
-            //imageStore.LoadFavorites();
+            imageStore.LoadFavorites();
+
+            AdView adView = new AdView(this)
+            {
+                AdSize = AdSize.SmartBanner,
+                AdUnitId = "ca-app-pub-3940256099942544/6300978111"
+            };
+
+            CoordinatorLayout cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
+            cLayout.AddView(adView);
+            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this) - getStatusBarHeight());
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -81,15 +102,14 @@ namespace Lewd_Images
             imageInfoButton = FindViewById<FloatingActionButton>(Resource.Id.imageInfoButton);
             nextImageButton = FindViewById<FloatingActionButton>(Resource.Id.nextImageButton);
             previousImageButton = FindViewById<FloatingActionButton>(Resource.Id.previousImageButton);
-            //AdView adView = FindViewById<AdView>(Resource.Id.adView);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
-            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
+            imageInfoButton.Animate().TranslationY(PhoneHeight);
 
             //SetAdView
-            //MobileAds.Initialize(this, "ca-app-pub-5157629142822799~8600251110");
-            //var adRequest = new AdRequest.Builder().Build();
-            //adView.LoadAd(adRequest);
+            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
+            var adRequest = new AdRequest.Builder().Build();
+            adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
@@ -99,8 +119,12 @@ namespace Lewd_Images
             tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
             tagSpinner.ItemSelected += (o, e) =>
             {
-                imageStore.Tag = SelectedTag;
-                Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                if (Settings.Instance.GenerateNewImageOnTagChange)
+                {
+                    imageStore.Tag = SelectedTag;
+                    Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                    GetNextImage();
+                }
             };
 
             bool infoButtonIsUp = false;
@@ -116,7 +140,7 @@ namespace Lewd_Images
                         Thread.Sleep(3000);
                         RunOnUiThread(() =>
                         {
-                            imageInfoButton.Animate().TranslationY(ScreenPanelOffscreenY);
+                            imageInfoButton.Animate().TranslationY(PhoneHeight);
                             infoButtonIsUp = false;
                         });
                     });
@@ -180,7 +204,7 @@ namespace Lewd_Images
                 }
                 Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                 loading = true;
-                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(-PhoneWidth);
                 Task.Run(() =>
                 {
                     imageStore.GotoLast();
@@ -190,7 +214,7 @@ namespace Lewd_Images
                         ReloadImagePanel(() =>
                         {
                             CheckPreviousImageButton();
-                            imagePanel.TranslationX = ScreenPanelOffscreenX;
+                            imagePanel.TranslationX = PhoneWidth;
                             imagePanel.Animate().TranslationX(0);
                         });
                     });
@@ -206,15 +230,14 @@ namespace Lewd_Images
                 GetPreviousImage();
             };
 
-            Settings.Instance.OnLewdTagsEnabledChange += delegate
+            Settings.Instance.LewdTagsEnabled.OnChange += delegate
             {
+                Settings.Instance.GenerateNewImageOnTagChange.Set(false, false);
                 tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
+                Settings.Instance.GenerateNewImageOnTagChange.Set(true, false);
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;
-
-            //Load image first time
-            ReloadImagePanel(null);
         }
 
         protected override void OnDestroy()
@@ -236,11 +259,11 @@ namespace Lewd_Images
                 return;
             }
 
-            DateTime start = DateTime.Now;
+            //DateTime start = DateTime.Now;
 
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(-ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(-PhoneWidth);
 
             Task.Run(() =>
             {
@@ -254,15 +277,15 @@ namespace Lewd_Images
                     {
                         ReloadImagePanel(() =>
                         {
-                            previousImageButton.Visibility = ViewStates.Visible;
+                            CheckPreviousImageButton();
 
                             if (animate && Settings.Instance.AnimationsEnabled)
                             {
-                                imagePanel.TranslationX = ScreenPanelOffscreenX;
+                                imagePanel.TranslationX = PhoneWidth;
                                 imagePanel.Animate().TranslationX(0);
                             }
 
-                            DateTime end = DateTime.Now;
+                            //DateTime end = DateTime.Now;
                             //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
@@ -295,7 +318,7 @@ namespace Lewd_Images
 
             loading = true;
             if(animate && Settings.Instance.AnimationsEnabled)
-                imagePanel.Animate().TranslationX(ScreenPanelOffscreenX);
+                imagePanel.Animate().TranslationX(PhoneWidth);
 
             Task.Run(() =>
             {
@@ -312,7 +335,7 @@ namespace Lewd_Images
 
                         if (animate && Settings.Instance.AnimationsEnabled)
                         {
-                            imagePanel.TranslationX = -ScreenPanelOffscreenX;
+                            imagePanel.TranslationX = -PhoneWidth;
                             imagePanel.Animate().TranslationX(0);
                         }
                     });
@@ -353,28 +376,29 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        public void CreateNotification(string _title, string _text)
+        public void CreateNotification(string title, string text)
         {
-            if (!Settings.Instance.NotificationsEnabled)
+            if (!Settings.Instance.DownloadNotificationEnabled)
                 return;
 
             string imageFile = System.IO.Path.Combine(DownloadManager.DownloadPath, $"{ImageName}.png");
 
-
-            Toast.MakeText(this, imageFile, ToastLength.Short).Show();
-
             Bitmap bitmap = BitmapFactory.DecodeFile(imageFile);
 
-            if (System.IO.File.Exists(imageFile))
-            {
-                Toast.MakeText(this, "gay brah", ToastLength.Short).Show();
-            }
+            Android.Net.Uri uri = Android.Net.Uri.Parse(imageFile);
+            Intent intent = new Intent(Intent.ActionView);
+            intent.SetDataAndType(uri, "image/.png");
+
+            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);  
+
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.Immutable);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .SetContentTitle(_title)
-                .SetContentText(_text)
+                .SetContentTitle(title)
+                .SetContentText(text)
+                .SetContentIntent(pendingIntent)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
-                .SetSmallIcon(Resource.Mipmap.app_icon)
+                .SetSmallIcon(Resource.Drawable.Icon)
                 .SetLargeIcon(bitmap);
 
             NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
@@ -408,7 +432,7 @@ namespace Lewd_Images
 
                 CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                 {
-                    Title = "Lewd Image",
+                    Title = "Neko Image",
                     Text = "Checkout this Neko!",
                     Url = imageStore.GetLink()
                 });
@@ -427,15 +451,32 @@ namespace Lewd_Images
             //}
             if (item.ItemId == Resource.Id.menu_info) 
             {
-                aDialog.SetTitle("App Info")
-                .SetMessage("Made By:" +
-                "\n" +
-                "Jay and Nobbele" +
-                "\n" +
-                "Images From:" +
-                "\n" +
-                "Nekos.life")
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
+                aDialog.SetTitle("App Info");
+
+                LinearLayout layout = new LinearLayout(this)
+                {
+                    Orientation = Orientation.Vertical
+                };
+                layout.SetPadding(30, 20, 30, 20);
+
+                TextView creditsText = new TextView(this)
+                {
+                    Text = $":Made By:" +
+                    $"\n" +
+                    $"TheJayDuck and Nobbele" +
+                    $"\n" +
+                    $":Images From:" +
+                    $"\n" +
+                    $"Nekos.Life",
+                    Gravity = GravityFlags.CenterHorizontal
+                };
+
+                layout.AddView(creditsText);
+
+                aDialog.SetView(layout);
+
+
+                aDialog.SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
             /*if(item.ItemId == Resource.Id.menu_favoritelist)
@@ -469,40 +510,29 @@ namespace Lewd_Images
                 };
                 layout.SetPadding(30, 20, 30, 20);
 
-                Switch lewdSwitch = new Switch(this)
+                TextView text_1 = new TextView(this)
                 {
-                    Text = "Enable NSFW Tags",
-                    Checked = Settings.Instance.LewdTagsEnabled
-                };
-                lewdSwitch.CheckedChange += delegate
-                {
-                    if (lewdSwitch.Checked)
-                        NsfwInfo(lewdSwitch);
-                    else
-                    {
-                        lewdSwitch.Checked = false;
-                        Settings.Instance.LewdTagsEnabled = lewdSwitch.Checked;
-                    }
+                    Text = "Auto Slide Timer"
                 };
 
-                Switch notificationSwitch = new Switch(this)
+                SeekBar sliderWaitTime = new SeekBar(this)
                 {
-                    Text = "Enable Notifications",
-                    Checked = Settings.Instance.NotificationsEnabled
-                };
-                notificationSwitch.CheckedChange += delegate
-                {
-                    Settings.Instance.NotificationsEnabled = notificationSwitch.Checked;
+                    Max = 10
                 };
 
-                Switch animationSwitch = new Switch(this)
+                NsfwSwitch lewdSwitch = new NsfwSwitch(this, Settings.Instance.LewdTagsEnabled)
                 {
-                    Text = "Enable Animations",
-                    Checked = Settings.Instance.AnimationsEnabled
+                    Text = "Enable NSFW Tags"
                 };
-                animationSwitch.CheckedChange += delegate
+
+                SettingSwitch notificationSwitch = new SettingSwitch(this, Settings.Instance.DownloadNotificationEnabled)
                 {
-                    Settings.Instance.AnimationsEnabled = animationSwitch.Checked;
+                    Text = "Enable Notifications"
+                };
+
+                SettingSwitch animationSwitch = new SettingSwitch(this, Settings.Instance.AnimationsEnabled)
+                {
+                    Text = "Enable Animations"
                 };
 
                 Button resetButton = new Button(this)
@@ -524,6 +554,12 @@ namespace Lewd_Images
                 };
                 serverCheckerButton.Click += delegate
                 {
+                    if (!CrossConnectivity.Current.IsConnected)
+                    {
+                        Toast.MakeText(this, "No active internet connection", ToastLength.Short).Show();
+                        return;
+                    }
+
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://nekos.life/");
                     using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                         if (response == null || response.StatusCode != HttpStatusCode.OK)
@@ -543,6 +579,8 @@ namespace Lewd_Images
                 layout.AddView(lewdSwitch);
                 layout.AddView(animationSwitch);
                 layout.AddView(notificationSwitch);
+                layout.AddView(text_1);
+                layout.AddView(sliderWaitTime);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
                 aDialog.SetView(layout)
@@ -561,28 +599,7 @@ namespace Lewd_Images
             return base.OnOptionsItemSelected(item);
         }
 
-        private void NsfwInfo(Switch _switch)
-        {
-            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
-
-            if (_switch.Checked)
-            {
-                aDialog.SetCancelable(false);
-                aDialog.SetTitle("You are about to enable NSFW tags!");
-                aDialog.SetPositiveButton("Enable It", delegate
-                {
-                    _switch.Checked = true;
-                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
-                });
-
-                aDialog.SetNegativeButton("Nevermind", delegate
-                {
-                    _switch.Checked = false;
-                    Settings.Instance.LewdTagsEnabled = _switch.Checked;
-                });
-            }
-            aDialog.Show();
-        }
+        
         private void HelpInfo()
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
@@ -618,9 +635,11 @@ namespace Lewd_Images
                 $"\n" +
                 $"Enable Animations: Enables Animations (Saves Performance When Disabled)" +
                 $"\n" +
+                $"Enable Notifications: Enables Notifications" +
+                $"\n" +
                 $"Reset Image History: Resets The Generated Image List (Saves Performance)" +
                 $"\n" +
-                $"Check NekosLife Server: To Check Is Host Is Online",
+                $"Check NekosLife Server: To Check If The Host Is Online",
                 Gravity = GravityFlags.CenterHorizontal
             };
 

@@ -6,7 +6,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
 
 namespace Lewd_Images
 {
@@ -16,6 +15,25 @@ namespace Lewd_Images
         /// List of image urls
         /// </summary>
         protected readonly List<string> list = new List<string>();
+
+        private int m_index = -1;
+        /// <summary>
+        /// Index of the list, -1 if no images exist
+        /// </summary>
+        public int Index {
+            get => m_index;
+            protected set {
+                if(value >= list.Count)
+                    throw new IndexOutOfRangeException();
+                m_index = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a new url to the ImageStore internal array
+        /// </summary>
+        /// <returns>Image url</returns>
+        protected abstract string GetNew();
 
         /// <summary>
         /// Adds a custom link to internal list
@@ -28,27 +46,16 @@ namespace Lewd_Images
         }
 
         /// <summary>
-        /// Index of the list, -1 if no images exist
-        /// </summary>
-        public int Index { get; protected set; } = -1;
-
-        /// <summary>
-        /// Gets a new url to the ImageStore internal array
-        /// </summary>
-        /// <returns>Image url</returns>
-        protected abstract string GetNew();
-
-        /// <summary>
         /// Moves the <see cref="Index"/> forward and calls <see cref="AppendNew"/> if no urls are available
         /// </summary>
         /// <param name="count"></param>
         public void Forward(int count = 1)
         {
-            Index += count;
-            while(Index > list.Count-1)
+            while((Index + count) > list.Count-1)
             {
                 list.Add(GetNew());
             }
+            Index += count;
         }
         /// <summary>
         /// Moves the <see cref="Index"/> back
@@ -75,8 +82,8 @@ namespace Lewd_Images
         /// </summary>
         public void Reset()
         {
-            Index = -1;
             list.Clear();
+            Index = -1;
         }
 
         // Sample Size: 10
@@ -133,6 +140,8 @@ namespace Lewd_Images
         /// <returns>Link to current image</returns>
         public string GetLink()
         {
+            if (Index < 0)
+                throw new ImageStoreEmptyException();
             return list[Index];
         }
 
@@ -144,5 +153,10 @@ namespace Lewd_Images
         /// If <see cref="Index"/> points to the first image in the list
         /// </summary>
         public bool IsFirst => Index <= 0;
+    }
+
+    public class ImageStoreEmptyException : Exception
+    {
+        public override string Message => "Tried to get image while ImageStore contained no images";
     }
 }

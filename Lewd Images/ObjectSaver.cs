@@ -19,12 +19,12 @@ class ObjectSaver
     /// <param name="filePath">The file path to write the object instance to.</param>
     /// <param name="objectToWrite">The object instance to write to the file.</param>
     /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
-    public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+    public static void WriteToFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
     {
         TextWriter writer = null;
         try
         {
-            var serializer = new XmlSerializer(typeof(T));
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             writer = new StreamWriter(filePath, append);
 
             serializer.Serialize(writer, objectToWrite);
@@ -43,13 +43,12 @@ class ObjectSaver
     /// <typeparam name="T">The type of object to read from the file.</typeparam>
     /// <param name="filePath">The file path to read the object instance from.</param>
     /// <returns>Returns a new instance of the object read from the XML file.</returns>
-    public static T ReadFromXmlFile<T>(string filePath) where T : new()
+    public static T ReadFromFile<T>(string filePath) where T : new()
     {
         XmlReader reader = null;
         try
         {
-            var serializer = new XmlSerializer(typeof(T));
-            //reader = new StreamReader(filePath, true);
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 CheckCharacters = false
