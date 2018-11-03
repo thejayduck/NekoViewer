@@ -187,7 +187,7 @@ namespace Lewd_Images
             {
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
-                aDialog.SetTitle("Choose An Options");
+                aDialog.SetTitle("Choose An Option");
                 aDialog.SetPositiveButton("Auto Mode", delegate
                 {
 
