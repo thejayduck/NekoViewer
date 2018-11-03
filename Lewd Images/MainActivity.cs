@@ -41,7 +41,7 @@ namespace Lewd_Images
             return result;
         }
 
-        //bools
+        //Booleans
         bool loading = false;
         bool downloading = false;
 
@@ -50,13 +50,16 @@ namespace Lewd_Images
         FloatingActionButton nextImageButton;
         public FloatingActionButton previousImageButton;   
 
-        //Tags
+        //Misc
         ImageView imagePanel;
         Spinner tagSpinner;
         public string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+
+        //Permissions
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
         private static readonly int REQUEST_PERMISSION = 1;
 
+        //Currently selected tag, NekosLife.Instance.DefaultTag if none is selected
         private string SelectedTag {
             get {
                 if (tagSpinner.SelectedItemPosition >= 0)
@@ -68,6 +71,7 @@ namespace Lewd_Images
 
         public static LewdImageStore imageStore = new LewdImageStore(NekosLife.Instance);
 
+        //Screen sizes
         public int PhoneWidth => Resources.DisplayMetrics.WidthPixels;
         public int PhoneHeight => Resources.DisplayMetrics.HeightPixels;
 
@@ -116,7 +120,7 @@ namespace Lewd_Images
             SupportActionBar.Title = null;
 
             //Spinner
-            tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
+            tagSpinner.Adapter = new TagsAdapter(this, Android.Resource.Layout.SimpleListItem1, NekosLife.Instance);
             tagSpinner.ItemSelected += (o, e) =>
             {
                 if (Settings.Instance.GenerateNewImageOnTagChange)
@@ -228,13 +232,6 @@ namespace Lewd_Images
             previousImageButton.Click += (o, e) =>
             {
                 GetPreviousImage();
-            };
-
-            Settings.Instance.LewdTagsEnabled.OnChange += delegate
-            {
-                Settings.Instance.GenerateNewImageOnTagChange.Set(false, false);
-                tagSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, new ArrayList(NekosLife.Instance.Tags));
-                Settings.Instance.GenerateNewImageOnTagChange.Set(true, false);
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;

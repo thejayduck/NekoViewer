@@ -85,6 +85,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Switches\SettingSwitch.cs" />
     <Compile Include="SplashScreen\SplashScreen.cs" />
+    <Compile Include="TagsAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
