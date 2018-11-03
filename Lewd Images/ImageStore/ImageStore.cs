@@ -86,12 +86,6 @@ namespace Lewd_Images
             Index = -1;
         }
 
-        // Sample Size: 10
-        // Average: 0.821
-        // Highest: 1.25
-        // Lowest: 0.4
-        #region Image Downloading
-
         /// <summary>
         /// Returns the cached image, If internal image cache is null, download the image and set the cache
         /// </summary>
@@ -131,8 +125,6 @@ namespace Lewd_Images
                 post?.Invoke();
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Returns link to the current image
