@@ -502,10 +502,6 @@ namespace Lewd_Images
                 layout.AddView(sliderWaitTime);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
-                aDialog.ItemSelected += delegate
-                {
-                    ;
-                };
                 aDialog.SetView(layout)
                 .SetTitle("Options")
                 .SetNegativeButton("Help?", delegate
