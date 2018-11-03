@@ -172,7 +172,7 @@ namespace Lewd_Images
                         return;
                     }
                     Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
-                    CreateDownloadNotification("Download Completed!", ImageName, path, image);
+                    NotificationController.CreateDownloadNotification(this, "Download Completed!", ImageName, path, image);
                 });
                 aDialog.SetNeutralButton("Set As Wallpaper", delegate
                 {
@@ -357,45 +357,7 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        public void CreateDownloadNotification(string title, string text, string path, Bitmap icon)
-        {
-            if (!Settings.Instance.DownloadNotificationEnabled)
-                return;
-
-            Android.Net.Uri uri = Android.Net.Uri.Parse(path);
-
-            Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(uri, "image/png");
-
-            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);  
-
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.Immutable);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .SetContentTitle(title)
-                .SetContentText(text)
-                .SetContentIntent(pendingIntent)
-                .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(icon).BigLargeIcon(null))
-                .SetSmallIcon(Resource.Drawable.Icon);
-
-            NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
-
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            {
-                var channelId = $"{PackageName}.general";
-                var channel = new NotificationChannel(channelId, "General", NotificationImportance.Default);
-
-                notificationManager.CreateNotificationChannel(channel);
-
-                builder.SetChannelId(channelId);
-            }
-
-            Notification notification = builder.Build();
-            notification.Flags |= NotificationFlags.AutoCancel;
-
-            const int notificationId = 0;
-            notificationManager.Notify(notificationId, notification);
-        }
+        
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
@@ -416,18 +378,6 @@ namespace Lewd_Images
                     Url = imageStore.GetLink()
                 });
             }
-            //if(item.ItemId == Resource.Id.menu_favorite)
-            //{
-            //    if (imagePanel.Drawable == null)
-            //        return false;
-
-            //    if (imageStore.IsCurrentFavorite)
-            //        imageStore.RemoveCurrentFromFavorite();
-            //    else
-            //        imageStore.AddCurrentToFavorite();
-            //    UpdateFavorite();
-
-            //}
             if (item.ItemId == Resource.Id.menu_info) 
             {
                 aDialog.SetTitle("App Info");
@@ -458,29 +408,6 @@ namespace Lewd_Images
                 aDialog.SetNeutralButton("Close", delegate { aDialog.Dispose(); })
                 .Show();
             }
-            /*if(item.ItemId == Resource.Id.menu_favoritelist)
-            {
-                ScrollView scroll = new ScrollView(this);
-                scroll.SetPadding(30, 20, 30, 20);
-
-                LinearLayout linearLayout = new LinearLayout(this);
-
-                scroll.AddView(linearLayout);
-                foreach(string i in imageStore.Favorites)
-                {
-                    Button btn = new Button(this)
-                    {
-                        Text = i
-                    };
-                    linearLayout.AddView(btn);
-                }
-
-                aDialog.SetView(scroll)
-                .SetTitle("Favorites")
-                .SetNeutralButton("Close", delegate { aDialog.Dispose(); })
-                .Show();
-
-            }*/
             if(item.ItemId == Resource.Id.menu_options)
             {
                 LinearLayout layout = new LinearLayout(this)
@@ -562,6 +489,10 @@ namespace Lewd_Images
                 layout.AddView(sliderWaitTime);
                 layout.AddView(resetButton);
                 layout.AddView(serverCheckerButton);
+                aDialog.ItemSelected += delegate
+                {
+                    ;
+                };
                 aDialog.SetView(layout)
                 .SetTitle("Options")
                 .SetNegativeButton("Help?", delegate
@@ -570,8 +501,7 @@ namespace Lewd_Images
                     HelpInfo();
                 })
                 .SetNeutralButton("Close", delegate { aDialog.Dispose(); Settings.SaveToFile(); })
-                .SetOnDismissListener(new OptionsDialogCallbackHandler())
-                .SetOnCancelListener(new OptionsDialogCallbackHandler())
+                .SetCancelable(false)
                 .Show();
             }
 
@@ -632,19 +562,6 @@ namespace Lewd_Images
                 aDialog.Dispose();
             })
             .Show();
-        }
-
-        class OptionsDialogCallbackHandler : Java.Lang.Object, IDialogInterfaceOnDismissListener, IDialogInterfaceOnCancelListener
-        {
-            public void OnCancel(IDialogInterface dialog)
-            {
-                Settings.SaveToFile();
-            }
-
-            public void OnDismiss(IDialogInterface dialog)
-            {
-                Settings.SaveToFile();
-            }
         }
 
 
