@@ -185,30 +185,43 @@ namespace Lewd_Images
             //Buttons Functions
             nextImageButton.LongClick += (o, e) =>
             {
-                if (loading || downloading)
+                Android.App.AlertDialog.Builder aDialog;
+                aDialog = new Android.App.AlertDialog.Builder(this);
+                aDialog.SetTitle("Choose An Option");
+                aDialog.SetPositiveButton("Auto Mode", delegate
                 {
-                    Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
-                    return;
-                }
-                Toast.MakeText(this, "Last image", ToastLength.Short).Show();
-                loading = true;
-                imagePanel.Animate().TranslationX(-PhoneWidth);
-                Task.Run(() =>
-                {
-                    imageStore.GotoLast();
-                    Fix();
-                    RunOnUiThread(() =>
-                    {
-                        ReloadImagePanel(() =>
-                        {
-                            CheckPreviousImageButton();
-                            imagePanel.TranslationX = PhoneWidth;
-                            imagePanel.Animate().TranslationX(0);
-                        });
-                    });
-                    loading = false;
+
                 });
+                aDialog.SetNeutralButton("Last Image", delegate
+                {
+                    Toast.MakeText(this, "Last image", ToastLength.Short).Show();
+                    loading = true;
+                    imagePanel.Animate().TranslationX(-PhoneWidth);
+                    Task.Run(() =>
+                    {
+                        if (loading || downloading)
+                        {
+                            Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                            return;
+                        }
+
+                        imageStore.GotoLast();
+                        Fix();
+                        RunOnUiThread(() =>
+                        {
+                            ReloadImagePanel(() =>
+                            {
+                                CheckPreviousImageButton();
+                                imagePanel.TranslationX = PhoneWidth;
+                                imagePanel.Animate().TranslationX(0);
+                            });
+                        });
+                        loading = false;
+                    });
+                });
+                aDialog.Show();
             };
+
             nextImageButton.Click += (o,e) =>
             {
                 GetNextImage();
