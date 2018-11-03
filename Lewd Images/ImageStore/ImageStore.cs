@@ -91,36 +91,12 @@ namespace Lewd_Images
         /// <returns>Current image</returns>
         public Bitmap GetImage()
         {
-            string url = GetLink();
-
-            return new DownloadImageTask(null, null).Execute(url).GetResult();
-        }
-
-        /// <summary>
-        /// Local path to where cached images should be stored
-        /// </summary>
-        public static string CacheStorageFolder = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "images");
-        static string GetImageCacheLocation(string id) => System.IO.Path.Combine(CacheStorageFolder, id);
-        static bool ExistsInCache(string id) => System.IO.File.Exists(System.IO.Path.Combine(CacheStorageFolder, GetUrlId(id)));
-        static string GetUrlId(string url) => new FileInfo(url).Name;
-
-        static Bitmap GetCached(string url)
-        {
-            string id = GetUrlId(url);
-            return ExistsInCache(id) ? BitmapFactory.DecodeFile(GetImageCacheLocation(id)) : null;
+            return new DownloadImageTask(null, null).Execute(GetLink()).GetResult();
         }
 
         public void SetImage(ImageView imageView, Action post)
         {
-            string url = GetLink();
-            Bitmap image = GetCached(url);
-            if (image == null)
-                new DownloadImageTask(imageView, post).Execute(url);
-            else
-            {
-                imageView.SetImageBitmap(image);
-                post?.Invoke();
-            }
+            new DownloadImageTask(imageView, post).Execute(GetLink());
         }
 
         private class DownloadImageTask : AsyncTask<string, string, Bitmap> {
@@ -135,48 +111,17 @@ namespace Lewd_Images
                 this.post = post;
             }
 
-            MemoryStream CopyStreamToMemory(Stream inputStream)
-            {
-                MemoryStream ret = new MemoryStream();
-                const int BUFFER_SIZE = 4096;
-                byte[] buf = new byte[BUFFER_SIZE];
-
-                int bytesread = 0;
-                while ((bytesread = inputStream.Read(buf, 0, BUFFER_SIZE)) > 0)
-                    ret.Write(buf, 0, bytesread);
-
-                ret.Position = 0;
-                return ret;
-            }
-
             protected override Bitmap RunInBackground(params string[] urls)
             {
                 using (Stream stream = new Java.Net.URL(urls[0]).OpenStream())
                 {
-                    string folder = GetImageCacheLocation("");
-                    if (!Directory.Exists(folder))
-                        Directory.CreateDirectory(folder);
-                    
-                    using (MemoryStream streamCopy = CopyStreamToMemory(stream))    //Since you cant seek in url stream, you need to copy it to memory
-                    {
-                        //TODO Make file copying async
-                        using (FileStream file = System.IO.File.OpenWrite(GetImageCacheLocation(GetUrlId(urls[0]))))
-                        {
-                            streamCopy.CopyTo(file);
-                        }
-                        streamCopy.Position = 0;
-                        return BitmapFactory.DecodeStream(streamCopy);
-                    }
+                    return BitmapFactory.DecodeStream(stream);
                 }
             }
             protected override void OnPostExecute(Bitmap result)
             {
                 bmImage?.SetImageBitmap(result);
                 post?.Invoke();
-            }
-            protected override void OnPreExecute()
-            {
-                
             }
         }
 
