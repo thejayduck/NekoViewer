@@ -164,14 +164,15 @@ namespace Lewd_Images
                 aDialog.SetTitle("Image Options");
                 aDialog.SetPositiveButton("Download Image", delegate
                 {
-                    string path = Android.Provider.MediaStore.Images.Media.InsertImage(ContentResolver, imageStore.GetImage(), ImageName, "A neko from NekoViewer app");
+                    Bitmap image = imageStore.GetImage();
+                    string path = Android.Provider.MediaStore.Images.Media.InsertImage(ContentResolver, image, ImageName, "A neko from NekoViewer app");
                     if(path == null)
                     {
                         Toast.MakeText(this, "Couldn't download image", ToastLength.Short).Show();
                         return;
                     }
                     Toast.MakeText(this, $"Downloaded {ImageName}!", ToastLength.Short).Show();
-                    CreateDownloadNotification("Download Completed!", ImageName, path);
+                    CreateDownloadNotification("Download Completed!", ImageName, path, image);
                 });
                 aDialog.SetNeutralButton("Set As Wallpaper", delegate
                 {
@@ -356,14 +357,13 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        public void CreateDownloadNotification(string title, string text, string path)
+        public void CreateDownloadNotification(string title, string text, string path, Bitmap icon)
         {
             if (!Settings.Instance.DownloadNotificationEnabled)
                 return;
 
-            Bitmap bitmap = BitmapFactory.DecodeFile(path);
-
             Android.Net.Uri uri = Android.Net.Uri.Parse(path);
+
             Intent intent = new Intent(Intent.ActionView);
             intent.SetDataAndType(uri, "image/png");
 
@@ -375,9 +375,8 @@ namespace Lewd_Images
                 .SetContentTitle(title)
                 .SetContentText(text)
                 .SetContentIntent(pendingIntent)
-                .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(bitmap))
-                .SetSmallIcon(Resource.Drawable.Icon)
-                .SetLargeIcon(bitmap);
+                .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(icon).BigLargeIcon(null))
+                .SetSmallIcon(Resource.Drawable.Icon);
 
             NotificationManager notificationManager = GetSystemService(NotificationService) as NotificationManager;
 
