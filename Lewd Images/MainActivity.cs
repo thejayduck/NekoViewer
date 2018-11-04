@@ -253,8 +253,6 @@ namespace Lewd_Images
                 return;
             }
 
-            //DateTime start = DateTime.Now;
-
             loading = true;
             if (animate && Settings.Instance.AnimationsEnabled)
                 imagePanel.Animate().TranslationX(-PhoneWidth);
@@ -278,9 +276,6 @@ namespace Lewd_Images
                                 imagePanel.TranslationX = PhoneWidth;
                                 imagePanel.Animate().TranslationX(0);
                             }
-
-                            //DateTime end = DateTime.Now;
-                            //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
                 }
@@ -346,13 +341,7 @@ namespace Lewd_Images
         public void ReloadImagePanel(Action post)
         {
             imageStore.SetImage(imagePanel, post);
-            //UpdateFavorite();
         }
-
-        //public void UpdateFavorite()
-        //{
-        //    imagePanel.SetBackgroundColor(imageStore.IsCurrentFavorite ? Color.Goldenrod : Color.Transparent);
-        //}
 
         public override void OnBackPressed()
         {
