@@ -194,14 +194,8 @@ namespace Lewd_Images
                 aDialog.SetTitle("Choose An Option");
                 aDialog.SetNegativeButton("Auto Mode", delegate
                 {
-                    if(AutoSliderWaitTime <= 4)
-                    {
-                        Toast.MakeText(this, "The Wait Time Is Less Than '4' We Suggest You To Go Higher Than That", ToastLength.Short).Show();
-                        return;
-                    }
-
                     AutoSlideEnabled = !AutoSlideEnabled;
-                    Toast.MakeText(this, $"Value Is {AutoSlideEnabled.ToString()}", ToastLength.Short).Show();
+                    Toast.MakeText(this, $"Auto Mode Is '{AutoSlideEnabled.ToString()}'", ToastLength.Short).Show();
                     AutoSlideController();
                 });
                 aDialog.SetPositiveButton("Last Image", delegate
