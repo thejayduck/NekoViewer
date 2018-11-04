@@ -48,7 +48,11 @@ namespace Lewd_Images
         //Buttons
         FloatingActionButton imageInfoButton;
         FloatingActionButton nextImageButton;
-        public FloatingActionButton previousImageButton;   
+        public FloatingActionButton previousImageButton;
+
+        //Timer
+        int AutoSliderWaitTime = 5;
+        bool AutoSlideEnabled = false;
 
         //Misc
         ImageView imagePanel;
@@ -190,7 +194,15 @@ namespace Lewd_Images
                 aDialog.SetTitle("Choose An Option");
                 aDialog.SetPositiveButton("Auto Mode", delegate
                 {
+                    if(AutoSliderWaitTime <= 4)
+                    {
+                        Toast.MakeText(this, "The Wait Time Is Less Than '4' We Suggest You To Go Higher Than That", ToastLength.Short).Show();
+                        return;
+                    }
 
+                    AutoSlideEnabled = !AutoSlideEnabled;
+                    Toast.MakeText(this, $"Value Is {AutoSlideEnabled.ToString()}", ToastLength.Short).Show();
+                    AutoSlideController();
                 });
                 aDialog.SetNeutralButton("Last Image", delegate
                 {
@@ -224,14 +236,35 @@ namespace Lewd_Images
 
             nextImageButton.Click += (o,e) =>
             {
+                if (AutoSlideEnabled)
+                    return;
+
                 GetNextImage();
             };
             previousImageButton.Click += (o, e) =>
             {
+                if (AutoSlideEnabled)
+                    return;
+
                 GetPreviousImage();
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;
+        }
+
+        private void AutoSlideController()
+        {
+            if (!AutoSlideEnabled)
+                return;
+
+            Task.Run(() =>
+            {
+                Thread.Sleep(AutoSliderWaitTime * 1000);
+                RunOnUiThread(() =>
+                {
+                    GetNextImage();
+                });
+            });
         }
 
         protected override void OnDestroy()
@@ -283,6 +316,8 @@ namespace Lewd_Images
                             //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
+                    if (AutoSlideEnabled)
+                        AutoSlideController();
                 }
                 catch (Exception e)
                 {
@@ -437,6 +472,16 @@ namespace Lewd_Images
                 SeekBar sliderWaitTime = new SeekBar(this)
                 {
                     Max = 10
+                };
+
+                sliderWaitTime.Progress = AutoSliderWaitTime;
+
+                sliderWaitTime.ProgressChanged += (o, e) =>
+                {
+                    if(sliderWaitTime.Progress <= 4)
+                        sliderWaitTime.Progress = 5;
+
+                    AutoSliderWaitTime = sliderWaitTime.Progress;
                 };
 
                 NsfwSwitch lewdSwitch = new NsfwSwitch(this, Settings.Instance.LewdTagsEnabled)
