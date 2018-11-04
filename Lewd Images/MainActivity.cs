@@ -48,7 +48,11 @@ namespace Lewd_Images
         //Buttons
         FloatingActionButton imageInfoButton;
         FloatingActionButton nextImageButton;
-        public FloatingActionButton previousImageButton;   
+        public FloatingActionButton previousImageButton;
+
+        //Timer
+        int AutoSliderWaitTime = 5;
+        bool AutoSlideEnabled = false;
 
         //Misc
         ImageView imagePanel;
@@ -126,8 +130,8 @@ namespace Lewd_Images
                 if (Settings.Instance.GenerateNewImageOnTagChange)
                 {
                     imageStore.Tag = SelectedTag;
-                    Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
-                    GetNextImage();
+                    Toast.MakeText(this, $"Selected '{SelectedTag}'", ToastLength.Short).Show();
+                    //GetNextImage();
                 }
             };
 
@@ -188,11 +192,13 @@ namespace Lewd_Images
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Choose An Option");
-                aDialog.SetPositiveButton("Auto Mode", delegate
+                aDialog.SetNegativeButton("Auto Mode", delegate
                 {
-
+                    AutoSlideEnabled = !AutoSlideEnabled;
+                    Toast.MakeText(this, $"Auto Mode Is '{AutoSlideEnabled.ToString()}'", ToastLength.Short).Show();
+                    AutoSlideController();
                 });
-                aDialog.SetNeutralButton("Last Image", delegate
+                aDialog.SetPositiveButton("Last Image", delegate
                 {
                     Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                     loading = true;
@@ -224,14 +230,37 @@ namespace Lewd_Images
 
             nextImageButton.Click += (o,e) =>
             {
+                if (AutoSlideEnabled)
+                    return;
+
                 GetNextImage();
             };
             previousImageButton.Click += (o, e) =>
             {
+                if (AutoSlideEnabled)
+                    return;
+
                 GetPreviousImage();
             };
 
             previousImageButton.Visibility = ViewStates.Invisible;
+        }
+
+        private void AutoSlideController()
+        {
+            if (!AutoSlideEnabled)
+                return;
+            if (!loading)
+            {
+                Task.Run(() =>
+                {
+                    Thread.Sleep(AutoSliderWaitTime * 1000);
+                    RunOnUiThread(() =>
+                    {
+                        GetNextImage();
+                    });
+                });
+            }
         }
 
         protected override void OnDestroy()
@@ -289,6 +318,8 @@ namespace Lewd_Images
                 finally
                 {
                     loading = false;
+                    if (AutoSlideEnabled)
+                        AutoSlideController();
                 }
             });
         }
@@ -313,13 +344,12 @@ namespace Lewd_Images
             {
                 imageStore.Back();
                 if (animate && Settings.Instance.AnimationsEnabled)
-                Fix();
+                    Fix();
 
                 RunOnUiThread(() =>
                 {
                     ReloadImagePanel(() =>
                     {
-                    
                         CheckPreviousImageButton();
 
                         if (animate && Settings.Instance.AnimationsEnabled)
@@ -425,7 +455,17 @@ namespace Lewd_Images
 
                 SeekBar sliderWaitTime = new SeekBar(this)
                 {
-                    Max = 10
+                    Max = 15
+                };
+
+                sliderWaitTime.Progress = AutoSliderWaitTime;
+
+                sliderWaitTime.ProgressChanged += (o, e) =>
+                {
+                    if(sliderWaitTime.Progress <= 4)
+                        sliderWaitTime.Progress = 5;
+
+                    AutoSliderWaitTime = sliderWaitTime.Progress;
                 };
 
                 NsfwSwitch lewdSwitch = new NsfwSwitch(this, Settings.Instance.LewdTagsEnabled)
@@ -479,7 +519,7 @@ namespace Lewd_Images
                         else
                         {
                             Toast.MakeText(this, "Server Works Fine", ToastLength.Short).Show();
-                            serverCheckerButton.SetTextColor(Color.DarkGreen);
+                            serverCheckerButton.SetTextColor(Color.Green);
                             serverCheckerButton.Text = "Success";
                         }
                 };
