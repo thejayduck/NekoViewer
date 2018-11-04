@@ -130,7 +130,7 @@ namespace Lewd_Images
                 if (Settings.Instance.GenerateNewImageOnTagChange)
                 {
                     imageStore.Tag = SelectedTag;
-                    Toast.MakeText(this, $"Selected {SelectedTag}", ToastLength.Short).Show();
+                    Toast.MakeText(this, $"Selected '{SelectedTag}'", ToastLength.Short).Show();
                     GetNextImage();
                 }
             };
@@ -192,7 +192,7 @@ namespace Lewd_Images
                 Android.App.AlertDialog.Builder aDialog;
                 aDialog = new Android.App.AlertDialog.Builder(this);
                 aDialog.SetTitle("Choose An Option");
-                aDialog.SetPositiveButton("Auto Mode", delegate
+                aDialog.SetNegativeButton("Auto Mode", delegate
                 {
                     if(AutoSliderWaitTime <= 4)
                     {
@@ -204,7 +204,7 @@ namespace Lewd_Images
                     Toast.MakeText(this, $"Value Is {AutoSlideEnabled.ToString()}", ToastLength.Short).Show();
                     AutoSlideController();
                 });
-                aDialog.SetNeutralButton("Last Image", delegate
+                aDialog.SetPositiveButton("Last Image", delegate
                 {
                     Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                     loading = true;
