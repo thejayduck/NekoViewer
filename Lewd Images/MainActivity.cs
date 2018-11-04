@@ -316,8 +316,6 @@ namespace Lewd_Images
                             //Toast.MakeText(this, string.Format("takes {0} seconds to get next image", (end - start).TotalSeconds), ToastLength.Short).Show();
                         });
                     });
-                    if (AutoSlideEnabled)
-                        AutoSlideController();
                 }
                 catch (Exception e)
                 {
@@ -329,6 +327,8 @@ namespace Lewd_Images
                 finally
                 {
                     loading = false;
+                    if (AutoSlideEnabled)
+                        AutoSlideController();
                 }
             });
         }
