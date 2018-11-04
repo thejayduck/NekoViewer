@@ -131,7 +131,7 @@ namespace Lewd_Images
                 {
                     imageStore.Tag = SelectedTag;
                     Toast.MakeText(this, $"Selected '{SelectedTag}'", ToastLength.Short).Show();
-                    GetNextImage();
+                    //GetNextImage();
                 }
             };
 
@@ -250,15 +250,17 @@ namespace Lewd_Images
         {
             if (!AutoSlideEnabled)
                 return;
-
-            Task.Run(() =>
+            if (!loading)
             {
-                Thread.Sleep(AutoSliderWaitTime * 1000);
-                RunOnUiThread(() =>
+                Task.Run(() =>
                 {
-                    GetNextImage();
+                    Thread.Sleep(AutoSliderWaitTime * 1000);
+                    RunOnUiThread(() =>
+                    {
+                        GetNextImage();
+                    });
                 });
-            });
+            }
         }
 
         protected override void OnDestroy()
@@ -347,13 +349,12 @@ namespace Lewd_Images
             {
                 imageStore.Back();
                 if (animate && Settings.Instance.AnimationsEnabled)
-                Fix();
+                    Fix();
 
                 RunOnUiThread(() =>
                 {
                     ReloadImagePanel(() =>
                     {
-                    
                         CheckPreviousImageButton();
 
                         if (animate && Settings.Instance.AnimationsEnabled)
@@ -465,7 +466,7 @@ namespace Lewd_Images
 
                 SeekBar sliderWaitTime = new SeekBar(this)
                 {
-                    Max = 10
+                    Max = 15
                 };
 
                 sliderWaitTime.Progress = AutoSliderWaitTime;
@@ -529,7 +530,7 @@ namespace Lewd_Images
                         else
                         {
                             Toast.MakeText(this, "Server Works Fine", ToastLength.Short).Show();
-                            serverCheckerButton.SetTextColor(Color.DarkGreen);
+                            serverCheckerButton.SetTextColor(Color.Green);
                             serverCheckerButton.Text = "Success";
                         }
                 };
