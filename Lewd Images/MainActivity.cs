@@ -30,7 +30,7 @@ namespace Lewd_Images
 
         public static MainActivity Instance;
 
-        public int getStatusBarHeight()
+        public int GetStatusBarHeight()
         {
             int result = 0;
             int resourceId = Resources.GetIdentifier("status_bar_height", "dimen", "android");
@@ -102,7 +102,7 @@ namespace Lewd_Images
 
             CoordinatorLayout cLayout = FindViewById<CoordinatorLayout>(Resource.Id.coordinatorLayout);
             cLayout.AddView(adView);
-            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this) - getStatusBarHeight());
+            adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this) - GetStatusBarHeight());
 
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
@@ -196,7 +196,7 @@ namespace Lewd_Images
                 {
                     AutoSlideEnabled = !AutoSlideEnabled;
                     Toast.MakeText(this, $"Auto Mode Is '{AutoSlideEnabled.ToString()}'", ToastLength.Short).Show();
-                    AutoSlideController();
+                    DoAutoSlide();
                 });
                 aDialog.SetPositiveButton("Last Image", delegate
                 {
@@ -243,24 +243,31 @@ namespace Lewd_Images
                 GetPreviousImage();
             };
 
+            Settings.Instance.AnimationsEnabled.OnChange += delegate
+            {
+                //Do something to disable system animations
+            };
+
             previousImageButton.Visibility = ViewStates.Invisible;
         }
 
-        private void AutoSlideController()
+        private void DoAutoSlide()
         {
-            if (!AutoSlideEnabled)
-                return;
-            if (!loading)
+
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                while (AutoSlideEnabled)
                 {
-                    Thread.Sleep(AutoSliderWaitTime * 1000);
-                    RunOnUiThread(() =>
+                    if (!loading)
                     {
-                        GetNextImage();
-                    });
-                });
-            }
+                        Thread.Sleep(AutoSliderWaitTime * 1000);
+                        RunOnUiThread(() =>
+                        {
+                            GetNextImage();
+                        });
+                    }
+                }
+            });
         }
 
         protected override void OnDestroy()
@@ -318,8 +325,6 @@ namespace Lewd_Images
                 finally
                 {
                     loading = false;
-                    if (AutoSlideEnabled)
-                        AutoSlideController();
                 }
             });
         }

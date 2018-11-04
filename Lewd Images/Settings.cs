@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Widget;
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -92,7 +93,16 @@ namespace Lewd_Images
             if (!File.Exists(SettingsFileLocation))
                 SaveToFile();
             else
-                Instance = ObjectSaver.ReadFromFile<Settings>(SettingsFileLocation);
+            {
+                try
+                {
+                    Instance = ObjectSaver.ReadFromFile<Settings>(SettingsFileLocation);
+                } catch
+                {
+                    Toast.MakeText(MainActivity.Instance.ApplicationContext, "Couldn't load settings, clearing...", ToastLength.Short).Show();
+                    SaveToFile();
+                }
+            }
         }
     }
 }
