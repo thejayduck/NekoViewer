@@ -394,8 +394,6 @@ namespace Lewd_Images
             return base.OnCreateOptionsMenu(menu);
         }
 
-        
-
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
@@ -554,53 +552,25 @@ namespace Lewd_Images
         
         private void HelpInfo()
         {
-            Android.App.AlertDialog.Builder aDialog = new Android.App.AlertDialog.Builder(this);
+            //:Buttons And Their Functionality:
+            //Forward: Generates New Image
+            //
+            //(you can hold down on forward to go back to the last image)
+            //Backwards Goes Back One Image
+            //Dropdown: Choose The Tag You Want!
+            //Image: When A New Image Is Generated Hold Your Finger Down On It To See More Options!
+            //Share Image: Gives Sharing Options
+            //Favorite Button: Saves Your Favorited Images In A List To Use Them In App
+            //
+            //:Options And Their Functionality:
+            //Enable NSFW Tags: Enables (lewd) Tags
+            //Enable Animations: Enables Animations (Saves Performance When Disabled)
+            //Enable Notifications: Enables Notifications
+            //Reset Image History: Resets The Generated Image List (Saves Performance)
+            //Check NekosLife Server: To Check If The Host Is Online
 
-            CoordinatorLayout help_layout = FindViewById<CoordinatorLayout>(Resource.Layout.help_view);
-
-            LinearLayout layout = new LinearLayout(this)
-            {
-                Orientation = Orientation.Vertical
-            };
-            layout.SetPadding(30, 20, 30, 20);
-
-            //Components
-            //TextView helpText = new TextView(this)
-            //{
-            //    Text = $":Buttons And Their Functionality:" +
-            //    $"\n" +
-            //    $"Forward: Generates New Image \n " +
-            //    $"(you can hold down on forward to go back to the last image)" +
-            //    $"\n" +
-            //    $"Backwards Goes Back One Image" +
-            //    $"\n" +
-            //    $"Dropdown: Choose The Tag You Want!" +
-            //    $"\n" +
-            //    $"Image: When A New Image Is Generated Hold Your Finger Down On It To See More Options!" +
-            //    $"\n" +
-            //    $"Share Image: Gives Sharing Options" +
-            //    $"\n" +
-            //    $"Favorite Button: Saves Your Favorited Images In A List To Use Them In App" +
-            //    $"\n" +
-            //    $"\n" +
-            //    $":Options And Their Functionality:" +
-            //    $"\n" +
-            //    $"Enable NSFW Tags: Enables (lewd) Tags" +
-            //    $"\n" +
-            //    $"Enable Animations: Enables Animations (Saves Performance When Disabled)" +
-            //    $"\n" +
-            //    $"Enable Notifications: Enables Notifications" +
-            //    $"\n" +
-            //    $"Reset Image History: Resets The Generated Image List (Saves Performance)" +
-            //    $"\n" +
-            //    $"Check NekosLife Server: To Check If The Host Is Online",
-            //    Gravity = GravityFlags.CenterHorizontal
-            //};
-
-            //Add Views
-            layout.AddView(help_layout);
-
-            aDialog.SetView(layout)
+            var aDialog = new Android.App.AlertDialog.Builder(this);
+            aDialog.SetView(Resource.Layout.help_activity)
             .SetTitle("Help")
             .SetNegativeButton("Close", delegate
             {
