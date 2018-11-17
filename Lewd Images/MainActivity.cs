@@ -58,6 +58,7 @@ namespace Lewd_Images
         ImageView imagePanel;
         Spinner tagSpinner;
         public string ImageName => System.IO.Path.GetFileNameWithoutExtension(imageStore.GetLink());
+        AdRequest adRequest = new AdRequest.Builder().Build();
 
         //Permissions
         private static readonly string[] PERMISSIONS = { Manifest.Permission.WriteExternalStorage, Manifest.Permission.Internet , Manifest.Permission.AccessNetworkState};
@@ -104,6 +105,20 @@ namespace Lewd_Images
             cLayout.AddView(adView);
             adView.TranslationY = (PhoneHeight - adView.AdSize.GetHeightInPixels(this) - GetStatusBarHeight());
 
+            //SetAdView
+            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
+            adView.LoadAd(adRequest);
+
+            CrossConnectivity.Current.ConnectivityChanged += (o, e) =>
+            {
+                RunOnUiThread(() =>
+                {
+                    //SetAdView when the connection changes
+                    MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
+                    adView.LoadAd(adRequest);
+                });
+            };
+
             //Finding Resources
             tagSpinner = FindViewById<Spinner>(Resource.Id.apiEndPoints);
             imagePanel = FindViewById<ImageView>(Resource.Id.imageView);
@@ -113,11 +128,6 @@ namespace Lewd_Images
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             imageInfoButton.Animate().TranslationY(PhoneHeight);
-
-            //SetAdView
-            MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
-            var adRequest = new AdRequest.Builder().Build();
-            adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
