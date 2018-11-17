@@ -117,7 +117,7 @@ namespace Lewd_Images
             //SetAdView
             MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
             var adRequest = new AdRequest.Builder().Build();
-            //adView.LoadAd(adRequest);
+            adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
