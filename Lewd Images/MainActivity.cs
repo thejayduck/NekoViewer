@@ -44,6 +44,7 @@ namespace Lewd_Images
         //Booleans
         bool loading = false;
         bool downloading = false;
+        bool AutoSlideEnabled = false;
 
         //Buttons
         FloatingActionButton imageInfoButton;
@@ -52,7 +53,6 @@ namespace Lewd_Images
 
         //Timer
         int AutoSliderWaitTime = 5;
-        bool AutoSlideEnabled = false;
 
         //Misc
         ImageView imagePanel;
@@ -117,7 +117,7 @@ namespace Lewd_Images
             //SetAdView
             MobileAds.Initialize(this, "ca-app-pub-3940256099942544~3347511713");
             var adRequest = new AdRequest.Builder().Build();
-            adView.LoadAd(adRequest);
+            //adView.LoadAd(adRequest);
 
             //Toolbar Configurations
             SetSupportActionBar(toolbar);
@@ -200,17 +200,17 @@ namespace Lewd_Images
                 });
                 aDialog.SetPositiveButton("Last Image", delegate
                 {
+                    if (loading || downloading || AutoSlideEnabled)
+                    {
+                        Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
+                        return;
+                    }
+
                     Toast.MakeText(this, "Last image", ToastLength.Short).Show();
                     loading = true;
                     imagePanel.Animate().TranslationX(-PhoneWidth);
                     Task.Run(() =>
                     {
-                        if (loading || downloading)
-                        {
-                            Toast.MakeText(this, "An Image Is Being Downloaded or Loading Please Be Patient", ToastLength.Short).Show();
-                            return;
-                        }
-
                         imageStore.GotoLast();
                         Fix();
                         RunOnUiThread(() =>
