@@ -35,6 +35,7 @@ namespace Lewd_Images
                 .SetContentText(text)
                 .SetContentIntent(pendingIntent)
                 .SetStyle(new NotificationCompat.BigPictureStyle().BigPicture(icon).BigLargeIcon(null))
+                .SetSubText("Click To Open The Image")
                 .SetSmallIcon(Resource.Drawable.Icon);
 
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
