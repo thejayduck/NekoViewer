@@ -2,21 +2,17 @@
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
-using System.IO;
 using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.Support.Design.Widget;
 using System.Threading.Tasks;
-using Java.IO;
 using Android.Views;
-using System.Collections;
 using Plugin.Share;
 using System;
 using System.Net;
 using System.Threading;
-using Android.Content;
 using Plugin.Connectivity;
 using Android.Gms.Ads;
 
