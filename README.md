@@ -6,7 +6,7 @@ Neko Viewer is an app meant to support Nekos.Life website!
   - Image downloading.
   - Easily set the images you like as your wallpaper.
   - Easy to use interface.
-  - Includes every "endpoint"'s that are in **"nekos.life/api/v2/endpoints"** (expect **gifs, and low quality images**).
+  - Includes every "endpoint"'s that are in **"nekos.life/api/v2/endpoints"** (except **gifs, and low quality images**).
   - Auto image generation.
   - Danbooru support! (Still in development)
   - Dark theme! (We will bring back **Light Theme** (will be optional))
